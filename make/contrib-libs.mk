@@ -809,18 +809,18 @@ $(D)/jpeg: $(D)/bootstrap $(ARCHIVE)/$(JPEG_SOURCE)
 #
 # libjpg
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910 ufs922 ipbox55 ipbox99 ipbox9900 cuberevo_250hd cuberevo_2000hd))
+#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910 ufs922 ipbox55 ipbox99 ipbox9900 cuberevo_250hd #cuberevo_2000hd))
 $(D)/libjpeg: $(D)/jpeg
 	@touch $@
-else
-$(D)/libjpeg: $(D)/libjpeg_turbo2
-	@touch $@
-endif
+#else
+#$(D)/libjpeg: $(D)/libjpeg_turbo2
+#	@touch $@
+#endif
 
 #
 # libjpeg_turbo2
 #
-LIBJPEG_TURBO2_VER = 2.0.0
+LIBJPEG_TURBO2_VER = 1.5.3
 LIBJPEG_TURBO2_SOURCE = libjpeg-turbo-$(LIBJPEG_TURBO2_VER).tar.gz
 LIBJPEG_TURBO2_PATCH = libjpeg-turbo-tiff-ojpeg.patch
 

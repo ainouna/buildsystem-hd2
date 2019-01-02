@@ -15,10 +15,12 @@ AUDIODEC = ffmpeg
 NEUTRINO_DEPS  = $(D)/bootstrap $(KERNEL) $(D)/system-tools
 NEUTRINO_DEPS += $(D)/ncurses $(LIRC) $(D)/libcurl
 NEUTRINO_DEPS += $(D)/libpng $(D)/libjpeg $(D)/giflib $(D)/freetype
-NEUTRINO_DEPS += $(D)/alsa_utils $(D)/ffmpeg
-NEUTRINO_DEPS += $(D)/libfribidi $(D)/libsigc $(D)/libdvbsi $(D)/libusb
-NEUTRINO_DEPS += $(D)/pugixml $(D)/libopenthreads
-NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
+NEUTRINO_DEPS += $(D)/ffmpeg
+#NEUTRINO_DEPS += $(D)/alsa_utils $(D)/ffmpeg
+NEUTRINO_DEPS += $(D)/libfribidi
+#NEUTRINO_DEPS += $(D)/libfribidi $(D)/libsigc $(D)/libdvbsi $(D)/libusb
+#NEUTRINO_DEPS += $(D)/pugixml $(D)/libopenthreads
+#NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
 
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark spark7162 ufs912 ufs913 ufs910))
@@ -107,7 +109,15 @@ N_CONFIG_OPTS += --enable-flac
 NEUTRINO_DEPS += $(D)/flac
 endif
 
-ifeq  ($(FLAVOUR), neutrino-mp-ni)
+ifeq ($(FLAVOUR), neutrino-mp-max)
+GIT_URL     ?= https://bitbucket.org/max_10
+NEUTRINO_MP  = neutrino-mp-max
+LIBSTB_HAL   = libstb-hal-max
+NMP_BRANCH  ?= master
+HAL_BRANCH  ?= master
+NMP_PATCHES  = $(NEUTRINO_MP_MAX_PATCHES)
+HAL_PATCHES  = $(NEUTRINO_MP_LIBSTB_MAX_PATCHES)
+else ifeq  ($(FLAVOUR), neutrino-mp-ni)
 GIT_URL     ?= https://bitbucket.org/neutrino-images
 NEUTRINO_MP  = ni-neutrino-hd
 LIBSTB_HAL   = ni-libstb-hal-next
@@ -155,7 +165,7 @@ $(D)/libstb-hal.do_prepare:
 	(cd $(SOURCE_DIR)/$(LIBSTB_HAL); git checkout $(HAL_BRANCH);); \
 	cp -ra $(SOURCE_DIR)/$(LIBSTB_HAL) $(SOURCE_DIR)/$(LIBSTB_HAL).org
 	set -e; cd $(SOURCE_DIR)/$(LIBSTB_HAL); \
-		$(call apply_patches, $(HAL_PATCHES))
+		$(call apply_patches,$(HAL_PATCHES))
 	@touch $@
 
 $(D)/libstb-hal.config.status: | $(NEUTRINO_DEPS)
@@ -220,7 +230,7 @@ $(D)/neutrino-mp.do_prepare: | $(NEUTRINO_DEPS) $(D)/libstb-hal
 	(cd $(SOURCE_DIR)/$(NEUTRINO_MP); git checkout $(NMP_BRANCH);); \
 	cp -ra $(SOURCE_DIR)/$(NEUTRINO_MP) $(SOURCE_DIR)/$(NEUTRINO_MP).org
 	set -e; cd $(SOURCE_DIR)/$(NEUTRINO_MP); \
-		$(call apply_patches, $(NMP_PATCHES))
+		$(call apply_patches,$(NMP_PATCHES))
 	@touch $@
 
 $(D)/neutrino-mp.config.status \
@@ -282,7 +292,7 @@ neutrino-mp: $(D)/neutrino-mp.do_prepare $(D)/neutrino-mp.config.status $(D)/neu
 	$(MAKE) -C $(N_OBJDIR) install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
-	make neutrino-mp-release
+	make neutrino-release
 	$(TUXBOX_CUSTOMIZE)
 
 mp-clean \
@@ -305,7 +315,7 @@ neutrino-mp-plugins: $(D)/neutrino-mp-plugins.do_prepare $(D)/neutrino-mp-plugin
 	make $(TARGET_DIR)/.version
 	make $(NEUTRINO_PLUGINS)
 	touch $(D)/$(notdir $@)
-	make neutrino-mp-release
+	make neutrino-release
 	$(TUXBOX_CUSTOMIZE)
 
 mpp-clean \
@@ -350,7 +360,7 @@ $(D)/neutrino-hd2.do_prepare: | $(NEUTRINO_DEPS) $(NEUTRINO_DEPS2)
 	ln -s $(SOURCE_DIR)/neutrino-hd2.git/nhd2-exp $(SOURCE_DIR)/neutrino-hd2;\
 	cp -ra $(SOURCE_DIR)/neutrino-hd2.git/nhd2-exp $(SOURCE_DIR)/neutrino-hd2.org
 	set -e; cd $(SOURCE_DIR)/neutrino-hd2; \
-		$(call apply_patches, $(NEUTRINO_HD2_PATCHES))
+		$(call apply_patches,$(NEUTRINO_HD2_PATCHES))
 	@touch $@
 
 $(D)/neutrino-hd2.config.status:
@@ -363,13 +373,11 @@ $(D)/neutrino-hd2.config.status:
 			--enable-silent-rules \
 			--with-boxtype=$(BOXTYPE) \
 			--with-datadir=/usr/share/tuxbox \
-			--with-fontdir=/usr/share/fonts \
 			--with-configdir=/var/tuxbox/config \
-			--with-gamesdir=/var/tuxbox/games \
 			--with-plugindir=/var/tuxbox/plugins \
-			--with-isocodesdir=/usr/local/share/iso-codes \
 			$(NHD2_OPTS) \
 			--enable-scart \
+			--enable-libfribi \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
@@ -384,7 +392,6 @@ neutrino-hd2: $(D)/neutrino-hd2.do_prepare $(D)/neutrino-hd2.do_compile
 	$(MAKE) -C $(SOURCE_DIR)/neutrino-hd2 install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
-	make neutrino-mp-release
 	$(TUXBOX_CUSTOMIZE)
 
 nhd2 \
@@ -393,7 +400,6 @@ neutrino-hd2-plugins: $(D)/neutrino-hd2.do_prepare $(D)/neutrino-hd2.do_compile
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
 	make neutrino-hd2-plugins.build
-	make neutrino-mp-release
 	$(TUXBOX_CUSTOMIZE)
 
 nhd2-clean \

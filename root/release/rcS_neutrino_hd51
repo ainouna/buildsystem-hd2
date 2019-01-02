@@ -100,20 +100,19 @@ do
 	echo "GUI ended <- RTV: " $rtv
 	case "$rtv" in
 		0) echo "$rtv"
-			echo "SHUTDOWN"
-			init 0;;
-		1) echo "$rtv"
-			echo "REBOOT"
-			echo "      *-*       " > /dev/dbox/oled0
-			init 6;;
-		3) echo "$rtv"
 			echo "RESTART"
-			echo "    RESTART     " > /dev/dbox/oled0
-			sync;;
+		1) echo "$rtv"
+			echo "SHUTDOWN"
+			echo "      *-*       " > /dev/dbox/oled0
+			init 0;;
+		2) echo "$rtv"
+			echo "REBOOT"
+			echo "    REBOOT     " > /dev/dbox/oled0
+			init 6;;
 		*) echo "*"
 			echo -e "\033[01;31mERROR: $rtv\033[00m"
 			echo "    *ERROR*     " > /dev/dbox/oled0
-			#init 6
+			init 6
 			;;
 	esac
 done

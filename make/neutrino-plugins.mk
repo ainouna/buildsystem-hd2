@@ -248,7 +248,7 @@ $(D)/neutrino-hd2-plugins.config.status: $(D)/bootstrap neutrino-hd2
 			--with-boxtype=$(BOXTYPE) \
 			--with-plugindir=/var/tuxbox/plugins \
 			--with-datadir=/usr/share/tuxbox \
-			--with-fontdir=/usr/share/fonts \
+			--with-configdir=/var/tuxbox/config \
 			--enable-silent-rules \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
