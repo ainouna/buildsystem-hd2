@@ -19,6 +19,7 @@ distclean:
 	@-rm -rf $(BASE_DIR)/tufsbox
 	@-rm -rf $(BUILD_TMP)
 	@-rm -rf $(SOURCE_DIR)
+	@-rm -rf $(BASE_DIR)/cross
 	@-rm -rf $(D)
 	@test -d $(D) || mkdir $(D)
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
