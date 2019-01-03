@@ -863,7 +863,15 @@ endif
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
-$(D)/neutrino-release: $(FLAVOUR) $(FLAVOUR)-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/neutrino-release: 
+ifeq ($(FLAVOUR), neutrino-hd2)
+	make neutrino-hd2
+	make neutrino-hd2-plugins
+else
+	make neutrino-mp
+	make neutrino-mp-plugins
+endif
+	neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 #

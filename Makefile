@@ -78,6 +78,9 @@ help:
 	@echo "* make update-self         - update the build system"
 	@echo "* make update              - update the build system, apps, driver and flash"
 	@echo ""
+	@echo " make neutrino-release     - build neutrino with full release dir"
+	@echo " make flashimage           - build flashimage"
+	@echo ""
 	@echo "cleantargets:"
 	@echo "make clean                 - Clears everything except kernel."
 	@echo "make distclean             - Clears the whole construction."
@@ -91,10 +94,16 @@ ifeq ($(BOXARCH), sh4)
 include make/linux-kernel-sh4.mk
 include make/crosstool-sh4.mk
 include make/driver-sh4.mk
-else
+endif
+ifeq ($(BOXARCH), arm)
 include make/linux-kernel-arm.mk
 include make/crosstool-arm.mk
 include make/driver-arm.mk
+endif
+ifeq ($(BOXARCH), mipsel)
+include make/linux-kernel-mipsel.mk
+include make/crosstool-mipsel.mk
+include make/driver-mipsel.mk
 endif
 include make/gstreamer.mk
 include make/root-etc.mk

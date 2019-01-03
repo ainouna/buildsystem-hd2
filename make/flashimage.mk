@@ -33,9 +33,6 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vusolo4k))
 	$(MAKE) flash-image-vusolo4k-multi-disk flash-image-vusolo4k-multi-rootfs
 endif
-	$(TUXBOX_CUSTOMIZE)
-
-ofgimage:
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 	$(MAKE) flash-image-hd51-multi-rootfs
 endif
@@ -45,7 +42,7 @@ endif
 	$(TUXBOX_CUSTOMIZE)
 
 oi \
-online-image:
+online-image: neutrino-release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 	$(MAKE) flash-image-hd51-online
 endif

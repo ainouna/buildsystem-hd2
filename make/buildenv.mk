@@ -68,7 +68,8 @@ BOXARCH              ?= sh4
 KERNELNAME            = uImage
 TARGET_MARCH_CFLAGS   =
 CORTEX_STRINGS        =
-else
+endif
+ifeq ($(BOXARCH), arm)
 CCACHE_DIR            = $(HOME)/.ccache-bs-arm
 export CCACHE_DIR
 TARGET               ?= arm-cortex-linux-gnueabihf
@@ -80,6 +81,15 @@ KERNELNAME            = zImage
 endif
 TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
 CORTEX_STRINGS        = -lcortex-strings
+endif
+ifeq ($(BOXARCH), mipsel)
+CCACHE_DIR	      = $(HOME)/.ccache-bs-mipsel
+export CCACHE_DIR
+TARGET		     ?= mipsel-oe-linux
+BOXARCH		     ?= mipsel
+KERNELNAME            = vmlinux
+TARGET_MARCH_CFLAGS   =
+CORTEX_STRINGS        =
 endif
 
 OPTIMIZATIONS        ?= size

@@ -25,7 +25,7 @@ fi
 ##############################################
 
 case $1 in
-	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9]) REPLY=$1;;
+	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9]) REPLY=$1;;
 	*)
 		echo "Target receivers:"
 		echo
@@ -68,8 +68,11 @@ case $1 in
 		echo "   51)  Mut@nt HD51"
 		echo "   60)  Mut@nt HD60"
 		echo "   "
+		echo "  Gigablue"
+		echo "   61)  gb800se"
+		echo "	 "
 		echo
-		read -p "Select target (1-59)? ";;
+		read -p "Select target (1-61)? ";;
 esac
 
 case "$REPLY" in
@@ -113,6 +116,7 @@ case "$REPLY" in
 	50) BOXARCH="arm";BOXTYPE="vusolo4k";;
 	51) BOXARCH="arm";BOXTYPE="hd51";;
 	60) BOXARCH="arm";BOXTYPE="hd60";;
+	61) BOXARCH="mipsel";BOXTYPE="gb800se";;
 	 *) BOXARCH="arm";BOXTYPE="hd51";;
 esac
 echo "BOXARCH=$BOXARCH" > config
@@ -160,8 +164,6 @@ fi
 
 if [ $BOXARCH == "sh4" ]; then
 
-##############################################
-
 CURDIR=`pwd`
 echo -ne "\n    Checking the .elf files in $CURDIR/root/boot..."
 set='audio_7100 audio_7105 audio_7111 video_7100 video_7105 video_7109 video_7111'
@@ -195,8 +197,6 @@ case "$REPLY" in
 	*)  KERNEL_STM="p0217";;
 esac
 echo "KERNEL_STM=$KERNEL_STM" >> config
-
-##############################################
 
 fi
 
@@ -281,15 +281,9 @@ echo " "
 make printenv
 ##############################################
 echo "Your next step could be:"
-case "$FLAVOUR" in
-	neutrino-mp*)
-		echo "  make neutrino-mp"
-		echo "  make neutrino-mp-plugins";;
-	neutrino-hd2*)
-		echo "  make neutrino-hd2"
-		echo "  make neutrino-hd2-plugins";;
-	*)
-		echo "  make flashimage"
-		echo "  make ofgimage";;
-esac
+echo "  make flashimage"
+echo "for more details:"
+echo "  make help"
+echo "to check your build enviroment:"
+echo "  make printenv"
 echo " "
