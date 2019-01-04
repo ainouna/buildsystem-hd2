@@ -379,7 +379,7 @@ $(D)/neutrino-hd2.config.status:
 			--with-plugindir=/var/tuxbox/plugins \
 			$(NHD2_OPTS) \
 			--enable-scart \
-			--enable-libfribidi \
+			--enable-fribidi \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
