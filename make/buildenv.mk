@@ -36,7 +36,8 @@ GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= Duckbox-Developers
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox
-CROSS_BASE            = $(BASE_DIR)/cross/$(BOXARCH)/$(BOXTYPE)
+#CROSS_BASE            = $(BASE_DIR)/cross/$(BOXARCH)/$(BOXTYPE)
+CROSS_BASE            = $(TUFSBOX_DIR)/cross
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
