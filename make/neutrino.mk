@@ -34,11 +34,11 @@ endif
 #NEUTRINO_DEPS +=  $(D)/minidlna
 endif
 
-ifeq ($(BOXARCH), arm)
-NEUTRINO_DEPS += $(D)/ntfs_3g
-NEUTRINO_DEPS += $(D)/gptfdisk
-NEUTRINO_DEPS += $(D)/mc
-endif
+#ifeq ($(BOXARCH), arm)
+#NEUTRINO_DEPS += $(D)/ntfs_3g
+#NEUTRINO_DEPS += $(D)/gptfdisk
+#NEUTRINO_DEPS += $(D)/mc
+#endif
 
 ifeq ($(IMAGE), neutrino-wlandriver)
 NEUTRINO_DEPS += $(D)/wpa_supplicant $(D)/wireless_tools

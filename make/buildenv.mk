@@ -86,7 +86,7 @@ endif
 ifeq ($(BOXARCH), mipsel)
 CCACHE_DIR	      = $(HOME)/.ccache-bs-mipsel
 export CCACHE_DIR
-TARGET		     ?= mipsel-oe-linux
+TARGET		     ?= mipsel-oe-linux-gnu
 BOXARCH		     ?= mipsel
 KERNELNAME            = vmlinux
 TARGET_MARCH_CFLAGS   =
@@ -149,6 +149,7 @@ REWRITE_PKGCONF       = sed -i "s,^prefix=.*,prefix='$(TARGET_DIR)/usr',"
 
 # unpack tarballs, clean up
 UNTAR                 = tar -C $(BUILD_TMP) -xf $(ARCHIVE)
+UNTARGZ                 = tar -C $(BUILD_TMP) -xzf $(ARCHIVE)
 REMOVE                = rm -rf $(BUILD_TMP)
 
 CHDIR                 = set -e; cd $(BUILD_TMP)
