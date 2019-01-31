@@ -2,7 +2,7 @@
 # flashimage
 #
 
-flashimage: neutrino-release
+flashimage: release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), fortis_hdbox octagon1008 ufs910 ufs922 ipbox55 ipbox99 ipbox9900 cuberevo cuberevo_mini cuberevo_mini2 cuberevo_250hd cuberevo_2000hd cuberevo_3000hd))
 	cd $(BASE_DIR)/flash/nor_flash && echo "$(SUDOPASSWD)" | sudo -S ./make_flash.sh $(MAINTAINER)
 endif
@@ -42,7 +42,7 @@ endif
 	$(TUXBOX_CUSTOMIZE)
 
 oi \
-online-image: neutrino-release
+online-image: release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 	$(MAKE) flash-image-hd51-online
 endif

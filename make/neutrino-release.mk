@@ -682,7 +682,7 @@ endif
 	chmod 755 $(RELEASE_DIR)/lib/*
 	ln -s /var/tuxbox/plugins/libfx2.so $(RELEASE_DIR)/lib/libfx2.so
 	cp -R $(TARGET_DIR)/usr/lib/* $(RELEASE_DIR)/usr/lib/
-	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,python$(PYTHON_VER),sigc++-2.0}
+	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,sigc++-2.0}
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
 #
@@ -725,6 +725,8 @@ endif
 #		cp $(TARGET_DIR)/usr/local/bin/udpstreampes $(RELEASE_DIR)/usr/local/bin/; \
 #	fi
 	cp -af $(TARGET_DIR)/usr/local/bin $(RELEASE_DIR)/usr/local/
+	cp -af $(TARGET_DIR)/usr/share/tuxbox/neutrinohd2 $(RELEASE_DIR)/usr/share/tuxbox/
+
 #
 # channellist / tuxtxt
 #
@@ -864,11 +866,11 @@ endif
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
 ifeq ($(FLAVOUR), neutrino-hd2)
-$(D)/neutrino-release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 else
-$(D)/neutrino-release: neutrino-mp neutrino-mp-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/release: neutrino-mp neutrino-mp-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 endif

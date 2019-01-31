@@ -17,11 +17,14 @@ NEUTRINO_DEPS += $(D)/ncurses $(LIRC) $(D)/libcurl
 NEUTRINO_DEPS += $(D)/libpng $(D)/libjpeg $(D)/giflib $(D)/freetype
 NEUTRINO_DEPS += $(D)/ffmpeg
 NEUTRINO_DEPS += $(D)/libfribidi
+NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
 ifneq ($(FLAVOUR), neutrino-hd2)
 NEUTRINO_DEPS += $(D)/alsa_utils
 NEUTRINO_DEPS += $(D)/libsigc $(D)/libdvbsi $(D)/libusb
 NEUTRINO_DEPS += $(D)/pugixml $(D)/libopenthreads
-NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
+endif
+ifeq ($(FLAVOUR), neutrino-hd2)
+NEUTRINO_DEPS += $(D)/python
 endif
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
 
@@ -379,6 +382,8 @@ $(D)/neutrino-hd2.config.status:
 			--with-plugindir=/var/tuxbox/plugins \
 			$(NHD2_OPTS) \
 			--enable-scart \
+			--enable-lua \
+			--enable-python \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
