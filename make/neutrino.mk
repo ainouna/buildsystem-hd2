@@ -123,10 +123,10 @@ endif
 
 ifeq ($(FLAVOUR), neutrino-hd2)
 ifeq ($(INTERFACE), python)
-NEUTRINO_DEPS += --enable-python
+N_CONFIG_OPTS += --enable-python
 endif
 ifeq ($(INTERFACE), lua)
-NEUTRINO_DEPS += --enable-lua
+N_CONFIG_OPTS += --enable-lua
 endif
 endif
 
