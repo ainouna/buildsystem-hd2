@@ -725,7 +725,11 @@ endif
 #		cp $(TARGET_DIR)/usr/local/bin/udpstreampes $(RELEASE_DIR)/usr/local/bin/; \
 #	fi
 	cp -af $(TARGET_DIR)/usr/local/bin $(RELEASE_DIR)/usr/local/
+ifeq ($(FLAVOUR), neutrino-hd2)
+ifeq ($(INTERFACE), python)
 	cp -af $(TARGET_DIR)/usr/share/tuxbox/neutrinohd2 $(RELEASE_DIR)/usr/share/tuxbox/
+endif
+endif
 
 #
 # channellist / tuxtxt
@@ -922,5 +926,6 @@ endif
 #
 # neutrino-release-clean
 #
-neutrino-release-clean:
-	rm -f $(D)/neutrino-release
+release-clean:
+	rm -f $(D)/release
+	rm -f $(RELEASE_DIR)

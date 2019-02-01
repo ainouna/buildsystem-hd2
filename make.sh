@@ -277,6 +277,23 @@ esac
 echo "FLAVOUR=$FLAVOUR" >> config
 
 ##############################################
+case $7 in
+	[1-4]) REPLY=$7;;
+	*)	echo -e "\nWhich neutrinoHD2 interface do you want to build?:"
+		echo "   1)  lua"
+		echo "   2)  python"
+		read -p "Select Interface to build (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) INTERFACE="lua";;
+	2) INTERFACE="python";;
+	*) INTERFACE="lua";;
+esac
+echo "INTERFACE=$INTERFACE" >> config
+##############################################
+
+##############################################
 echo " "
 make printenv
 ##############################################
