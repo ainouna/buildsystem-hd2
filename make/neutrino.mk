@@ -32,6 +32,10 @@ endif
 ifeq ($(INTERFACE), lua)
 NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
 endif
+ifeq ($(INTERFACE), lua-python)
+NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
+NEUTRINO_DEPS += $(D)/python
+endif
 endif
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
 
@@ -119,15 +123,6 @@ NEUTRINO_DEPS += $(D)/libvorbisidec
 
 N_CONFIG_OPTS += --enable-flac
 NEUTRINO_DEPS += $(D)/flac
-endif
-
-ifeq ($(FLAVOUR), neutrino-hd2)
-ifeq ($(INTERFACE), python)
-N_CONFIG_OPTS += --enable-python
-endif
-ifeq ($(INTERFACE), lua)
-N_CONFIG_OPTS += --enable-lua
-endif
 endif
 
 ifeq ($(FLAVOUR), neutrino-mp-max)
@@ -364,6 +359,19 @@ else ifeq ($(BOXTYPE), spark7162)
 NHD2_OPTS =
 else
 NHD2_OPTS = --enable-ci
+endif
+
+ifeq ($(FLAVOUR), neutrino-hd2)
+ifeq ($(INTERFACE), python)
+NHD2_OPTS += --enable-python
+endif
+ifeq ($(INTERFACE), lua)
+NHD2_OPTS += --enable-lua
+endif
+ifeq ($(INTERFACE), lua-python)
+NHD2_OPTS += --enable-lua
+NHD2_OPTS += --enable-python
+endif
 endif
 
 NEUTRINO_HD2_PATCHES =

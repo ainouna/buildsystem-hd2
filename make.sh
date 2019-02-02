@@ -282,13 +282,17 @@ case $7 in
 	*)	echo -e "\nWhich neutrinoHD2 interface do you want to build?:"
 		echo "   1)  lua"
 		echo "   2)  python"
-		read -p "Select Interface to build (1-2)? ";;
+		echo "   3)  lua and python"
+		echo "   4)  none"
+		read -p "Select Interface to build (1-4)? ";;
 esac
 
 case "$REPLY" in
 	1) INTERFACE="lua";;
 	2) INTERFACE="python";;
-	*) INTERFACE="lua";;
+	3) INTERFACE="lua-python";;
+	4) INTERFACE=" ";;
+	*) INTERFACE=" ";;
 esac
 echo "INTERFACE=$INTERFACE" >> config
 ##############################################
