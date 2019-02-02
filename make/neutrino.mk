@@ -22,7 +22,9 @@ ifneq ($(FLAVOUR), neutrino-hd2)
 NEUTRINO_DEPS += $(D)/alsa_utils
 NEUTRINO_DEPS += $(D)/libsigc $(D)/libdvbsi $(D)/libusb
 NEUTRINO_DEPS += $(D)/pugixml $(D)/libopenthreads
+ifeq ($(INTERFACE), lua)
 NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
+endif
 endif
 
 ifeq ($(FLAVOUR), neutrino-hd2)
@@ -123,6 +125,10 @@ NEUTRINO_DEPS += $(D)/libvorbisidec
 
 N_CONFIG_OPTS += --enable-flac
 NEUTRINO_DEPS += $(D)/flac
+endif
+
+ifeq ($(INTERFACE), lua)
+N_CONFIG_OPTS += --enable-lua
 endif
 
 ifeq ($(FLAVOUR), neutrino-mp-max)
@@ -265,7 +271,6 @@ $(D)/neutrino-mp-plugins.config.status:
 			\
 			--enable-fribidi \
 			--enable-giflib \
-			--enable-lua \
 			--enable-pugixml \
 			$(N_CONFIG_OPTS) \
 			\

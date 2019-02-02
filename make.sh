@@ -279,7 +279,7 @@ echo "FLAVOUR=$FLAVOUR" >> config
 ##############################################
 case $7 in
 	[1-4]) REPLY=$7;;
-	*)	echo -e "\nWhich neutrinoHD2 interface do you want to build?:"
+	*)	echo -e "\nWhich neutrino interface do you want to build?:"
 		echo "   1)  lua"
 		echo "   2)  python"
 		echo "   3)  lua and python"
