@@ -961,11 +961,11 @@ endif
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
 ifeq ($(FLAVOUR), neutrino-hd2)
-$(D)/release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 else
-$(D)/release: neutrino-mp neutrino-mp-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+release: neutrino-mp neutrino-mp-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 endif
