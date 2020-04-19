@@ -272,7 +272,7 @@ case "$REPLY" in
 	2) FLAVOUR="neutrino-mp-ni";;
 	3) FLAVOUR="neutrino-mp-tangos";;
 	4) FLAVOUR="neutrino-hd2";;
-	*) FLAVOUR="neutrino-mp-ddt";;
+	*) FLAVOUR="neutrino-hd2";;
 esac
 echo "FLAVOUR=$FLAVOUR" >> config
 
