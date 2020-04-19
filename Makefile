@@ -70,15 +70,15 @@ endif
 
 help:
 	@echo "a few helpful make targets:"
-	@echo "* make crosstool           - build cross toolchain"
 	@echo "* make bootstrap           - prepares for building"
+	@echo "* make crosstool           - build cross toolchain"
 	@echo "* make print-targets       - print out all available targets"
 	@echo ""
 	@echo "later, you might find these useful:"
 	@echo "* make update-self         - update the build system"
 	@echo "* make update              - update the build system, apps, driver and flash"
 	@echo ""
-	@echo " make neutrino-release     - build neutrino with full release dir"
+	@echo " make release     - build neutrino with full release dir"
 	@echo " make flashimage           - build flashimage"
 	@echo ""
 	@echo "cleantargets:"
