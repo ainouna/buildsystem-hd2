@@ -70,6 +70,7 @@ KERNELNAME            = uImage
 TARGET_MARCH_CFLAGS   =
 CORTEX_STRINGS        =
 endif
+
 ifeq ($(BOXARCH), arm)
 CCACHE_DIR            = $(HOME)/.ccache-bs-arm
 export CCACHE_DIR
@@ -83,6 +84,17 @@ endif
 TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
 CORTEX_STRINGS        = -lcortex-strings
 endif
+
+ifeq ($(BOXARCH), mipsel)
+CCACHE_DIR	      = $(HOME)/.ccache-bs-mipsel
+export CCACHE_DIR
+TARGET		     ?= mipsel-oe-linux-gnu
+BOXARCH		     ?= mipsel
+KERNELNAME            = vmlinux
+TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
+CORTEX_STRINGS        =
+endif
+
 OPTIMIZATIONS        ?= size
 ifeq ($(OPTIMIZATIONS), size)
 TARGET_O_CFLAGS       = -Os
@@ -423,3 +435,4 @@ ifeq ($(BOXTYPE), pace7241)
 KERNEL_PATCHES_24  = $(PACE7241_PATCHES_24)
 DRIVER_PLATFORM   += PACE7241=pace7241
 endif
+
