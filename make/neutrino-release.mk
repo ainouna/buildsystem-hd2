@@ -726,10 +726,8 @@ endif
 # neutrino
 #
 	cp -af $(TARGET_DIR)/usr/local/bin $(RELEASE_DIR)/usr/local/
-ifeq ($(FLAVOUR), neutrino-hd2)
 ifeq ($(INTERFACE), $(filter $(INTERFACE) python, lua-python))
 	cp -af $(TARGET_DIR)/usr/share/tuxbox/neutrinohd2 $(RELEASE_DIR)/usr/share/tuxbox/
-endif
 endif
 
 #
@@ -960,15 +958,10 @@ endif
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
-ifeq ($(FLAVOUR), neutrino-hd2)
-release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
-else
-release: neutrino-mp neutrino-mp-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
-	$(TUXBOX_CUSTOMIZE)
-	@touch $@
-endif
+
 #
 # FOR YOUR OWN CHANGES use these folder in own_build/neutrino-hd
 #

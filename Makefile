@@ -46,7 +46,7 @@ printenv:
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
-	@echo -e "FLAVOUR          : $(TERM_YELLOW)$(FLAVOUR)$(TERM_NORMAL)"
+#	@echo -e "FLAVOUR          : $(TERM_YELLOW)$(FLAVOUR)$(TERM_NORMAL)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 ifeq ($(IMAGE), $(filter $(IMAGE), neutrino neutrino-wlandriver))
@@ -78,7 +78,7 @@ help:
 	@echo "* make update-self         - update the build system"
 	@echo "* make update              - update the build system, apps, driver and flash"
 	@echo ""
-	@echo " make release     - build neutrino with full release dir"
+	@echo " make release     	  - build neutrino with full release dir"
 	@echo " make flashimage           - build flashimage"
 	@echo ""
 	@echo "cleantargets:"
