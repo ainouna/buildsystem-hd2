@@ -182,3 +182,4 @@ kernel.%: $(D)/kernel
 	@echo ""
 	diff $(KERNEL_DIR)/.config.old $(KERNEL_DIR)/.config
 	@echo ""
+

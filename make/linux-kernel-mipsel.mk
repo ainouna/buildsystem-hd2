@@ -99,7 +99,7 @@ kernel-clean:
 #
 kernel.menuconfig kernel.xconfig: \
 kernel.%: $(D)/kernel
-	$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $*
+	$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- $*
 	@echo ""
 	@echo "You have to edit $(PATCHES)/armbox/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
 	@echo ""

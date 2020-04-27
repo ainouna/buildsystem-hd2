@@ -134,6 +134,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 	test -e $(CROSS_BASE)/sh4-unknown-linux-gnu/lib || ln -sf sys-root/lib $(CROSS_BASE)/sh4-unknown-linux-gnu/
 	rm -f $(CROSS_BASE)/sh4-unknown-linux-gnu/sys-root/lib/libstdc++.so.6.0.20-gdb.py
 	$(REMOVE)/crosstool-ng
+	@touch $(D)/$(notdir $@)
 
 crossmenuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 	$(REMOVE)/crosstool-ng
@@ -145,3 +146,6 @@ crossmenuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 		MAKELEVEL=0 make; \
 		chmod 0755 ct-ng; \
 		./ct-ng menuconfig
+	@touch $(D)/$(notdir $@)
+
+
