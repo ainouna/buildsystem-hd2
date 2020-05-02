@@ -224,20 +224,20 @@ $(D)/neutrino-mp-plugin-iptvplayer: $(D)/librtmp $(D)/python_twisted_small
 	$(TOUCH)
 
 #
-# neutrino-hd2 plugins
+# neutrinohd2 plugins
 #
 NEUTRINO_HD2_PLUGINS_PATCHES =
 
-$(D)/neutrino-hd2-plugins.do_prepare:
+$(D)/neutrinohd2-plugins.do_prepare:
 	$(START_BUILD)
-	rm -rf $(SOURCE_DIR)/neutrino-hd2-plugins
-	ln -s $(SOURCE_DIR)/neutrino-hd2.git/plugins $(SOURCE_DIR)/neutrino-hd2-plugins
-	set -e; cd $(SOURCE_DIR)/neutrino-hd2-plugins; \
+	rm -rf $(SOURCE_DIR)/neutrinohd2-plugins
+	ln -s $(SOURCE_DIR)/neutrinohd2.git/plugins $(SOURCE_DIR)/neutrinohd2-plugins
+	set -e; cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 		$(call apply_patches, $(NEUTRINO_HD2_PLUGINS_PATCHES))
 	@touch $@
 
-$(D)/neutrino-hd2-plugins.config.status: $(D)/bootstrap neutrino-hd2
-	cd $(SOURCE_DIR)/neutrino-hd2-plugins; \
+$(D)/neutrinohd2-plugins.config.status: $(D)/bootstrap neutrinohd2
+	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 		./autogen.sh; \
 		$(BUILDENV) \
 		./configure $(SILENT_OPT) \
@@ -256,23 +256,25 @@ $(D)/neutrino-hd2-plugins.config.status: $(D)/bootstrap neutrino-hd2
 			LDFLAGS="$(TARGET_LDFLAGS)"
 	@touch $@
 
-$(D)/neutrino-hd2-plugins.do_compile: $(D)/neutrino-hd2-plugins.config.status
-	cd $(SOURCE_DIR)/neutrino-hd2-plugins; \
-	$(MAKE) top_srcdir=$(SOURCE_DIR)/neutrino-hd2
+$(D)/neutrinohd2-plugins.do_compile: $(D)/neutrinohd2-plugins.config.status
+	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
+	$(MAKE) top_srcdir=$(SOURCE_DIR)/neutrinohd2
 	@touch $@
 
-$(D)/neutrino-hd2-plugins.build: neutrino-hd2-plugins.do_prepare neutrino-hd2-plugins.do_compile
-	$(MAKE) -C $(SOURCE_DIR)/neutrino-hd2-plugins install DESTDIR=$(TARGET_DIR) top_srcdir=$(SOURCE_DIR)/neutrino-hd2
+$(D)/neutrinohd2-plugins.build: neutrinohd2-plugins.do_prepare neutrinohd2-plugins.do_compile
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2-plugins install DESTDIR=$(TARGET_DIR) top_srcdir=$(SOURCE_DIR)/neutrinohd2
 	$(TOUCH)
 
-neutrino-hd2-plugins-clean:
-	cd $(SOURCE_DIR)/neutrino-hd2-plugins; \
+neutrinohd2-plugins-clean:
+	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 	$(MAKE) clean
-	rm -f $(D)/neutrino-hd2-plugins.build
-	rm -f $(D)/neutrino-hd2-plugins.config.status
+	rm -f $(D)/neutrinohd2-plugins.build
+	rm -f $(D)/neutrinohd2-plugins.config.status
 
-neutrino-hd2-plugins-distclean:
-	rm -f $(D)/neutrino-hd2-plugins.build
-	rm -f $(D)/neutrino-hd2-plugins.config.status
-	rm -f $(D)/neutrino-hd2-plugins.do_prepare
-	rm -f $(D)/neutrino-hd2-plugins.do_compile
+neutrinohd2-plugins-distclean:
+	rm -f $(D)/neutrinohd2-plugins.build
+	rm -f $(D)/neutrinohd2-plugins.config.status
+	rm -f $(D)/neutrinohd2-plugins.do_prepare
+	rm -f $(D)/neutrinohd2-plugins.do_compile
+
+

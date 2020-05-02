@@ -727,7 +727,7 @@ endif
 #
 	cp -af $(TARGET_DIR)/usr/local/bin $(RELEASE_DIR)/usr/local/
 ifeq ($(INTERFACE), $(filter $(INTERFACE) python, lua-python))
-	cp -af $(TARGET_DIR)/usr/share/tuxbox/neutrinohd2 $(RELEASE_DIR)/usr/share/tuxbox/
+	cp -af $(TARGET_DIR)/usr/share/tuxbox/neutrino $(RELEASE_DIR)/usr/share/tuxbox/
 endif
 
 #
@@ -958,7 +958,7 @@ endif
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
-$(D)/release: neutrino-hd2 neutrino-hd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/release: neutrinohd2 neutrinohd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 
