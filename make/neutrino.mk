@@ -74,16 +74,6 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162))
 N_CPPFLAGS += -I$(DRIVER_DIR)/frontcontroller/aotom_spark
 endif
 
-LH_CONFIG_OPTS =
-ifeq ($(MEDIAFW), gstreamer)
-NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
-LH_CONFIG_OPTS += --enable-gstreamer_10=yes
-endif
-
 N_CONFIG_OPTS  = $(LOCAL_NEUTRINO_BUILD_OPTIONS)
 N_CONFIG_OPTS += --with-boxtype=$(BOXTYPE)
 
@@ -91,78 +81,6 @@ NEUTRINO_DEPS += $(D)/libid3tag
 NEUTRINO_DEPS += $(D)/libmad
 NEUTRINO_DEPS += $(D)/libvorbisidec
 NEUTRINO_DEPS += $(D)/flac
-
-ifeq ($(INTERFACE), lua)
-N_CONFIG_OPTS += --enable-lua
-endif
-
-N_OBJDIR = $(BUILD_TMP)/$(NEUTRINO_MP)
-LH_OBJDIR = $(BUILD_TMP)/$(LIBSTB_HAL)
-
-#
-# libstb-hal
-#
-
-$(D)/libstb-hal.do_prepare:
-	$(START_BUILD)
-	rm -rf $(SOURCE_DIR)/$(LIBSTB_HAL)
-	rm -rf $(SOURCE_DIR)/$(LIBSTB_HAL).org
-	rm -rf $(LH_OBJDIR)
-	test -d $(SOURCE_DIR) || mkdir -p $(SOURCE_DIR)
-	[ -d "$(ARCHIVE)/$(LIBSTB_HAL).git" ] && \
-	(cd $(ARCHIVE)/$(LIBSTB_HAL).git; git pull;); \
-	[ -d "$(ARCHIVE)/$(LIBSTB_HAL).git" ] || \
-	git clone $(GIT_URL)/$(LIBSTB_HAL).git $(ARCHIVE)/$(LIBSTB_HAL).git; \
-	cp -ra $(ARCHIVE)/$(LIBSTB_HAL).git $(SOURCE_DIR)/$(LIBSTB_HAL);\
-	(cd $(SOURCE_DIR)/$(LIBSTB_HAL); git checkout $(HAL_BRANCH);); \
-	cp -ra $(SOURCE_DIR)/$(LIBSTB_HAL) $(SOURCE_DIR)/$(LIBSTB_HAL).org
-	set -e; cd $(SOURCE_DIR)/$(LIBSTB_HAL); \
-		$(call apply_patches,$(HAL_PATCHES))
-	@touch $@
-
-$(D)/libstb-hal.config.status: | $(NEUTRINO_DEPS)
-	rm -rf $(LH_OBJDIR)
-	test -d $(LH_OBJDIR) || mkdir -p $(LH_OBJDIR)
-	cd $(LH_OBJDIR); \
-		$(SOURCE_DIR)/$(LIBSTB_HAL)/autogen.sh $(SILENT_OPT); \
-		$(BUILDENV) \
-		$(SOURCE_DIR)/$(LIBSTB_HAL)/configure $(SILENT_OPT) \
-			--host=$(TARGET) \
-			--build=$(BUILD) \
-			--prefix=/usr \
-			--enable-maintainer-mode \
-			--enable-silent-rules \
-			--enable-shared=no \
-			\
-			--with-target=cdk \
-			--with-targetprefix=/usr \
-			--with-boxtype=$(BOXTYPE) \
-			$(LH_CONFIG_OPTS) \
-			PKG_CONFIG=$(PKG_CONFIG) \
-			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
-			CFLAGS="$(N_CFLAGS)" CXXFLAGS="$(N_CFLAGS)" CPPFLAGS="$(N_CPPFLAGS)"
-	@touch $@
-
-$(D)/libstb-hal.do_compile: $(D)/libstb-hal.config.status
-	PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
-	$(MAKE) -C $(LH_OBJDIR) DESTDIR=$(TARGET_DIR)
-	@touch $@
-
-$(D)/libstb-hal: $(D)/libstb-hal.do_prepare $(D)/libstb-hal.do_compile
-	PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
-	$(MAKE) -C $(LH_OBJDIR) install DESTDIR=$(TARGET_DIR)
-	$(REWRITE_LIBTOOL)/libstb-hal.la
-	$(TOUCH)
-
-libstb-hal-clean:
-	rm -f $(D)/libstb-hal
-	rm -f $(D)/libstb-hal.config.status
-	cd $(LH_OBJDIR); \
-		$(MAKE) -C $(LH_OBJDIR) distclean
-
-libstb-hal-distclean:
-	rm -rf $(LH_OBJDIR)
-	rm -f $(D)/libstb-hal*
 
 #
 # neutrinohd2
@@ -184,6 +102,15 @@ endif
 ifeq ($(INTERFACE), lua-python)
 NHD2_OPTS += --enable-lua
 NHD2_OPTS += --enable-python
+endif
+
+ifeq ($(MEDIAFW), gstreamer)
+NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
+NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
 endif
 
 NEUTRINO_HD2_PATCHES =
@@ -217,6 +144,7 @@ $(D)/neutrinohd2.config.status:
 			--with-configdir=/var/tuxbox/config \
 			--with-plugindir=/var/tuxbox/plugins \
 			$(NHD2_OPTS) \
+			$(N_CONFIG_OPTS) \
 			--enable-scart \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
