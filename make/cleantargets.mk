@@ -6,7 +6,6 @@ clean: depsclean
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) tools-clean
 	@-$(MAKE) driver-clean
-	@-rm -rf $(BASE_DIR)/tufsbox
 	@-rm -rf $(D)/kernel
 	@-rm -rf $(D)/*.do_compile
 	@-rm -rf $(D)/*.config.status
