@@ -111,6 +111,7 @@ SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DAT
 flash-image-hd51-multi-disk: $(D)/host_resize2fs
 	rm -rf $(HD51_BUILD_TMP)
 	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	# Create a sparse image block
 	dd if=/dev/zero of=$(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) seek=$(shell expr $(HD51_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
 	$(HOST_DIR)/bin/mkfs.ext4 -F $(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) -d $(RELEASE_DIR)
@@ -151,26 +152,28 @@ flash-image-hd51-multi-disk: $(D)/host_resize2fs
 flash-image-hd51-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/zImage.dtb $(HD51_BUILD_TMP)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
 	tar -cvf $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
 	bzip2 $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD51_BUILD_TMP)/$(BOXTYPE)/imageversion
 	cd $(HD51_BUILD_TMP) && \
-	zip -r $(BASE_DIR)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(BOXTYPE)/rootfs.tar.bz2 $(BOXTYPE)/kernel.bin $(BOXTYPE)/disk.img $(BOXTYPE)/imageversion
+	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(BOXTYPE)/rootfs.tar.bz2 $(BOXTYPE)/kernel.bin $(BOXTYPE)/disk.img $(BOXTYPE)/imageversion
 	# cleanup
 	rm -rf $(HD51_BUILD_TMP)
 
 flash-image-hd51-online:
 	# Create final USB-image
 	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/zImage.dtb $(HD51_BUILD_TMP)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
 	tar -cvf $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
 	bzip2 $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD51_BUILD_TMP)/$(BOXTYPE)/imageversion
 	cd $(HD51_BUILD_TMP)/$(BOXTYPE) && \
-	tar -cvzf $(BASE_DIR)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 kernel.bin imageversion
+	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 kernel.bin imageversion
 	# cleanup
 	rm -rf $(HD51_BUILD_TMP)
 
@@ -196,6 +199,7 @@ $(ARCHIVE)/$(HD60_PARTITONS_SRC):
 flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
 	# Create image
 	mkdir -p $(HD60_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	unzip -o $(ARCHIVE)/$(HD60_BOOTARGS_SRC) -d $(HD60_BUILD_TMP)
 	unzip -o $(ARCHIVE)/$(HD60_PARTITONS_SRC) -d $(HD60_BUILD_TMP)
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD60_BUILD_TMP)/$(BOXTYPE)/imageversion
@@ -221,7 +225,7 @@ flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_P
 	mv $(HD60_BUILD_TMP)/$(BOXTYPE)/bootargs-8gb.bin $(HD60_BUILD_TMP)/$(BOXTYPE)/bootargs.bin
 	cp $(RELEASE_DIR)/boot/uImage $(HD51_BUILD_TMP)/$(BOXTYPE)/uImage
 	cd $(HD60_BUILD_TMP) && \
-	zip -r $(BASE_DIR)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip *
+	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip *
 	# cleanup
 	rm -rf $(HD60_BUILD_TMP)
 
@@ -270,6 +274,7 @@ SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DAT
 flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
 	rm -rf $(VUSOLO4K_BUILD_TMP)
 	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	# Create a sparse image block
 	dd if=/dev/zero of=$(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) seek=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
 	$(HOST_DIR)/bin/mkfs.ext4 -F $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) -d $(RELEASE_DIR)
@@ -300,6 +305,7 @@ flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
 flash-image-vusolo4k-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/initrd_auto.bin
 	cp $(RELEASE_DIR)/boot/zImage $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/kernel_auto.bin
 	cd $(RELEASE_DIR); \
@@ -308,13 +314,14 @@ flash-image-vusolo4k-multi-rootfs:
 	echo This file forces a reboot after the update. > $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/reboot.update
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/imageversion
 	cd $(VUSOLO4K_BUILD_TMP) && \
-	zip -r $(BASE_DIR)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUSOLO4K_PREFIX)/rootfs.tar.bz2 $(VUSOLO4K_PREFIX)/initrd_auto.bin $(VUSOLO4K_PREFIX)/kernel_auto.bin $(VUSOLO4K_PREFIX)/reboot.update $(VUSOLO4K_PREFIX)/imageversion
+	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUSOLO4K_PREFIX)/rootfs.tar.bz2 $(VUSOLO4K_PREFIX)/initrd_auto.bin $(VUSOLO4K_PREFIX)/kernel_auto.bin $(VUSOLO4K_PREFIX)/reboot.update $(VUSOLO4K_PREFIX)/imageversion
 	# cleanup
 	rm -rf $(VUSOLO4K_BUILD_TMP)
 
 flash-image-vusolo4k-online:
 	# Create final USB-image
 	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/initrd_auto.bin
 	cp $(RELEASE_DIR)/boot/zImage $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/kernel_auto.bin
 	cd $(RELEASE_DIR); \
@@ -323,6 +330,8 @@ flash-image-vusolo4k-online:
 	echo This file forces a reboot after the update. > $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/reboot.update
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/imageversion
 	cd $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE) && \
-	tar -cvzf $(BASE_DIR)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 initrd_auto.bin kernel_auto.bin reboot.update imageversion
+	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 initrd_auto.bin kernel_auto.bin reboot.update imageversion
 	# cleanup
 	rm -rf $(VUSOLO4K_BUILD_TMP)
+
+

@@ -46,7 +46,13 @@ printenv:
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
-#	@echo -e "FLAVOUR          : $(TERM_YELLOW)$(FLAVOUR)$(TERM_NORMAL)"
+	@echo "IMAGE            : $(IMAGE)"
+	@echo "INTERFACE        : $(INTERFACE)"
+	@echo "CICAM            : $(CICAM)"
+	@echo "SCART            : $(SCART)"
+	@echo "LCD              : $(LCD)"
+	@echo "DIGITS           : $(DIGITS)"
+	@echo "FKEYS            : $(FKEYS)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 ifeq ($(IMAGE), $(filter $(IMAGE), neutrino neutrino-wlandriver))

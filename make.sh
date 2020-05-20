@@ -117,7 +117,7 @@ case "$REPLY" in
 	51) BOXARCH="arm";BOXTYPE="hd51";;
 	60) BOXARCH="arm";BOXTYPE="hd60";;
 	61) BOXARCH="mipsel";BOXTYPE="gb800se";;
-	 *) BOXARCH="arm";BOXTYPE="hd51";;
+	 *) BOXARCH="arm";BOXTYPE="generic";;
 esac
 echo "BOXARCH=$BOXARCH" > config
 echo "BOXTYPE=$BOXTYPE" >> config
@@ -234,7 +234,7 @@ esac
 case "$REPLY" in
 	1) MEDIAFW="buildinplayer";;
 	2) MEDIAFW="gstreamer";;
-	*) MEDIAFW="buildinplayer";;
+	*) MEDIAFW="gstreamer";;
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
 
@@ -257,29 +257,8 @@ echo "IMAGE=$IMAGE" >> config
 
 ##############################################
 
-#case $6 in
-#	[1-4]) REPLY=$6;;
-#	*)	echo -e "\nWhich Neutrino variant do you want to build?:"
-#		echo "   1)  neutrino-mp-ddt    [ arm/sh4 ]"
-#		echo "   2)  neutrino-mp-ni     [ arm     ]"
-#		echo "   3)  neutrino-mp-tangos [ arm/sh4 ]"
-#		echo "   4)  neutrino-hd2       [ arm/sh4 ]"
-#		read -p "Select Image to build (1-4)? ";;
-#esac
-#
-#case "$REPLY" in
-#	1) FLAVOUR="neutrino-mp-ddt";;
-#	2) FLAVOUR="neutrino-mp-ni";;
-#	3) FLAVOUR="neutrino-mp-tangos";;
-#	4) FLAVOUR="neutrino-hd2";;
-#	*) FLAVOUR="neutrino-hd2";;
-#esac
-#echo "FLAVOUR=$FLAVOUR" >> config
-#echo "FLAVOUR=neutrino-hd2" >> config
-
-##############################################
-case $7 in
-	[1-4]) REPLY=$7;;
+case $6 in
+	[1-4]) REPLY=$6;;
 	*)	echo -e "\nWhich neutrino interface do you want to build?:"
 		echo "   1)  lua"
 		echo "   2)  python"
@@ -296,7 +275,95 @@ case "$REPLY" in
 	*) INTERFACE=" ";;
 esac
 echo "INTERFACE=$INTERFACE" >> config
+
 ##############################################
+
+case $7 in
+	[1-4]) REPLY=$7;;
+	*)	echo -e "\nci-cam interface?:"
+		echo "   1)  ci-cam"
+		echo "   2)  none"
+		read -p "Select with ci-cam Interface or not (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) CICAM="ci-cam";;
+	2) CICAM=" ";;
+	*) CICAM="ci-cam";;
+esac
+echo "CICAM=$CICAM" >> config
+
+##############################################
+
+case $8 in
+	[1-4]) REPLY=$8;;
+	*)	echo -e "\nScart interface?:"
+		echo "   1)  scart"
+		echo "   2)  none"
+		read -p "Select with Scart Interface or not (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) SCART="scart";;
+	2) SCART=" ";;
+	*) SCART="scart";;
+esac
+echo "SCART=$SCART" >> config
+
+##############################################
+
+case $9 in
+	[1-4]) REPLY=$9;;
+	*)	echo -e "\nLCD Support?:"
+		echo "   1)  lcd"
+		echo "   2)  vfd"
+		echo "   3)  none"
+		read -p "Select with LCD Support or not (1-3)? ";;
+esac
+
+case "$REPLY" in
+	1) LCD="lcd";;
+	2) LCD="vfd";;
+	3) LCD=" ";;
+	*) LCD=" ";;
+esac
+echo "LCD=$LCD" >> config
+
+##############################################
+
+if [ $LCD != 'lcd' ]; then
+case $10 in
+	[1-4]) REPLY=$10;;
+	*)	echo -e "\n4 digits?:"
+		echo "   1)  4-digits"
+		echo "   2)  none"
+		read -p "Select with 4 digits VFD or not (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) DIGITS="4-digits";;
+	2) DIGITS=" ";;
+	*) DIGITS=" ";;
+esac
+echo "DIGITS=$DIGITS" >> config
+fi
+
+##############################################
+
+case $11 in
+	[1-4]) REPLY=$11;;
+	*)	echo -e "\nFunctions Keys Support?:"
+		echo "   1)  fkeys"
+		echo "   2)  none"
+		read -p "Select with Functions Keys or not (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) FKEYS="fkeys";;
+	2) FKEYS=" ";;
+	*) FKEYS=" ";;
+esac
+echo "FKEYS=$FKEYS" >> config
 
 ##############################################
 echo " "

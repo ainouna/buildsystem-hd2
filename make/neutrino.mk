@@ -82,17 +82,6 @@ NEUTRINO_DEPS += $(D)/libmad
 NEUTRINO_DEPS += $(D)/libvorbisidec
 NEUTRINO_DEPS += $(D)/flac
 
-#
-# neutrinohd2
-#
-ifeq ($(BOXTYPE), spark)
-NHD2_OPTS = --enable-4digits
-else ifeq ($(BOXTYPE), spark7162)
-NHD2_OPTS =
-else
-NHD2_OPTS = --enable-ci
-endif
-
 ifeq ($(INTERFACE), python)
 NHD2_OPTS += --enable-python
 endif
@@ -111,6 +100,26 @@ N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
 N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
 N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
 NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
+endif
+
+ifeq ($(CICAM), ci-cam)
+NHD2_OPTS += --enable-ci
+endif
+
+ifeq ($(SCART), scart)
+NHD2_OPTS += --enable-scart
+endif
+
+ifeq ($(LCD), lcd)
+NHD2_OPTS += --enable-lcd
+endif
+
+ifeq ($(DIGITS), 4-digits)
+NHD2_OPTS += --enable-4digits
+endif
+
+ifeq ($(FKEYS), fkeys)
+NHD2_OPTS += --enable-functionkeys
 endif
 
 NEUTRINO_HD2_PATCHES =
@@ -145,7 +154,6 @@ $(D)/neutrinohd2.config.status:
 			--with-plugindir=/var/tuxbox/plugins \
 			$(NHD2_OPTS) \
 			$(N_CONFIG_OPTS) \
-			--enable-scart \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
