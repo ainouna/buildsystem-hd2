@@ -5,8 +5,6 @@ clean:
 	@echo -e "$(TERM_YELLOW)---> cleaning system build directories and files .. $(TERM_NORMAL)"
 	@-$(MAKE) tools-clean
 	@-$(MAKE) driver-clean
-	@-rm -rf $(BASE_DIR)/tufsbox
-	@-rm -rf $(D)/kernel
 	@-rm -rf $(D)/*.do_compile
 	@-rm -rf $(D)/*.config.status
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
