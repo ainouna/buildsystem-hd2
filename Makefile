@@ -88,6 +88,8 @@ help:
 	@echo " make flashimage           - build flashimage"
 	@echo ""
 	@echo "cleantargets:"
+	@echo "make neutrinohd2-distclean - Clears neutrinohd2 build to update."
+	@echo ""
 	@echo "make clean                 - Clears everything except kernel."
 	@echo "make distclean             - Clears the whole construction."
 	@echo

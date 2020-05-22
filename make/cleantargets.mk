@@ -1,9 +1,8 @@
 depsclean:
 	( cd $(D) && find . ! -name "*\.*" -delete )
 
-clean: depsclean
+clean:
 	@echo -e "$(TERM_YELLOW)---> cleaning system build directories and files .. $(TERM_NORMAL)"
-	@-$(MAKE) kernel-clean
 	@-$(MAKE) tools-clean
 	@-$(MAKE) driver-clean
 	@-rm -rf $(BASE_DIR)/tufsbox
@@ -12,7 +11,7 @@ clean: depsclean
 	@-rm -rf $(D)/*.config.status
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
-distclean:
+distclean: depsclean
 	@echo -e "$(TERM_YELLOW)---> cleaning system build directories and files .. $(TERM_NORMAL)"
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) tools-clean
