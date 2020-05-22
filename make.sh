@@ -68,11 +68,12 @@ case $1 in
 		echo "   51)  Mut@nt HD51"
 		echo "   60)  Mut@nt HD60"
 		echo "   "
-		echo "  Gigablue"
-		echo "   61)  gb800se"
+		echo "  mipsel-based receivers"
+		echo "   70)  VU+ Duo"
+		echo "   71)  gb800se"
 		echo "	 "
 		echo
-		read -p "Select target (1-61)? ";;
+		read -p "Select target (1-71)? ";;
 esac
 
 case "$REPLY" in
@@ -116,8 +117,9 @@ case "$REPLY" in
 	50) BOXARCH="arm";BOXTYPE="vusolo4k";;
 	51) BOXARCH="arm";BOXTYPE="hd51";;
 	60) BOXARCH="arm";BOXTYPE="hd60";;
-	61) BOXARCH="mipsel";BOXTYPE="gb800se";;
-	 *) BOXARCH="arm";BOXTYPE="generic";;
+	70) BOXARCH="mipsel";BOXTYPE="vuduo";;
+	71) BOXARCH="mipsel";BOXTYPE="gb800se";;
+	 *) BOXARCH="arm";BOXTYPE="hd51";;
 esac
 echo "BOXARCH=$BOXARCH" > config
 echo "BOXTYPE=$BOXTYPE" >> config

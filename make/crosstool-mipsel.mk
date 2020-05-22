@@ -1,10 +1,3 @@
-# makefile to build crosstools
-crosstool-renew:
-	ccache -cCz
-	make distclean
-	rm -rf $(CROSS_BASE)
-	make crosstool
-
 # libc
 $(TARGET_DIR)/lib/libc.so.6:
 	if test -e $(CROSS_BASE)/$(TARGET)/sys-root/lib; then \
@@ -86,5 +79,13 @@ crosstool-restore: $(ARCHIVE)/crosstool-ng-git-$(BOXARCH)-$(BOXTYPE)-$(CROSSTOOL
 		mkdir -p $(CROSS_BASE); \
 	fi;
 	tar xzvf $(ARCHIVE)/crosstool-ng-git-$(BOXARCH)-$(BOXTYPE)-$(CROSSTOOL_NG_VER)-backup.tar.gz -C $(CROSS_BASE)
+
+crosstool-renew:
+	ccache -cCz
+	make distclean
+	rm -rf $(CROSS_BASE)
+	make crosstool
+
+
 
 

@@ -151,7 +151,7 @@ REWRITE_PKGCONF       = sed -i "s,^prefix=.*,prefix='$(TARGET_DIR)/usr',"
 
 # unpack tarballs, clean up
 UNTAR                 = tar -C $(BUILD_TMP) -xf $(ARCHIVE)
-UNTARGZ                 = tar -C $(BUILD_TMP) -xzf $(ARCHIVE)
+UNTARGZ               = tar -C $(BUILD_TMP) -xzf $(ARCHIVE)
 REMOVE                = rm -rf $(BUILD_TMP)
 
 CHDIR                 = set -e; cd $(BUILD_TMP)
