@@ -261,8 +261,8 @@ case $6 in
 	[1-4]) REPLY=$6;;
 	*)	echo -e "\nWhich neutrino interface do you want to build?:"
 		echo "   1)  lua"
-		echo "   2)  python"
-		echo "   3)  lua and python"
+		echo "   2)  python (experimental)"
+		echo "   3)  lua and python (experimental)"
 		echo "   4)  none"
 		read -p "Select Interface to build (1-4)? ";;
 esac
@@ -317,41 +317,24 @@ case $9 in
 	*)	echo -e "\nLCD Support?:"
 		echo "   1)  lcd"
 		echo "   2)  vfd"
-		echo "   3)  none"
-		read -p "Select with LCD Support or not (1-3)? ";;
+		echo "   3)  4 digits"
+		echo "   4)  none"
+		read -p "Select with LCD Support or not (1-4)? ";;
 esac
 
 case "$REPLY" in
 	1) LCD="lcd";;
 	2) LCD="vfd";;
-	3) LCD=" ";;
+	3) LCD="4-digits";;
+	4) LCD=" ";;
 	*) LCD=" ";;
 esac
 echo "LCD=$LCD" >> config
 
 ##############################################
 
-if [ $LCD != 'lcd' ]; then
 case $10 in
 	[1-4]) REPLY=$10;;
-	*)	echo -e "\n4 digits?:"
-		echo "   1)  4-digits"
-		echo "   2)  none"
-		read -p "Select with 4 digits VFD or not (1-2)? ";;
-esac
-
-case "$REPLY" in
-	1) DIGITS="4-digits";;
-	2) DIGITS=" ";;
-	*) DIGITS=" ";;
-esac
-echo "DIGITS=$DIGITS" >> config
-fi
-
-##############################################
-
-case $11 in
-	[1-4]) REPLY=$11;;
 	*)	echo -e "\nFunctions Keys Support?:"
 		echo "   1)  fkeys"
 		echo "   2)  none"

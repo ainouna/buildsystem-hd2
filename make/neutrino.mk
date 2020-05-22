@@ -114,7 +114,7 @@ ifeq ($(LCD), lcd)
 NHD2_OPTS += --enable-lcd
 endif
 
-ifeq ($(DIGITS), 4-digits)
+ifeq ($(LCD), 4-digits)
 NHD2_OPTS += --enable-4digits
 endif
 
