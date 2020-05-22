@@ -6,7 +6,7 @@ tools-clean:
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/satfind distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) distclean
-	-$(MAKE) -C $(APPS_DIR)/tools/minimon distclean
+	-$(MAKE) -C $(APPS_DIR)/tools/minimon-$(BOXARCH) distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool distclean
 ifeq ($(BOXARCH), sh4)
 	-$(MAKE) -C $(APPS_DIR)/tools/devinit distclean
