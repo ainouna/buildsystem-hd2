@@ -51,7 +51,6 @@ printenv:
 	@echo "CICAM            : $(CICAM)"
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
-	@echo "DIGITS           : $(DIGITS)"
 	@echo "FKEYS            : $(FKEYS)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
