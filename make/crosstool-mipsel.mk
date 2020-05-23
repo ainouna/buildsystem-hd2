@@ -15,6 +15,10 @@ ifeq ($(BOXTYPE), gb800se)
 CROSSTOOL_BOXTYPE_PATCH = $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-gb800se.patch
 endif
 
+ifeq ($(BOXTYPE), vuduo)
+CROSSTOOL_BOXTYPE_PATCH = $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-vuduo.patch
+endif
+
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
@@ -44,7 +48,6 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 		\
 		export CT_NG_ARCHIVE=$(ARCHIVE); \
 		export CT_NG_BASE_DIR=$(CROSS_BASE); \
-#		export CT_NG_CUSTOM_KERNEL=$(ARCHIVE)/linux-$(KERNEL_VER).tgz; \
 		export CT_NG_CUSTOM_KERNEL=$(ARCHIVE)/$(KERNEL_SRC); \
 		export CT_NG_CUSTOM_KERNEL_VER=$(KERNEL_VER); \
 		export LD_LIBRARY_PATH= ; \

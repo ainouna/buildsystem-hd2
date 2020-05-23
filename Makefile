@@ -109,7 +109,7 @@ include make/linux-kernel-arm.mk
 include make/crosstool-arm.mk
 include make/driver-arm.mk
 endif
-ifeq ($(BOXARCH), mipsel)
+ifeq ($(BOXARCH), mips)
 include make/linux-kernel-mipsel.mk
 include make/crosstool-mipsel.mk
 include make/driver-mipsel.mk
