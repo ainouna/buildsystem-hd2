@@ -224,7 +224,6 @@ TUXBOX_CUSTOMIZE = [ -x $(CUSTOM_DIR)/$(notdir $@)-local.sh ] && \
 	$(SOURCE_DIR) \
 	$(FLASH_DIR) \
 	$(BOXTYPE) \
-	$(FLAVOUR) \
 	|| true
 
 #
