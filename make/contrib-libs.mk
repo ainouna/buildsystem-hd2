@@ -1129,7 +1129,8 @@ $(D)/libsigc: $(D)/bootstrap $(ARCHIVE)/$(LIBSIGC_SOURCE)
 #
 LIBMAD_VER = 0.15.1b
 LIBMAD_SOURCE = libmad-$(LIBMAD_VER).tar.gz
-LIBMAD_PATCH = libmad-$(LIBMAD_VER).patch
+LIBMAD_PATCH = libmad-$(LIBMAD_VER).patch \
+	       libmad-mips-h-constraint-removal.patch \
 
 $(ARCHIVE)/$(LIBMAD_SOURCE):
 	$(WGET) https://sourceforge.net/projects/mad/files/libmad/$(LIBMAD_VER)/$(LIBMAD_SOURCE)
@@ -1145,6 +1146,7 @@ $(D)/libmad: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SOURCE)
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--disable-debugging \
+			$(if $(filter $(BOXARCH), arm mips),--enable-fpm=$(BOXARCH),) \
 			--enable-shared=yes \
 			--enable-speed \
 			--enable-sso \

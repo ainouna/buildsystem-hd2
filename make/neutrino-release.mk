@@ -473,6 +473,15 @@ neutrino-release-vusolo4k:
 	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
 
 #
+# vuduo
+#
+neutrino-release-vuduo:
+	install -m 0755 $(SKEL_ROOT)/release/halt_vuduo $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/fstab_vuduo $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	cp $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(RELEASE_DIR)/boot/
+
+#
 # neutrino-release-base
 #
 # the following target creates the common file base
@@ -633,7 +642,7 @@ endif
 #
 #
 ################################################################################
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mipsel))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 ################################################################################
 #
 #
@@ -853,7 +862,7 @@ endif
 	rm -f $(RELEASE_DIR)/sbin/ldconfig
 	rm -f $(RELEASE_DIR)/usr/bin/pic2m2v
 	rm -f $(RELEASE_DIR)/usr/bin/{gdbus-codegen,glib-*,gtester-report}
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mipsel))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 	rm -rf $(RELEASE_DIR)/dev.static
 	rm -rf $(RELEASE_DIR)/ram
 	rm -rf $(RELEASE_DIR)/root

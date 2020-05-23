@@ -2,7 +2,7 @@
 # ffmpeg
 #
 ################################################################################
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mipsel))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 FFM = 1
 else ifeq ($(BOXTYPE), $(filter $(BOXTYPE), $(LOCAL_FFMPEG_BOXTYPE_LIST)))
 FFM = 1
@@ -79,7 +79,7 @@ endif
 ifeq ($(BOXARCH), arm)
 FFMPEG_CONF_OPTS  += --cpu=cortex-a15
 endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), mipsel sh4))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), mips sh4))
 FFMPEG_CONF_OPTS  += --cpu=generic
 endif
 
@@ -89,7 +89,7 @@ ifeq ($(FFMPEG_SNAPSHOT), 1)
 $(D)/ffmpeg: $(D)/bootstrap $(D)/openssl $(D)/bzip2 $(D)/freetype $(D)/alsa_lib $(D)/libass $(D)/libxml2 $(D)/libroxml $(FFMPEG_DEPS)
 else
 $(ARCHIVE)/$(FFMPEG_SOURCE):
-	$(DOWNLOAD) http://www.ffmpeg.org/releases/$(FFMPEG_SOURCE)
+	$(WGET) http://www.ffmpeg.org/releases/$(FFMPEG_SOURCE)
 
 $(D)/ffmpeg: $(D)/bootstrap $(D)/openssl $(D)/bzip2 $(D)/freetype $(D)/alsa_lib $(D)/libass $(D)/libxml2 $(D)/libroxml $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SOURCE)
 endif
@@ -444,7 +444,7 @@ FFMPEG_CONF_OPTS = --enable-muxer=hevc --enable-parser=hevc --enable-decoder=hev
 endif
 
 $(ARCHIVE)/$(FFMPEG_SOURCE):
-	$(DOWNLOAD) http://www.ffmpeg.org/releases/$(FFMPEG_SOURCE)
+	$(WGET) http://www.ffmpeg.org/releases/$(FFMPEG_SOURCE)
 
 $(D)/ffmpeg: $(D)/bootstrap $(D)/openssl $(D)/bzip2 $(D)/libass $(D)/libroxml $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SOURCE)
 	$(START_BUILD)
