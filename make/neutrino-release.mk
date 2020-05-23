@@ -673,7 +673,7 @@ endif
 #
 # wlan firmware
 #
-ifeq ($(IMAGE), neutrino-wlandriver)
+ifeq ($(WLAN), wlandriver)
 	install -d $(RELEASE_DIR)/etc/Wireless
 	cp -aR $(SKEL_ROOT)/firmware/Wireless/* $(RELEASE_DIR)/etc/Wireless/
 	cp -aR $(SKEL_ROOT)/firmware/rtlwifi $(RELEASE_DIR)/lib/firmware/

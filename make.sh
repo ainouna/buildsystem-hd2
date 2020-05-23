@@ -244,18 +244,18 @@ echo "MEDIAFW=$MEDIAFW" >> config
 
 case $5 in
 	[1-2]) REPLY=$5;;
-	*)	echo -e "\nWhich Image do you want to build:"
-		echo "   1)  Neutrino"
-		echo "   2)  Neutrino (includes WLAN drivers sh4)"
-		read -p "Select Image to build (1-2)? ";;
+	*)	echo -e "\nDo you want to build WLAN drivers:"
+		echo "   1)  no"
+		echo "   2)  yes (includes WLAN drivers sh4)"
+		read -p "Select to build (1-2)? ";;
 esac
 
 case "$REPLY" in
-	1) IMAGE="neutrino";;
-	2) IMAGE="neutrino-wlandriver";;
-	*) IMAGE="neutrino";;
+	1) WLAN=" ";;
+	2) WLAN="wlandriver";;
+	*) WLAN=" ";;
 esac
-echo "IMAGE=$IMAGE" >> config
+echo "WLAN=$WLAN" >> config
 
 ##############################################
 

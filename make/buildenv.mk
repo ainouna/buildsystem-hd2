@@ -276,15 +276,12 @@ MAKE_OPTS := \
 	CROSS_COMPILE=$(TARGET)-
 
 #
-# image
+# wlan driver
 #
-ifeq ($(IMAGE), neutrino)
 BUILD_CONFIG       = build-neutrino
-else ifeq ($(IMAGE), neutrino-wlandriver)
-BUILD_CONFIG       = build-neutrino
+
+ifeq ($(WLAN), wlandriver)
 WLANDRIVER         = WLANDRIVER=wlandriver
-else
-BUILD_CONFIG       = build-neutrino
 endif
 
 #

@@ -45,7 +45,7 @@ NEUTRINO_DEPS += $(D)/gptfdisk
 NEUTRINO_DEPS += $(D)/mc
 endif
 
-ifeq ($(IMAGE), neutrino-wlandriver)
+ifeq ($(WLAN), wlandriver)
 NEUTRINO_DEPS += $(D)/wpa_supplicant $(D)/wireless_tools
 endif
 

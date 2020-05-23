@@ -46,7 +46,7 @@ printenv:
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
-	@echo "IMAGE            : $(IMAGE)"
+	@echo "WLAN             : $(WLAN)"
 	@echo "INTERFACE        : $(INTERFACE)"
 	@echo "CICAM            : $(CICAM)"
 	@echo "SCART            : $(SCART)"
