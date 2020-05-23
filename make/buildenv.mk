@@ -159,6 +159,15 @@ MKDIR                 = mkdir -p $(BUILD_TMP)
 STRIP                 = $(TARGET)-strip
 
 #
+INSTALL               = install
+INSTALL_CONF          = $(INSTALL) -m 0600
+INSTALL_DATA          = $(INSTALL) -m 0644
+INSTALL_EXEC          = $(INSTALL) -m 0755
+
+GET-GIT-ARCHIVE       = $(SCRIPTS_DIR)/get-git-archive.sh
+GET-GIT-SOURCE        = $(SCRIPTS_DIR)/get-git-source.sh
+
+#
 split_deps_dir=$(subst ., ,$(1))
 DEPS_DIR              = $(subst $(D)/,,$@)
 PKG_NAME              = $(word 1,$(call split_deps_dir,$(DEPS_DIR)))
