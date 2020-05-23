@@ -305,7 +305,7 @@ ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
 	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
 endif
-ifeq ($(IMAGE), $(filter $(IMAGE), neutrino-wlandriver))
+ifeq ($(WLAN), $(filter $(WLAN), wlandriver))
 	@echo "Using kernel wireless"
 	@grep -v "CONFIG_WIRELESS" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
 	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
