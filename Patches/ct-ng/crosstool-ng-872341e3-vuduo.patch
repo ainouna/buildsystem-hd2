@@ -5,14 +5,14 @@
      # If using a custom directory location, nothing to do
      if [ "${CT_KERNEL_LINUX_CUSTOM}" = "y"    \
 -         -a -d "${CT_SRC_DIR}/linux-${CT_KERNEL_VERSION}" ]; then
-+         -a -d "${CT_SRC_DIR}/gigablue-linux-${CT_KERNEL_VERSION}-20140904" ]; then
++         -a -d "${CT_SRC_DIR}/stblinux-${CT_KERNEL_VERSION}" ]; then
          return 0
      fi
  
      # Otherwise, we're using either a mainstream tarball, or a custom
      # tarball; in either case, we need to extract
 -    CT_Extract "linux-${CT_KERNEL_VERSION}"
-+    CT_Extract "gigablue-linux-${CT_KERNEL_VERSION}-20140904"
++    CT_Extract "stblinux-${CT_KERNEL_VERSION}"
  
      # If using a custom tarball, no need to patch
      if [ "${CT_KERNEL_LINUX_CUSTOM}" = "y" ]; then
@@ -21,7 +21,7 @@
      mkdir -p "${CT_BUILD_DIR}/build-kernel-headers"
  
 -    kernel_path="${CT_SRC_DIR}/linux-${CT_KERNEL_VERSION}"
-+    kernel_path="${CT_SRC_DIR}/gigablue-linux-${CT_KERNEL_VERSION}-20140904"
++    kernel_path="${CT_SRC_DIR}/stblinux-${CT_KERNEL_VERSION}"
      V_OPT="V=${CT_KERNEL_LINUX_VERBOSE_LEVEL}"
  
      kernel_arch="${CT_ARCH}"
