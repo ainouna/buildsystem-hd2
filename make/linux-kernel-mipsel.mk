@@ -41,7 +41,7 @@ GB800SE_PATCHES = \
     		mipsel/gb800se/tda18271-advertise-supported-delsys.patch \
     		mipsel/gb800se/fix-dvb-siano-sms-order.patch \
     		mipsel/gb800se/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
-    		mipsel/gb800se/nfs-max-rwsize-8k.patch \
+#    		mipsel/gb800se/nfs-max-rwsize-8k.patch \
     		mipsel/gb800se/0001-rt2800usb-add-support-for-rt55xx.patch \
     		mipsel/gb800se/linux-sata_bcm.patch \
     		mipsel/gb800se/brcmnand.patch \
