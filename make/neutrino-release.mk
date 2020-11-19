@@ -967,7 +967,7 @@ endif
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
-$(D)/release: neutrinohd2 neutrinohd2-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
+$(D)/release: neutrino neutrino-plugins neutrino-release-base neutrino-release-$(BOXTYPE)
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 

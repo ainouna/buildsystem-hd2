@@ -164,26 +164,26 @@ $(D)/neutrinohd2.do_compile: $(D)/neutrinohd2.config.status
 		$(MAKE) all
 	@touch $@
 
-neutrinohd2: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
+neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
 	$(TUXBOX_CUSTOMIZE)
 
-neutrinohd2-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
+neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
 	make neutrinohd2-plugins.build
 	$(TUXBOX_CUSTOMIZE)
 
-neutrinohd2-clean: neutrino-cdkroot-clean
+neutrino-clean: neutrino-cdkroot-clean
 	rm -f $(D)/neutrinohd2
 	rm -f $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \
 		$(MAKE) clean
 
-neutrinohd2-distclean: neutrino-cdkroot-clean
+neutrino-distclean: neutrino-cdkroot-clean
 	rm -f $(D)/neutrinohd2*
 	rm -f $(D)/neutrinohd2-plugins*
 

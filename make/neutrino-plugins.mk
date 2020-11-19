@@ -120,7 +120,7 @@ $(D)/neutrinohd2-plugins.do_prepare:
 		$(call apply_patches, $(NEUTRINO_HD2_PLUGINS_PATCHES))
 	@touch $@
 
-$(D)/neutrinohd2-plugins.config.status: $(D)/bootstrap neutrinohd2
+$(D)/neutrinohd2-plugins.config.status: $(D)/bootstrap neutrino
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 		./autogen.sh; \
 		$(BUILDENV) \
@@ -150,13 +150,13 @@ $(D)/neutrinohd2-plugins.build: neutrinohd2-plugins.do_prepare neutrinohd2-plugi
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2-plugins install DESTDIR=$(TARGET_DIR) top_srcdir=$(SOURCE_DIR)/neutrinohd2
 	$(TOUCH)
 
-neutrinohd2-plugins-clean:
+neutrino-plugins-clean:
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 	$(MAKE) clean
 	rm -f $(D)/neutrinohd2-plugins.build
 	rm -f $(D)/neutrinohd2-plugins.config.status
 
-neutrinohd2-plugins-distclean:
+neutrino-plugins-distclean:
 	rm -f $(D)/neutrinohd2-plugins.build
 	rm -f $(D)/neutrinohd2-plugins.config.status
 	rm -f $(D)/neutrinohd2-plugins.do_prepare
