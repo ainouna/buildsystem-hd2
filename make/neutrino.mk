@@ -21,9 +21,11 @@ NEUTRINO_DEPS += $(D)/libfribidi
 ifeq ($(INTERFACE), python)
 NEUTRINO_DEPS += $(D)/python
 endif
+
 ifeq ($(INTERFACE), lua)
 NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
 endif
+
 ifeq ($(INTERFACE), lua-python)
 NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
 NEUTRINO_DEPS += $(D)/python
@@ -82,6 +84,15 @@ NEUTRINO_DEPS += $(D)/libmad
 NEUTRINO_DEPS += $(D)/libvorbisidec
 NEUTRINO_DEPS += $(D)/flac
 
+ifeq ($(MEDIAFW), gstreamer)
+NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
+N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
+NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
+endif
+
 ifeq ($(INTERFACE), python)
 NHD2_OPTS += --enable-python
 endif
@@ -91,15 +102,6 @@ endif
 ifeq ($(INTERFACE), lua-python)
 NHD2_OPTS += --enable-lua
 NHD2_OPTS += --enable-python
-endif
-
-ifeq ($(MEDIAFW), gstreamer)
-NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
-N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
-NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
 endif
 
 ifeq ($(CICAM), ci-cam)
@@ -124,7 +126,7 @@ endif
 
 NEUTRINO_HD2_PATCHES =
 
-$(D)/neutrinohd2.do_prepare: | $(NEUTRINO_DEPS) $(NEUTRINO_DEPS2)
+$(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS) $(NEUTRINO_DEPS2)
 	$(START_BUILD)
 	rm -rf $(SOURCE_DIR)/neutrinohd2
 	rm -rf $(SOURCE_DIR)/neutrinohd2.org
@@ -178,14 +180,14 @@ neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(TUXBOX_CUSTOMIZE)
 
 neutrino-clean: neutrino-cdkroot-clean
-	rm -f $(D)/neutrinohd2
+	rm -f $(D)/neutrino
 	rm -f $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \
 		$(MAKE) clean
 
 neutrino-distclean: neutrino-cdkroot-clean
-	rm -f $(D)/neutrinohd2*
-	rm -f $(D)/neutrinohd2-plugins*
+	rm -f $(D)/neutrino*
+	rm -f $(D)/neutrino-plugins*
 
 ################################################################################
 neutrino-cdkroot-clean:
@@ -200,5 +202,5 @@ neutrino-cdkroot-clean:
 #
 #
 PHONY += $(TARGET_DIR)/.version
-PHONY += $(SOURCE_DIR)/$(NEUTRINO_MP)/src/gui/version.h
+
 
