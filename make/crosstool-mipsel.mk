@@ -1,4 +1,6 @@
+#
 # libc
+#
 $(TARGET_DIR)/lib/libc.so.6:
 	if test -e $(CROSS_BASE)/$(TARGET)/sys-root/lib; then \
 		cp -a $(CROSS_BASE)/$(TARGET)/sys-root/lib/*so* $(TARGET_DIR)/lib; \
@@ -6,7 +8,9 @@ $(TARGET_DIR)/lib/libc.so.6:
 		cp -a $(CROSS_BASE)/$(TARGET)/lib/*so* $(TARGET_DIR)/lib; \
 	fi
 
+#
 # crosstool-ng
+#
 CROSSTOOL_NG_VER = 872341e3
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git

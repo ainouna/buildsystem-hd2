@@ -29,30 +29,47 @@ case $1 in
 	*)
 		echo "Target receivers:"
 		echo
-		echo "  Kathrein             Fortis"
-		echo "    1)  UFS-910          7)  FS9000 / FS9200 (formerly Fortis HDbox)"
-		echo "    2)  UFS-912          8)  HS9510          (formerly Octagon SF1008P)"
-		echo "    3)  UFS-913          9)  HS8200          (formerly Atevio AV7500)"
-		echo "    4)  UFS-922         10)  HS7110"
-		echo "    5)  UFC-960         11)  HS7119"
-		echo "                        12)  HS7420"
-		echo "  Topfield              13)  HS7429"
-		echo "    6)  TF77X0 HDPVR    14)  HS7810A"
-		echo "                        15)  HS7819"
+		echo "  Kathrein"
+		echo "    1)  UFS-910"
+		echo "    2)  UFS-912"
+		echo "    3)  UFS-913"
+		echo "    4)  UFS-922"
+		echo "    5)  UFC-960"
 		echo
-		echo "  AB IPBox             Cuberevo"
-		echo "   16)  55HD            19)  id."
-		echo "   17)  99HD            20)  mini"
-		echo "   18)  9900HD          21)  mini2"
-		echo "   19)  9000HD          22)  250HD"
-		echo "   20)  900HD           23)  9500HD / 7000HD"
-		echo "   21)  910HD           24)  2000HD"
-		echo "   22)  91HD            25)  mini_fta / 200HD"
-		echo "                        26)  3000HD / Xsarius Alpha"
+		echo "  Topfield"
+		echo "    6)  TF77X0 HDPVR"
 		echo
-		echo "  Fulan                Atemio"
-		echo "   27)  Spark           29)  AM520"
-		echo "   28)  Spark7162       30)  AM530"
+		echo "  Fortis"
+		echo "    7)  FS9000 / FS9200 (formerly Fortis HDbox)"
+		echo "    8)  HS9510          (formerly Octagon SF1008P)"
+		echo "    9)  HS8200          (formerly Atevio AV7500)"
+		echo "    10)  HS7110"
+		echo "    11)  HS7119"
+		echo "    12)  HS7420"
+		echo "    13)  HS7429"
+		echo "    14)  HS7810A"
+		echo "    15)  HS7819"
+		echo
+		echo "  AB IPBox/cuberevo/Xsarius"
+		echo "   16)  55HD"
+		echo "   17)  99HD"
+		echo "   18)  9900HD"
+		echo "   19)  9000HD / id."
+		echo "   20)  900HD / mini"
+#		echo "   21)  910HD / mini2"
+		echo -e "\033[01;32m   21)  910HD / mini2\033[00m"
+		echo "   22)  91HD / 250HD"
+		echo "   23)  9500HD / 7000HD"
+		echo "   24)  2000HD"
+		echo "   25)  mini_fta / 200HD"
+		echo "   26)  3000HD / Xsarius Alpha"
+		echo
+		echo "  Fulan"
+		echo "   27)  Spark"
+		echo "   28)  Spark7162"
+		echo "  Atemio"
+		echo "   29)  AM520"
+		echo "   30)  AM530"
 		echo
 		echo "  Various sh4-based receivers"
 		echo "   31)  Edision Argus VIP1 v1 [ single tuner + 2 CI + 2 USB ]"
@@ -67,11 +84,10 @@ case $1 in
 		echo "   50)  Vu Solo4K"
 		echo "   51)  Mut@nt HD51"
 		echo "   60)  Mut@nt HD60"
-		echo "   "
+		echo
 		echo "  mips-based receivers"
 		echo "   70)  VU+ Duo"
 		echo "   71)  gb800se"
-		echo "	 "
 		echo
 		read -p "Select target (1-71)? ";;
 esac
@@ -119,7 +135,7 @@ case "$REPLY" in
 	60) BOXARCH="arm";BOXTYPE="hd60";;
 	70) BOXARCH="mips";BOXTYPE="vuduo";;
 	71) BOXARCH="mips";BOXTYPE="gb800se";;
-	 *) BOXARCH="arm";BOXTYPE="hd51";;
+	 *) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";;
 esac
 echo "BOXARCH=$BOXARCH" > config
 echo "BOXTYPE=$BOXTYPE" >> config
@@ -188,8 +204,10 @@ echo
 case $2 in
 	[1-2]) REPLY=$2;;
 	*)	echo -e "\nKernel:"
+#		echo -e "   \033[01;32m1)  STM 24 P0209 [2.6.32.46]\033[00m"
 		echo "   1)  STM 24 P0209 [2.6.32.46]"
-		echo "   2)  STM 24 P0217 [2.6.32.71]"
+#		echo "   2)  STM 24 P0217 [2.6.32.71]"
+		echo -e "   \033[01;32m2)  STM 24 P0217 [2.6.32.71]\033[00m"
 		read -p "Select kernel (1-2)? ";;
 esac
 
@@ -207,7 +225,8 @@ fi
 case $3 in
 	[1-4]) REPLY=$3;;
 	*)	echo -e "\nOptimization:"
-		echo "   1)  optimization for size"
+		echo -e "   \033[01;32m1)  optimization for size\033[00m"
+#		echo "   1)  optimization for size"
 		echo "   2)  optimization normal"
 		echo "   3)  Kernel debug"
 		echo "   4)  debug (includes Kernel debug)"
@@ -228,7 +247,8 @@ echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> config
 case $4 in
 	[1-2]) REPLY=$4;;
 	*)	echo -e "\nMedia Framework:"
-		echo "   1) libeplayer3"
+		echo -e "   \033[01;32m1) libeplayer3\033[00m"
+#		echo "   1) libeplayer3"
 		echo "   2) gstreamer"
 		read -p "Select media framework (1-2)? ";;
 esac
@@ -236,7 +256,7 @@ esac
 case "$REPLY" in
 	1) MEDIAFW="buildinplayer";;
 	2) MEDIAFW="gstreamer";;
-	*) MEDIAFW="gstreamer";;
+	*) MEDIAFW="buildinplayer";;
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
 
@@ -245,7 +265,8 @@ echo "MEDIAFW=$MEDIAFW" >> config
 case $5 in
 	[1-2]) REPLY=$5;;
 	*)	echo -e "\nDo you want to build WLAN drivers:"
-		echo "   1)  no"
+		echo -e "   \033[01;32m1) no\033[00m"
+#		echo "   1)  no"
 		echo "   2)  yes (includes WLAN drivers sh4)"
 		read -p "Select to build (1-2)? ";;
 esac
@@ -262,7 +283,8 @@ echo "WLAN=$WLAN" >> config
 case $6 in
 	[1-4]) REPLY=$6;;
 	*)	echo -e "\nWhich neutrino interface do you want to build?:"
-		echo "   1)  lua"
+		echo -e "   \033[01;32m1) lua\033[00m"
+#		echo "   1)  lua"
 		echo "   2)  python (experimental)"
 		echo "   3)  lua and python (experimental)"
 		echo "   4)  none"
@@ -274,7 +296,7 @@ case "$REPLY" in
 	2) INTERFACE="python";;
 	3) INTERFACE="lua-python";;
 	4) INTERFACE=" ";;
-	*) INTERFACE=" ";;
+	*) INTERFACE="lua";;
 esac
 echo "INTERFACE=$INTERFACE" >> config
 
@@ -283,7 +305,8 @@ echo "INTERFACE=$INTERFACE" >> config
 case $7 in
 	[1-4]) REPLY=$7;;
 	*)	echo -e "\nci-cam interface?:"
-		echo "   1)  ci-cam"
+		echo -e "   \033[01;32m1) ci-cam\033[00m"
+#		echo "   1)  ci-cam"
 		echo "   2)  none"
 		read -p "Select with ci-cam Interface or not (1-2)? ";;
 esac
@@ -300,7 +323,8 @@ echo "CICAM=$CICAM" >> config
 case $8 in
 	[1-4]) REPLY=$8;;
 	*)	echo -e "\nScart interface?:"
-		echo "   1)  scart"
+		echo -e "   \033[01;32m1) scart\033[00m"
+#		echo "   1)  scart"
 		echo "   2)  none"
 		read -p "Select with Scart Interface or not (1-2)? ";;
 esac
@@ -317,8 +341,10 @@ echo "SCART=$SCART" >> config
 case $9 in
 	[1-4]) REPLY=$9;;
 	*)	echo -e "\nLCD Support?:"
+#		echo -e "   \033[01;32m2) vfd\033[00m"
 		echo "   1)  lcd"
-		echo "   2)  vfd"
+#		echo "   2)  vfd"
+		echo -e "   \033[01;32m2) vfd\033[00m"
 		echo "   3)  4 digits"
 		echo "   4)  none"
 		read -p "Select with LCD Support or not (1-4)? ";;
@@ -329,7 +355,7 @@ case "$REPLY" in
 	2) LCD="vfd";;
 	3) LCD="4-digits";;
 	4) LCD=" ";;
-	*) LCD=" ";;
+	*) LCD="vfd";;
 esac
 echo "LCD=$LCD" >> config
 
@@ -338,8 +364,10 @@ echo "LCD=$LCD" >> config
 case $10 in
 	[1-4]) REPLY=$10;;
 	*)	echo -e "\nFunctions Keys Support?:"
+#		echo -e "   \033[01;32m2) none\033[00m"
 		echo "   1)  fkeys"
-		echo "   2)  none"
+#		echo "   2)  none"
+		echo -e "   \033[01;32m2) none\033[00m"
 		read -p "Select with Functions Keys or not (1-2)? ";;
 esac
 
