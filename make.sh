@@ -28,7 +28,7 @@ case $1 in
 	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9]) REPLY=$1;;
 	*)
 		echo "Target receivers:"
-		echo
+		echo "  sh4-based receivers"
 		echo "  Kathrein"
 		echo "    1)  UFS-910"
 		echo "    2)  UFS-912"
@@ -56,7 +56,6 @@ case $1 in
 		echo "   18)  9900HD"
 		echo "   19)  9000HD / id."
 		echo "   20)  900HD / mini"
-#		echo "   21)  910HD / mini2"
 		echo -e "\033[01;32m   21)  910HD / mini2\033[00m"
 		echo "   22)  91HD / 250HD"
 		echo "   23)  9500HD / 7000HD"
@@ -81,12 +80,16 @@ case $1 in
 		#echo "   37)  Pace HDS-7241 (stm 217 only)"
 		echo
 		echo "  arm-based receivers"
+		echo "  VU Plus"
 		echo "   50)  Vu Solo4K"
 		echo "   51)  Mut@nt HD51"
 		echo "   60)  Mut@nt HD60"
 		echo
 		echo "  mips-based receivers"
+		echo "  VU Plus"
 		echo "   70)  VU+ Duo"
+		echo
+		echo "  Giga Blue"
 		echo "   71)  gb800se"
 		echo
 		read -p "Select target (1-71)? ";;
@@ -204,9 +207,7 @@ echo
 case $2 in
 	[1-2]) REPLY=$2;;
 	*)	echo -e "\nKernel:"
-#		echo -e "   \033[01;32m1)  STM 24 P0209 [2.6.32.46]\033[00m"
 		echo "   1)  STM 24 P0209 [2.6.32.46]"
-#		echo "   2)  STM 24 P0217 [2.6.32.71]"
 		echo -e "   \033[01;32m2)  STM 24 P0217 [2.6.32.71]\033[00m"
 		read -p "Select kernel (1-2)? ";;
 esac
@@ -226,7 +227,6 @@ case $3 in
 	[1-4]) REPLY=$3;;
 	*)	echo -e "\nOptimization:"
 		echo -e "   \033[01;32m1)  optimization for size\033[00m"
-#		echo "   1)  optimization for size"
 		echo "   2)  optimization normal"
 		echo "   3)  Kernel debug"
 		echo "   4)  debug (includes Kernel debug)"
@@ -248,7 +248,6 @@ case $4 in
 	[1-2]) REPLY=$4;;
 	*)	echo -e "\nMedia Framework:"
 		echo -e "   \033[01;32m1) libeplayer3\033[00m"
-#		echo "   1) libeplayer3"
 		echo "   2) gstreamer"
 		read -p "Select media framework (1-2)? ";;
 esac
@@ -266,7 +265,6 @@ case $5 in
 	[1-2]) REPLY=$5;;
 	*)	echo -e "\nDo you want to build WLAN drivers:"
 		echo -e "   \033[01;32m1) no\033[00m"
-#		echo "   1)  no"
 		echo "   2)  yes (includes WLAN drivers sh4)"
 		read -p "Select to build (1-2)? ";;
 esac
@@ -284,7 +282,6 @@ case $6 in
 	[1-4]) REPLY=$6;;
 	*)	echo -e "\nWhich neutrino interface do you want to build?:"
 		echo -e "   \033[01;32m1) lua\033[00m"
-#		echo "   1)  lua"
 		echo "   2)  python (experimental)"
 		echo "   3)  lua and python (experimental)"
 		echo "   4)  none"
@@ -306,7 +303,6 @@ case $7 in
 	[1-4]) REPLY=$7;;
 	*)	echo -e "\nci-cam interface?:"
 		echo -e "   \033[01;32m1) ci-cam\033[00m"
-#		echo "   1)  ci-cam"
 		echo "   2)  none"
 		read -p "Select with ci-cam Interface or not (1-2)? ";;
 esac
@@ -324,7 +320,6 @@ case $8 in
 	[1-4]) REPLY=$8;;
 	*)	echo -e "\nScart interface?:"
 		echo -e "   \033[01;32m1) scart\033[00m"
-#		echo "   1)  scart"
 		echo "   2)  none"
 		read -p "Select with Scart Interface or not (1-2)? ";;
 esac
@@ -341,9 +336,7 @@ echo "SCART=$SCART" >> config
 case $9 in
 	[1-4]) REPLY=$9;;
 	*)	echo -e "\nLCD Support?:"
-#		echo -e "   \033[01;32m2) vfd\033[00m"
 		echo "   1)  lcd"
-#		echo "   2)  vfd"
 		echo -e "   \033[01;32m2) vfd\033[00m"
 		echo "   3)  4 digits"
 		echo "   4)  none"
@@ -364,9 +357,7 @@ echo "LCD=$LCD" >> config
 case $10 in
 	[1-4]) REPLY=$10;;
 	*)	echo -e "\nFunctions Keys Support?:"
-#		echo -e "   \033[01;32m2) none\033[00m"
 		echo "   1)  fkeys"
-#		echo "   2)  none"
 		echo -e "   \033[01;32m2) none\033[00m"
 		read -p "Select with Functions Keys or not (1-2)? ";;
 esac
