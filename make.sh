@@ -13,17 +13,22 @@ fi
 ##############################################
 
 if [ "$1" == -h ] || [ "$1" == --help ]; then
-	echo "Parameter 1: target system (1-38)"
+	echo "Parameter 1: target system (1-71)"
 	echo "Parameter 2: kernel (1-2) for sh4 cpu"
 	echo "Parameter 3: optimization (1-4)"
 	echo "Parameter 4: Media Framework (1-2)"
-	echo "Parameter 5: Image Neutrino (1-2)"
-	echo "Parameter 6: Neutrino variant (1-4)"
+	echo "Parameter 5: WLAN Support (1-2)"
+	echo "Parameter 6: Neutrino Interfaces (1-4)"
+	echo "Parameter 7: CI-Cam Interface (1-2)"
+	echo "Parameter 8: Scart Interface (1-2)"
+	echo "Parameter 9: VFD/LCD Interface (1-4)"
+	echo "Parameter 10: Function Keys (1-2)"
 	exit
 fi
 
-##############################################
-
+#
+# cpu arch / boxtype
+#
 case $1 in
 	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9]) REPLY=$1;;
 	*)
@@ -66,6 +71,7 @@ case $1 in
 		echo "  Fulan"
 		echo "   27)  Spark"
 		echo "   28)  Spark7162"
+		echo
 		echo "  Atemio"
 		echo "   29)  AM520"
 		echo "   30)  AM530"
@@ -77,7 +83,7 @@ case $1 in
 		echo "   34)  Vitamin HD5000"
 		echo "   35)  SagemCom 88 series"
 		echo "   36)  Ferguson Ariva @Link 200"
-		#echo "   37)  Pace HDS-7241 (stm 217 only)"
+		echo "   37)  Pace HDS-7241 (stm 217 only)"
 		echo
 		echo "  arm-based receivers"
 		echo "  VU Plus"
@@ -145,46 +151,10 @@ echo "BOXTYPE=$BOXTYPE" >> config
 
 ##############################################
 
-if [ $BOXTYPE == 'hd51' ]; then
-
-		echo -e "\n*** boxmode=1 (Standard) ***"
-		echo -e "+++ Features +++"
-		echo -e "3840x2160p60 10-bit HEVC, 3840x2160p60 8-bit VP9, 1920x1080p60 8-bit AVC,\nMAIN only (no PIP), Limited display usages, UHD only (no SD),\nNo multi-PIP, No transcoding"
-		echo -e "--- Restrictions ---"
-		echo -e "Decoder 0: 3840x2160p60 10-bit HEVC, 3840x2160p60 8-bit VP9, 1920x1080p60 8-bit AVC"
-		echo -e "OSD Grafic 0: 1080p60 32 bit ARGB"
-		echo -e "Display 0 Encode Restrictions: 3840x2160p60 12-bit 4:2:0 (HDMI),\n3840x2160p60 12-bit 4:2:2 (HDMI), 3840x2160p60 8-bit 4:4:4 (HDMI),\n1920x1080p60 (component), Only one display format at a time"
-		echo -e "\n*** boxmode=12 (Experimental) ***"
-		echo -e "+++ Features +++"
-		echo -e "3840x2160p50 10-bit decode for MAIN, 1080p25/50i PIP support,\n UHD display only, No SD display, No transcoding"
-		echo -e "--- Restrictions ---"
-		echo -e "Decoder 0: 3840x2160p50 10-bit HEVC, 3840x2160p50 8-bit VP9,\n1920x1080p50 8-bit AVC/MPEG"
-		echo -e "Decoder 1: 1920x1080p25/50i 10-bit HEVC, 1920x1080p25/50i 8-bit VP9/AVC/MPEG2, 3840x2160p50"
-		echo -e "OSD Graphic 0 (UHD): 1080p50 32-bit ARGB"
-		echo -e "Window 0 (MAIN/UHD): Limited display capabilities, 1080i50 10-bit de-interlacing"
-		echo -e "Window 1 (PIP/UHD): Up to 1/2 x 1/2 screen display, 576i50 de-interlacing"
-		echo -e "Display 0 (UHD) Encode Restrictions: 3840x2160p50"
-
-case $2 in
-	[1-2]) REPLY=$2;;
-	*)	echo -e "\nBoxmode:"
-		echo "   1)   1     (default)"
-		echo "   2)  12 PIP (PIP not supported by neutrino yet)"
-		read -p "Select mode (1-2)? ";;
-esac
-
-case "$REPLY" in
-	1)  HD51_BOXMODE="1";;
-	2)  HD51_BOXMODE="12";;
-	*)  HD51_BOXMODE="1";;
-esac
-echo "HD51_BOXMODE=$HD51_BOXMODE" >> config
-fi
-
-##############################################
-
 if [ $BOXARCH == "sh4" ]; then
-
+#
+# elf files
+#
 CURDIR=`pwd`
 echo -ne "\n    Checking the .elf files in $CURDIR/root/boot..."
 set='audio_7100 audio_7105 audio_7111 video_7100 video_7105 video_7109 video_7111'
@@ -202,8 +172,9 @@ done
 echo " [OK]"
 echo
 
-##############################################
-
+#
+# STM Kernel
+#
 case $2 in
 	[1-2]) REPLY=$2;;
 	*)	echo -e "\nKernel:"
@@ -221,8 +192,9 @@ echo "KERNEL_STM=$KERNEL_STM" >> config
 
 fi
 
-##############################################
-
+#
+# Kernel Optimization
+#
 case $3 in
 	[1-4]) REPLY=$3;;
 	*)	echo -e "\nOptimization:"
@@ -242,8 +214,9 @@ case "$REPLY" in
 esac
 echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> config
 
-##############################################
-
+#
+# Media Framework
+#
 case $4 in
 	[1-2]) REPLY=$4;;
 	*)	echo -e "\nMedia Framework:"
@@ -259,13 +232,14 @@ case "$REPLY" in
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
 
-##############################################
-
+#
+# WLAN Support
+#
 case $5 in
 	[1-2]) REPLY=$5;;
 	*)	echo -e "\nDo you want to build WLAN drivers:"
 		echo -e "   \033[01;32m1) no\033[00m"
-		echo "   2)  yes (includes WLAN drivers sh4)"
+		echo "   2) yes (includes WLAN drivers sh4)"
 		read -p "Select to build (1-2)? ";;
 esac
 
@@ -276,8 +250,9 @@ case "$REPLY" in
 esac
 echo "WLAN=$WLAN" >> config
 
-##############################################
-
+#
+# Plugins Interface (lua/python)
+#
 case $6 in
 	[1-4]) REPLY=$6;;
 	*)	echo -e "\nWhich neutrino interface do you want to build?:"
@@ -297,8 +272,9 @@ case "$REPLY" in
 esac
 echo "INTERFACE=$INTERFACE" >> config
 
-##############################################
-
+#
+# CI-Cam Interface
+#
 case $7 in
 	[1-4]) REPLY=$7;;
 	*)	echo -e "\nci-cam interface?:"
@@ -314,8 +290,9 @@ case "$REPLY" in
 esac
 echo "CICAM=$CICAM" >> config
 
-##############################################
-
+#
+# Scart Interface
+#
 case $8 in
 	[1-4]) REPLY=$8;;
 	*)	echo -e "\nScart interface?:"
@@ -331,8 +308,9 @@ case "$REPLY" in
 esac
 echo "SCART=$SCART" >> config
 
-##############################################
-
+#
+# VFD/LCD Interface
+#
 case $9 in
 	[1-4]) REPLY=$9;;
 	*)	echo -e "\nLCD Support?:"
@@ -352,8 +330,9 @@ case "$REPLY" in
 esac
 echo "LCD=$LCD" >> config
 
-##############################################
-
+#
+# Function Keys
+#
 case $10 in
 	[1-4]) REPLY=$10;;
 	*)	echo -e "\nFunctions Keys Support?:"

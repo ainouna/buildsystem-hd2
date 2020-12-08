@@ -84,7 +84,7 @@ help:
 	@echo " make update			- update the build system, apps, driver and flash"
 	@echo ""
 	@echo " make release			- build neutrino with full release dir"
-	@echo " make flashimage			- build flashimage"
+	@echo " make flashimage                 - build flashimage"
 	@echo ""
 	@echo "to update neutrino"
 	@echo " make neutrino-distclean"
