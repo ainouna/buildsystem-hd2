@@ -482,10 +482,10 @@ release-vuduo:
 	cp $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(RELEASE_DIR)/boot/
 
 #
-# release-base
+# release-common
 #
 # the following target creates the common file base
-release-base: $(KERNEL) $(D)/system-tools $(LIRC)
+release-common: $(KERNEL) $(D)/system-tools $(LIRC)
 	rm -rf $(RELEASE_DIR) || true
 	install -d $(RELEASE_DIR)
 	install -d $(RELEASE_DIR)/{autofs,bin,boot,dev,dev.static,etc,hdd,lib,media,mnt,proc,ram,root,sbin,swap,sys,tmp,usr,var}
@@ -931,7 +931,10 @@ ifeq ($(INTERFACE), lua-python)
 #	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.la' -exec rm -f {} \;
 endif
 
-$(D)/release: release-base release-$(BOXTYPE) release-neutrino
+release-base: release-common release-$(BOXTYPE)
+	
+
+$(D)/release: release-base release-neutrino
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
 
