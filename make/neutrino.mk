@@ -10,10 +10,8 @@ $(TARGET_DIR)/.version:
 	echo "version=0200`date +%Y%m%d%H%M`" >> $@
 	echo "git=`git log | grep "^commit" | wc -l`" >> $@
 
-#AUDIODEC = ffmpeg
-
-NEUTRINO_DEPS  = $(D)/bootstrap $(KERNEL) $(D)/system-tools
-NEUTRINO_DEPS += $(D)/ncurses $(LIRC) $(D)/libcurl
+NEUTRINO_DEPS  = $(D)/bootstrap
+NEUTRINO_DEPS += $(D)/ncurses $(D)/libcurl
 NEUTRINO_DEPS += $(D)/libpng $(D)/libjpeg $(D)/giflib $(D)/freetype
 NEUTRINO_DEPS += $(D)/ffmpeg
 NEUTRINO_DEPS += $(D)/libfribidi
@@ -32,26 +30,6 @@ NEUTRINO_DEPS += $(D)/python
 endif
 
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
-
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark spark7162 ufs912 ufs913 ufs910))
-NEUTRINO_DEPS += $(D)/ntfs_3g
-ifneq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910))
-NEUTRINO_DEPS += $(D)/mtd_utils
-NEUTRINO_DEPS += $(D)/gptfdisk
-endif
-endif
-
-ifeq ($(BOXARCH), arm)
-NEUTRINO_DEPS += $(D)/ntfs_3g
-NEUTRINO_DEPS += $(D)/gptfdisk
-NEUTRINO_DEPS += $(D)/mc
-endif
-
-ifeq ($(WLAN), wlandriver)
-NEUTRINO_DEPS += $(D)/wpa_supplicant $(D)/wireless_tools
-endif
-
-NEUTRINO_DEPS2 = $(D)/libid3tag $(D)/libmad $(D)/flac
 
 N_CFLAGS       = -Wall -W -Wshadow -pipe -Os
 N_CFLAGS      += -D__KERNEL_STRICT_NAMES
@@ -126,7 +104,7 @@ endif
 
 NEUTRINO_HD2_PATCHES =
 
-$(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS) $(NEUTRINO_DEPS2)
+$(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)
 	$(START_BUILD)
 	rm -rf $(SOURCE_DIR)/neutrinohd2
 	rm -rf $(SOURCE_DIR)/neutrinohd2.org
