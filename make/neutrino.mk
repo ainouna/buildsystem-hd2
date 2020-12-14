@@ -15,6 +15,10 @@ NEUTRINO_DEPS += $(D)/ncurses $(D)/libcurl
 NEUTRINO_DEPS += $(D)/libpng $(D)/libjpeg $(D)/giflib $(D)/freetype
 NEUTRINO_DEPS += $(D)/ffmpeg
 NEUTRINO_DEPS += $(D)/libfribidi
+NEUTRINO_DEPS += $(D)/libid3tag
+NEUTRINO_DEPS += $(D)/libmad
+NEUTRINO_DEPS += $(D)/libvorbisidec
+NEUTRINO_DEPS += $(D)/flac
 
 ifeq ($(INTERFACE), python)
 NEUTRINO_DEPS += $(D)/python
@@ -56,11 +60,6 @@ endif
 
 N_CONFIG_OPTS  = $(LOCAL_NEUTRINO_BUILD_OPTIONS)
 N_CONFIG_OPTS += --with-boxtype=$(BOXTYPE)
-
-NEUTRINO_DEPS += $(D)/libid3tag
-NEUTRINO_DEPS += $(D)/libmad
-NEUTRINO_DEPS += $(D)/libvorbisidec
-NEUTRINO_DEPS += $(D)/flac
 
 ifeq ($(MEDIAFW), gstreamer)
 NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink

@@ -215,10 +215,28 @@ esac
 echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> config
 
 #
-# Media Framework
+# WLAN Support
 #
 case $4 in
 	[1-2]) REPLY=$4;;
+	*)	echo -e "\nDo you want to build WLAN drivers and tools"
+		echo -e "   \033[01;32m1) no\033[00m"
+		echo "   2) yes (includes WLAN drivers and tools)"
+		read -p "Select to build (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) WLAN=" ";;
+	2) WLAN="wlandriver";;
+	*) WLAN=" ";;
+esac
+echo "WLAN=$WLAN" >> config
+
+#
+# Media Framework
+#
+case $5 in
+	[1-2]) REPLY=$5;;
 	*)	echo -e "\nMedia Framework:"
 		echo -e "   \033[01;32m1) libeplayer3\033[00m"
 		echo "   2) gstreamer"
@@ -231,24 +249,6 @@ case "$REPLY" in
 	*) MEDIAFW="buildinplayer";;
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
-
-#
-# WLAN Support
-#
-case $5 in
-	[1-2]) REPLY=$5;;
-	*)	echo -e "\nDo you want to build WLAN drivers:"
-		echo -e "   \033[01;32m1) no\033[00m"
-		echo "   2) yes (includes WLAN drivers sh4)"
-		read -p "Select to build (1-2)? ";;
-esac
-
-case "$REPLY" in
-	1) WLAN=" ";;
-	2) WLAN="wlandriver";;
-	*) WLAN=" ";;
-esac
-echo "WLAN=$WLAN" >> config
 
 #
 # Plugins Interface (lua/python)
@@ -360,3 +360,5 @@ echo "  make help"
 echo "to check your build enviroment:"
 echo "  make printenv"
 echo " "
+
+

@@ -485,7 +485,30 @@ release-vuduo:
 # release-common
 #
 # the following target creates the common file base
-release-common: $(KERNEL) $(D)/system-tools $(LIRC)
+RELEASE_DEPS = $(KERNEL) 
+RELEASE_DEPS += $(D)/driver 
+RELEASE_DEPS += $(D)/system-tools 
+RELEASE_DEPS += $(LIRC)
+
+ifeq ($(BOXARCH), arm)
+	RELEASE_DEPS += $(D)/ntfs_3g 
+	RELEASE_DEPS += $(D)/gptfdisk $(D)/mc 
+endif
+
+ifeq ($(WLAN), wlandriver)	
+	RELEASE_DEPS += $(D)/wpa_supplicant 
+	RELEASE_DEPS += $(D)/wireless_tools
+endif
+
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark spark7162 ufs912 ufs913 ufs910))
+	RELEASE_DEPS += $(D)/ntfs_3g
+ifneq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910))
+	RELEASE_DEPS += $(D)/mtd_utils 
+	RELEASE_DEPS += $(D)/gptfdisk
+endif
+endif
+
+release-common: $(RELEASE_DEPS)
 	rm -rf $(RELEASE_DIR) || true
 	install -d $(RELEASE_DIR)
 	install -d $(RELEASE_DIR)/{autofs,bin,boot,dev,dev.static,etc,hdd,lib,media,mnt,proc,ram,root,sbin,swap,sys,tmp,usr,var}
@@ -623,6 +646,7 @@ endif
 #
 # wlan
 #
+ifeq ($(WLAN), wlandriver)
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/mt7601u/mt7601Usta.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/mt7601u/mt7601Usta.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rt2870sta/rt2870sta.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rt2870sta/rt2870sta.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rt3070sta/rt3070sta.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rt3070sta/rt3070sta.ko $(RELEASE_DIR)/lib/modules/ || true
@@ -631,6 +655,7 @@ endif
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8188eu/8188eu.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8188eu/8188eu.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192cu/8192cu.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192cu/8192cu.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192du/8192du.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192du/8192du.ko $(RELEASE_DIR)/lib/modules/ || true
+endif
 endif
 #
 #
@@ -647,6 +672,7 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 #
 # wlan
 #
+ifeq ($(WLAN), wlandriver)
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8188eu/r8188eu.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8188eu/r8188eu.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/net/wireless/cfg80211.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/net/wireless/cfg80211.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/net/rfkill/rfkill.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/net/rfkill/rfkill.ko $(RELEASE_DIR)/lib/modules/ || true
@@ -660,6 +686,7 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8712/r8712u.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8712/r8712u.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8192u/r8192u_usb.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/staging/rtl8192u/r8192u_usb.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko $(RELEASE_DIR)/lib/modules/ || true
+endif
 endif
 #
 #
@@ -720,21 +747,6 @@ endif
 		cp -f $(TARGET_DIR)/usr/lib/libhowl.so* $(RELEASE_DIR)/usr/lib; \
 		cp -f $(TARGET_DIR)/usr/lib/libmDNSResponder.so* $(RELEASE_DIR)/usr/lib; \
 	fi
-
-ifeq ($(BOXARCH), arm)
-	$(D)/ntfs_3g $(D)/gptfdisk $(D)/mc 
-endif
-
-ifeq ($(WLAN), wlandriver)	
-	$(D)/wpa_supplicant $(D)/wireless_tools
-endif
-
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark spark7162 ufs912 ufs913 ufs910))
-	$(D)/ntfs_3g
-ifneq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910))
-	$(D)/mtd_utils $(D)/gptfdisk
-endif
-endif
 
 #
 # delete unnecessary files
@@ -883,6 +895,7 @@ ifeq ($(INTERFACE), python)
 #	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.o' -exec rm -f {} \;
 #	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.la' -exec rm -f {} \;
 endif
+
 ifeq ($(INTERFACE), lua-python) 
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,distutils,lib-old,lib-tk,plat-linux3,test}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
@@ -972,7 +985,7 @@ endif
 	@echo -e "\033[00m"
 	@echo "***************************************************************"
 #
-# neutrino-release-clean
+# release-clean
 #
 release-clean:
 	rm -f $(D)/release
