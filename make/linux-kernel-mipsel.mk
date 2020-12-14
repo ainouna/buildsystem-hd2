@@ -157,6 +157,7 @@ kernel-clean:
 	-$(MAKE) -C $(KERNEL_DIR) clean
 	rm -f $(D)/kernel
 	rm -f $(D)/kernel.do_compile
+	rm -f $(TARGET_DIR)/boot/vmlinux
 
 #
 # Helper
