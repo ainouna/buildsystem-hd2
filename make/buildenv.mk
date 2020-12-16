@@ -88,7 +88,7 @@ endif
 ifeq ($(BOXARCH), mips)
 CCACHE_DIR	      = $(HOME)/.ccache-bs-mips
 export CCACHE_DIR
-TARGET		     ?= mipsel-oe-linux-gnu
+TARGET		     ?= mipsel-unknown-linux-gnu
 BOXARCH		     ?= mips
 KERNELNAME            = vmlinux
 TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
