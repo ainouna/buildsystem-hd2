@@ -70,14 +70,14 @@ crossmenuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 
 crosstool-backup:
 	cd $(CROSS_BASE); \
-	tar czvf $(ARCHIVE)/crosstool-ng-git-$(BOXARCH)-$(BOXTYPE)-$(CROSSTOOL_NG_VER)-backup.tar.gz *
+	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz *
 
-crosstool-restore: $(ARCHIVE)/crosstool-ng-git-$(BOXARCH)-$(BOXTYPE)-$(CROSSTOOL_NG_VER)-backup.tar.gz
+crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz
 	rm -rf $(CROSS_BASE) ; \
 	if [ ! -e $(CROSS_BASE) ]; then \
 		mkdir -p $(CROSS_BASE); \
 	fi;
-	tar xzvf $(ARCHIVE)/crosstool-ng-git-$(BOXARCH)-$(BOXTYPE)-$(CROSSTOOL_NG_VER)-backup.tar.gz -C $(CROSS_BASE)
+	tar xzvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz -C $(CROSS_BASE)
 
 crosstool-renew:
 	ccache -cCz
