@@ -19,6 +19,7 @@ NEUTRINO_DEPS += $(D)/libid3tag
 NEUTRINO_DEPS += $(D)/libmad
 NEUTRINO_DEPS += $(D)/libvorbisidec
 NEUTRINO_DEPS += $(D)/flac
+NEUTRINO_DEPS += $(D)/util_linux
 
 ifeq ($(INTERFACE), python)
 NEUTRINO_DEPS += $(D)/python
