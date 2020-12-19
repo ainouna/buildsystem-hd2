@@ -72,12 +72,12 @@ HD51_BOOT_IMAGE = boot.img
 HD51_IMAGE_LINK = $(HD51_IMAGE_NAME).ext4
 HD51_IMAGE_ROOTFS_SIZE = 294912
 HD51_BUILD_TMP = $(BUILD_TMP)/image-build
-HD51_BOXMODE ?= 1
-ifeq ($(HD51_BOXMODE), $(filter $(HD51_BOXMODE), 1))
-HD51_BOXMODE_MEM = brcm_cma=440M@328M brcm_cma=192M@768M
-else
+#HD51_BOXMODE ?= 1
+#ifeq ($(HD51_BOXMODE), $(filter $(HD51_BOXMODE), 1))
+#HD51_BOXMODE_MEM = brcm_cma=440M@328M brcm_cma=192M@768M
+#else
 HD51_BOXMODE_MEM = brcm_cma=520M@248M brcm_cma=200M@768M
-endif
+#endif
 
 # emmc image
 EMMC_IMAGE_SIZE = 3817472
