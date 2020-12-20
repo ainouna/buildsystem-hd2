@@ -64,6 +64,9 @@ flash-clean:
 	cd $(BASE_DIR)/flash/tf7700 && $(SUDOCMD) rm -rf ./tmp ./out
 	echo ""
 
+# general
+IMAGE_BUILD_DIR = $(BUILD_TMP)/image-build
+
 ### armbox hd51
 
 # general
@@ -338,30 +341,28 @@ flash-image-vusolo4k-online:
 	rm -rf $(VUSOLO4K_BUILD_TMP)
 
 ### mipsbox vuduo
-# general
-VUDUO_BUILD_TMP = $(BUILD_TMP)/image-build
-#VUDUO_PREFIX = vuplus/duo
+VUDUO_PREFIX = vuplus/duo
 
 flash-image-vuduo:
 	# Create final USB-image
-	mkdir -p $(VUDUO_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	#touch $(VUDUO_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update
-	cp $(RELEASE_DIR)/boot/kernel_cfe_auto.bin $(VUDUO_BUILD_TMP)/$(BOXTYPE)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(VUDUO_BUILD_TMP)/$(BOXTYPE)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
-	echo '[ubifs]' > $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'mode=ubi' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'image=$(VUDUO_BUILD_TMP)/$(BOXTYPE)/root_cfe_auto.ubi' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'vol_id=0' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'vol_type=dynamic' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'vol_name=rootfs' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo 'vol_flags=autoresize' >> $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	ubinize -o $(VUDUO_BUILD_TMP)/$(BOXTYPE)/root_cfe_auto.jffs2 -m 2048 -p 128KiB $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	rm -f $(VUDUO_BUILD_TMP)/$(BOXTYPE)/root_cfe_auto.ubi
-	rm -f $(VUDUO_BUILD_TMP)/$(BOXTYPE)/ubinize.cfg
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(VUDUO_BUILD_TMP)/$(BOXTYPE)/imageversion
-	cd $(VUDUO_BUILD_TMP)/ && \
-	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(BOXTYPE)*
+	touch $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update
+	cp $(RELEASE_DIR)/boot/kernel_cfe_auto.bin $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
+	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'image=$(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'vol_id=0' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	ubinize -o $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.jffs2 -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	rm -f $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi
+	rm -f $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/imageversion
+	cd $(IMAGE_BUILD_DIR)/ && \
+	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUDUO_PREFIX)*
 	# cleanup
 	rm -rf $(VUDUO_BUILD_TMP)
 
