@@ -2,10 +2,10 @@
 # libc
 #
 $(TARGET_DIR)/lib/libc.so.6:
-	if test -e $(CROSS_BASE)/$(TARGET)/sys-root/lib; then \
-		cp -a $(CROSS_BASE)/$(TARGET)/sys-root/lib/*so* $(TARGET_DIR)/lib; \
+	if test -e $(CROSS_DIR)/$(TARGET)/sys-root/lib; then \
+		cp -a $(CROSS_DIR)/$(TARGET)/sys-root/lib/*so* $(TARGET_DIR)/lib; \
 	else \
-		cp -a $(CROSS_BASE)/$(TARGET)/lib/*so* $(TARGET_DIR)/lib; \
+		cp -a $(CROSS_DIR)/$(TARGET)/lib/*so* $(TARGET_DIR)/lib; \
 	fi
 
 #
@@ -19,7 +19,7 @@ GCC_VER = 4.9.4
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
-ifeq ($(wildcard $(CROSS_BASE)/build.log.bz2),)
+ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
 crosstool:
 	make crosstool-ng
@@ -27,8 +27,8 @@ crosstool:
 
 crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
 	make $(BUILD_TMP)
-	if [ ! -e $(CROSS_BASE) ]; then \
-		mkdir -p $(CROSS_BASE); \
+	if [ ! -e $(CROSS_DIR) ]; then \
+		mkdir -p $(CROSS_DIR); \
 	fi;
 	$(REMOVE)/crosstool-ng-$(CROSSTOOL_NG_VER)
 	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
@@ -42,7 +42,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 		sed -i "s@^CT_PARALLEL_JOBS=.*@CT_PARALLEL_JOBS=$$NUM_CPUS@" .config; \
 		\
 		export CT_NG_ARCHIVE=$(ARCHIVE); \
-		export CT_NG_BASE_DIR=$(CROSS_BASE); \
+		export CT_NG_BASE_DIR=$(CROSS_DIR); \
 		export CT_NG_CUSTOM_KERNEL=$(KERNEL_DIR); \
 		export CT_NG_CUSTOM_KERNEL_VER=$(KERNEL_VER); \
 		test -f ./configure || ./bootstrap && \
@@ -50,9 +50,9 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 		MAKELEVEL=0 make; \
 		./ct-ng oldconfig; \
 		./ct-ng build
-	chmod -R +w $(CROSS_BASE)
-	test -e $(CROSS_BASE)/$(TARGET)/lib || ln -sf sys-root/lib $(CROSS_BASE)/$(TARGET)/
-	rm -f $(CROSS_BASE)/$(TARGET)/sys-root/lib/libstdc++.so.6.0.*-gdb.py
+	chmod -R +w $(CROSS_DIR)
+	test -e $(CROSS_DIR)/$(TARGET)/lib || ln -sf sys-root/lib $(CROSS_DIR)/$(TARGET)/
+	rm -f $(CROSS_DIR)/$(TARGET)/sys-root/lib/libstdc++.so.6.0.*-gdb.py
 	$(REMOVE)/crosstool-ng
 endif
 
@@ -69,20 +69,20 @@ crossmenuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 		./ct-ng menuconfig
 
 crosstool-backup:
-	cd $(CROSS_BASE); \
-	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz *
+	cd $(CROSS_DIR); \
+	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz *
 
-crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz
-	rm -rf $(CROSS_BASE) ; \
-	if [ ! -e $(CROSS_BASE) ]; then \
-		mkdir -p $(CROSS_BASE); \
+crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
+	rm -rf $(CROSS_DIR) ; \
+	if [ ! -e $(CROSS_DIR) ]; then \
+		mkdir -p $(CROSS_DIR); \
 	fi;
-	tar xzvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-backup.tar.gz -C $(CROSS_BASE)
+	tar xzvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz -C $(CROSS_DIR)
 
 crosstool-renew:
 	ccache -cCz
 	make distclean
-	rm -rf $(CROSS_BASE)
+	rm -rf $(CROSS_DIR)
 	make crosstool
 
 

@@ -34,7 +34,6 @@ printenv:
 	@echo "DRIVER_DIR       : $(DRIVER_DIR)"
 	@echo "FLASH_DIR        : $(FLASH_DIR)"
 	@echo "CROSS_DIR        : $(CROSS_DIR)"
-	@echo "CROSS_BASE       : $(CROSS_BASE)"
 	@echo "RELEASE_DIR      : $(RELEASE_DIR)"
 	@echo "HOST_DIR         : $(HOST_DIR)"
 	@echo "TARGET_DIR       : $(TARGET_DIR)"

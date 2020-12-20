@@ -36,8 +36,6 @@ GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= Duckbox-Developers
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox
-#CROSS_BASE            = $(BASE_DIR)/cross/$(BOXARCH)/$(BOXTYPE)
-CROSS_BASE            = $(TUFSBOX_DIR)/cross
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
@@ -130,7 +128,7 @@ PKG_CONFIG_PATH       = $(TARGET_LIB_DIR)/pkgconfig
 
 VPATH                 = $(D)
 
-PATH                 := $(HOST_DIR)/bin:$(CROSS_DIR)/bin:$(CROSS_BASE)/bin:$(PATH):/sbin:/usr/sbin:/usr/local/sbin
+PATH                 := $(HOST_DIR)/bin:$(CROSS_DIR)/bin:$(PATH):/sbin:/usr/sbin:/usr/local/sbin
 
 TERM_RED             := \033[00;31m
 TERM_RED_BOLD        := \033[01;31m
