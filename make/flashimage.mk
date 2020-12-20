@@ -74,17 +74,12 @@ HD51_IMAGE_NAME = disk
 HD51_BOOT_IMAGE = boot.img
 HD51_IMAGE_LINK = $(HD51_IMAGE_NAME).ext4
 HD51_IMAGE_ROOTFS_SIZE = 294912
-HD51_BUILD_TMP = $(BUILD_TMP)/image-build
-#HD51_BOXMODE ?= 1
-#ifeq ($(HD51_BOXMODE), $(filter $(HD51_BOXMODE), 1))
-#HD51_BOXMODE_MEM = brcm_cma=440M@328M brcm_cma=192M@768M
-#else
+HD51_BOXMODE = 12
 HD51_BOXMODE_MEM = brcm_cma=520M@248M brcm_cma=200M@768M
-#endif
 
 # emmc image
 EMMC_IMAGE_SIZE = 3817472
-EMMC_IMAGE = $(HD51_BUILD_TMP)/$(HD51_IMAGE_NAME).img
+EMMC_IMAGE = $(IMAGE_BUILD_DIR)/$(HD51_IMAGE_NAME).img
 
 # partition sizes
 BLOCK_SIZE = 512
@@ -114,15 +109,15 @@ SWAP_DATA_PARTITION_OFFSET = $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $
 
 SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 
-flash-image-hd51-multi-disk: $(D)/host_resize2fs
-	rm -rf $(HD51_BUILD_TMP)
-	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+flash-image-hd51-multi-disk: $(D)/host_resize2fs release
+	rm -rf $(IMAGE_BUILD_DIR)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	# Create a sparse image block
-	dd if=/dev/zero of=$(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) seek=$(shell expr $(HD51_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
-	$(HOST_DIR)/bin/mkfs.ext4 -F $(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) -d $(RELEASE_DIR)
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(HD51_IMAGE_LINK) seek=$(shell expr $(HD51_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
+	$(HOST_DIR)/bin/mkfs.ext4 -F $(IMAGE_BUILD_DIR)/$(HD51_IMAGE_LINK) -d $(RELEASE_DIR)
 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
-	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) || [ $? -le 3 ]
+	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(HD51_IMAGE_LINK) || [ $? -le 3 ]
 	dd if=/dev/zero of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) count=0 seek=$(shell expr $(EMMC_IMAGE_SIZE) \* $(BLOCK_SECTOR))
 	parted -s $(EMMC_IMAGE) mklabel gpt
 	parted -s $(EMMC_IMAGE) unit KiB mkpart boot fat16 $(IMAGE_ROOTFS_ALIGNMENT) $(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \+ $(BOOT_PARTITION_SIZE))
@@ -136,55 +131,55 @@ flash-image-hd51-multi-disk: $(D)/host_resize2fs
 	parted -s $(EMMC_IMAGE) unit KiB mkpart rootfs4 ext4 $(FOURTH_ROOTFS_PARTITION_OFFSET) $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $(ROOTFS_PARTITION_SIZE_MULTI))
 	parted -s $(EMMC_IMAGE) unit KiB mkpart swapdata ext4 $(SWAP_DATA_PARTITION_OFFSET) $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 	parted -s $(EMMC_IMAGE) unit KiB mkpart swap linux-swap $(SWAP_PARTITION_OFFSET) $(shell expr $(EMMC_IMAGE_SIZE) \- 1024)
-	dd if=/dev/zero of=$(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) bs=$(BLOCK_SIZE) count=$(shell expr $(BOOT_PARTITION_SIZE) \* $(BLOCK_SECTOR))
-	mkfs.msdos -S 512 $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE)
-	echo "boot emmcflash0.kernel1 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p3 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(HD51_BUILD_TMP)/STARTUP
-	echo "boot emmcflash0.kernel1 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p3 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(HD51_BUILD_TMP)/STARTUP_1
-	echo "boot emmcflash0.kernel2 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p5 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(HD51_BUILD_TMP)/STARTUP_2
-	echo "boot emmcflash0.kernel3 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p7 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(HD51_BUILD_TMP)/STARTUP_3
-	echo "boot emmcflash0.kernel4 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p9 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(HD51_BUILD_TMP)/STARTUP_4
-	mcopy -i $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) -v $(HD51_BUILD_TMP)/STARTUP ::
-	mcopy -i $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) -v $(HD51_BUILD_TMP)/STARTUP_1 ::
-	mcopy -i $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) -v $(HD51_BUILD_TMP)/STARTUP_2 ::
-	mcopy -i $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) -v $(HD51_BUILD_TMP)/STARTUP_3 ::
-	mcopy -i $(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) -v $(HD51_BUILD_TMP)/STARTUP_4 ::
-	dd conv=notrunc if=$(HD51_BUILD_TMP)/$(HD51_BOOT_IMAGE) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* $(BLOCK_SECTOR))
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) bs=$(BLOCK_SIZE) count=$(shell expr $(BOOT_PARTITION_SIZE) \* $(BLOCK_SECTOR))
+	mkfs.msdos -S 512 $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE)
+	echo "boot emmcflash0.kernel1 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p3 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(IMAGE_BUILD_DIR)/STARTUP
+	echo "boot emmcflash0.kernel1 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p3 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(IMAGE_BUILD_DIR)/STARTUP_1
+	echo "boot emmcflash0.kernel2 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p5 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(IMAGE_BUILD_DIR)/STARTUP_2
+	echo "boot emmcflash0.kernel3 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p7 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(IMAGE_BUILD_DIR)/STARTUP_3
+	echo "boot emmcflash0.kernel4 '$(HD51_BOXMODE_MEM) root=/dev/mmcblk0p9 rw rootwait $(BOXTYPE)_4.boxmode=$(HD51_BOXMODE)'" > $(IMAGE_BUILD_DIR)/STARTUP_4
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_1 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_2 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_3 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_4 ::
+	dd conv=notrunc if=$(IMAGE_BUILD_DIR)/$(HD51_BOOT_IMAGE) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* $(BLOCK_SECTOR))
 	dd conv=notrunc if=$(RELEASE_DIR)/boot/zImage.dtb of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(KERNEL_PARTITION_OFFSET) \* $(BLOCK_SECTOR))
-	$(HOST_DIR)/bin/resize2fs $(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) $(ROOTFS_PARTITION_SIZE_MULTI)k
+	$(HOST_DIR)/bin/resize2fs $(IMAGE_BUILD_DIR)/$(HD51_IMAGE_LINK) $(ROOTFS_PARTITION_SIZE_MULTI)k
 	# Truncate on purpose
-	dd if=$(HD51_BUILD_TMP)/$(HD51_IMAGE_LINK) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(ROOTFS_PARTITION_OFFSET) \* $(BLOCK_SECTOR)) count=$(shell expr $(HD51_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR))
-	mv $(HD51_BUILD_TMP)/disk.img $(HD51_BUILD_TMP)/$(BOXTYPE)/
+	dd if=$(IMAGE_BUILD_DIR)/$(HD51_IMAGE_LINK) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(ROOTFS_PARTITION_OFFSET) \* $(BLOCK_SECTOR)) count=$(shell expr $(HD51_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR))
+	mv $(IMAGE_BUILD_DIR)/disk.img $(BASE_DIR)/flash/$(BOXTYPE)/
+	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-hd51-multi-rootfs:
+flash-image-hd51-multi-rootfs: release
 	# Create final USB-image
-	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	cp $(RELEASE_DIR)/boot/zImage.dtb $(HD51_BUILD_TMP)/$(BOXTYPE)/kernel.bin
+	cp $(RELEASE_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
-	tar -cvf $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
-	bzip2 $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD51_BUILD_TMP)/$(BOXTYPE)/imageversion
-	cd $(HD51_BUILD_TMP) && \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	cd $(IMAGE_BUILD_DIR) && \
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(BOXTYPE)/rootfs.tar.bz2 $(BOXTYPE)/kernel.bin $(BOXTYPE)/disk.img $(BOXTYPE)/imageversion
 	# cleanup
-	rm -rf $(HD51_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
 flash-image-hd51-online:
 	# Create final USB-image
-	mkdir -p $(HD51_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	cp $(RELEASE_DIR)/boot/zImage.dtb $(HD51_BUILD_TMP)/$(BOXTYPE)/kernel.bin
+	cp $(RELEASE_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
-	tar -cvf $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
-	bzip2 $(HD51_BUILD_TMP)/$(BOXTYPE)/rootfs.tar
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD51_BUILD_TMP)/$(BOXTYPE)/imageversion
-	cd $(HD51_BUILD_TMP)/$(BOXTYPE) && \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	cd $(IMAGE_BUILD_DIR)/$(BOXTYPE) && \
 	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 kernel.bin imageversion
 	# cleanup
-	rm -rf $(HD51_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
 ### armbox hd60
-HD60_BUILD_TMP = $(BUILD_TMP)/image-build
 HD60_IMAGE_NAME = disk
 HD60_BOOT_IMAGE = bootoptions.img
 HD60_IMAGE_LINK = $(HD60_IMAGE_NAME).ext4
@@ -202,38 +197,38 @@ $(ARCHIVE)/$(HD60_BOOTARGS_SRC):
 $(ARCHIVE)/$(HD60_PARTITONS_SRC):
 	$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(HD60_PARTITONS_SRC)
 
-flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
+flash-image-hd60-multi-disk: release $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
 	# Create image
-	mkdir -p $(HD60_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	unzip -o $(ARCHIVE)/$(HD60_BOOTARGS_SRC) -d $(HD60_BUILD_TMP)
-	unzip -o $(ARCHIVE)/$(HD60_PARTITONS_SRC) -d $(HD60_BUILD_TMP)
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(HD60_BUILD_TMP)/$(BOXTYPE)/imageversion
-	dd if=/dev/zero of=$(HD60_BUILD_TMP)/$(HD60_IMAGE_LINK) seek=$(shell expr $(HD60_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
-	$(HOST_DIR)/bin/mkfs.ext4 -F $(HD60_BUILD_TMP)/$(HD60_IMAGE_LINK) -d $(RELEASE_DIR)
+	unzip -o $(ARCHIVE)/$(HD60_BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)
+	unzip -o $(ARCHIVE)/$(HD60_PARTITONS_SRC) -d $(IMAGE_BUILD_DIR)
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(HD60_IMAGE_LINK) seek=$(shell expr $(HD60_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
+	$(HOST_DIR)/bin/mkfs.ext4 -F $(IMAGE_BUILD_DIR)/$(HD60_IMAGE_LINK) -d $(RELEASE_DIR)
 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
-	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(HD60_BUILD_TMP)/$(HD60_IMAGE_LINK) || [ $? -le 3 ]
-	dd if=/dev/zero of=$(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) bs=1024 count=$(HD60_BOOTOPTIONS_PARTITION_SIZE)
-	mkfs.msdos -S 512 $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE)
-	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(HD60_BUILD_TMP)/STARTUP
-	echo "bootcmd=mmc read 0 0x3F000000 0x70000 0x4000; bootm 0x3F000000; mmc read 0 0x1FFBFC0 0x52000 0xC800; bootargs=androidboot.selinux=enforcing androidboot.serialno=0123456789 console=ttyAMA0,115200" > $(HD60_BUILD_TMP)/STARTUP_RED
-	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(HD60_BUILD_TMP)/STARTUP_GREEN
-	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(HD60_BUILD_TMP)/STARTUP_YELLOW
-	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(HD60_BUILD_TMP)/STARTUP_BLUE
-	mcopy -i $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) -v $(HD60_BUILD_TMP)/STARTUP ::
-	mcopy -i $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) -v $(HD60_BUILD_TMP)/STARTUP_RED ::
-	mcopy -i $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) -v $(HD60_BUILD_TMP)/STARTUP_GREEN ::
-	mcopy -i $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) -v $(HD60_BUILD_TMP)/STARTUP_YELLOW ::
-	mcopy -i $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) -v $(HD60_BUILD_TMP)/STARTUP_BLUE ::
-	cp $(HD60_BUILD_TMP)/$(HD60_BOOT_IMAGE) $(HD60_BUILD_TMP)/$(BOXTYPE)/$(HD60_BOOT_IMAGE)
-	ext2simg -zv $(HD60_BUILD_TMP)/$(HD60_IMAGE_LINK) $(HD60_BUILD_TMP)/$(BOXTYPE)/rootfs.fastboot.gz
-	mv $(HD60_BUILD_TMP)/bootargs-8gb.bin $(HD60_BUILD_TMP)/bootargs.bin
-	mv $(HD60_BUILD_TMP)/$(BOXTYPE)/bootargs-8gb.bin $(HD60_BUILD_TMP)/$(BOXTYPE)/bootargs.bin
-	cp $(RELEASE_DIR)/boot/uImage $(HD51_BUILD_TMP)/$(BOXTYPE)/uImage
-	cd $(HD60_BUILD_TMP) && \
+	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(HD60_IMAGE_LINK) || [ $? -le 3 ]
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) bs=1024 count=$(HD60_BOOTOPTIONS_PARTITION_SIZE)
+	mkfs.msdos -S 512 $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE)
+	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(IMAGE_BUILD_DIR)/STARTUP
+	echo "bootcmd=mmc read 0 0x3F000000 0x70000 0x4000; bootm 0x3F000000; mmc read 0 0x1FFBFC0 0x52000 0xC800; bootargs=androidboot.selinux=enforcing androidboot.serialno=0123456789 console=ttyAMA0,115200" > $(IMAGE_BUILD_DIR)/STARTUP_RED
+	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(IMAGE_BUILD_DIR)/STARTUP_GREEN
+	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(IMAGE_BUILD_DIR)/STARTUP_YELLOW
+	echo "bootcmd=mmc read 0 0x1000000 0x53D000 0x8000; bootm 0x1000000 bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0p21 rootfstype=ext4" > $(IMAGE_BUILD_DIR)/STARTUP_BLUE
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_RED ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_GREEN ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_YELLOW ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_BLUE ::
+	cp $(IMAGE_BUILD_DIR)/$(HD60_BOOT_IMAGE) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(HD60_BOOT_IMAGE)
+	ext2simg -zv $(IMAGE_BUILD_DIR)/$(HD60_IMAGE_LINK) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.fastboot.gz
+	mv $(IMAGE_BUILD_DIR)/bootargs-8gb.bin $(IMAGE_BUILD_DIR)/bootargs.bin
+	mv $(IMAGE_BUILD_DIR)/$(BOXTYPE)/bootargs-8gb.bin $(IMAGE_BUILD_DIR)/$(BOXTYPE)/bootargs.bin
+	cp $(RELEASE_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage
+	cd $(IMAGE_BUILD_DIR) && \
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip *
 	# cleanup
-	rm -rf $(HD60_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
 ### armbox vusolo4k
 
@@ -242,12 +237,11 @@ VUSOLO4K_IMAGE_NAME = disk
 VUSOLO4K_BOOT_IMAGE = boot.img
 VUSOLO4K_IMAGE_LINK = $(VUSOLO4K_IMAGE_NAME).ext4
 VUSOLO4K_IMAGE_ROOTFS_SIZE = 294912
-VUSOLO4K_BUILD_TMP = $(BUILD_TMP)/image-build
 VUSOLO4K_PREFIX = vuplus/solo4k
 
 # emmc image
 EMMC_IMAGE_SIZE = 3817472
-EMMC_IMAGE = $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_NAME).img
+EMMC_IMAGE = $(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_NAME).img
 
 # partition sizes
 BLOCK_SIZE = 512
@@ -277,15 +271,15 @@ SWAP_DATA_PARTITION_OFFSET = $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $
 
 SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 
-flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
-	rm -rf $(VUSOLO4K_BUILD_TMP)
-	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)
+flash-image-vusolo4k-multi-disk: release $(D)/host_resize2fs
+	rm -rf $(IMAGE_BUILD_DIR)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(VU_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	# Create a sparse image block
-	dd if=/dev/zero of=$(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) seek=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
-	$(HOST_DIR)/bin/mkfs.ext4 -F $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) -d $(RELEASE_DIR)
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(VU_PREFIX)/$(VUSOLO4K_IMAGE_LINK) seek=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
+	$(HOST_DIR)/bin/mkfs.ext4 -F $(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) -d $(RELEASE_DIR)
 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
-	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) || [ $? -le 3 ]
+	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(VU_PREFIX)/$(VUSOLO4K_IMAGE_LINK) || [ $? -le 3 ]
 	dd if=/dev/zero of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) count=0 seek=$(shell expr $(EMMC_IMAGE_SIZE) \* $(BLOCK_SECTOR))
 	parted -s $(EMMC_IMAGE) mklabel gpt
 	parted -s $(EMMC_IMAGE) unit KiB mkpart boot fat16 $(IMAGE_ROOTFS_ALIGNMENT) $(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \+ $(BOOT_PARTITION_SIZE))
@@ -299,51 +293,53 @@ flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
 	parted -s $(EMMC_IMAGE) unit KiB mkpart rootfs4 ext4 $(FOURTH_ROOTFS_PARTITION_OFFSET) $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $(ROOTFS_PARTITION_SIZE_MULTI))
 	parted -s $(EMMC_IMAGE) unit KiB mkpart swapdata ext4 $(SWAP_DATA_PARTITION_OFFSET) $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 	parted -s $(EMMC_IMAGE) unit KiB mkpart swap linux-swap $(SWAP_PARTITION_OFFSET) $(shell expr $(EMMC_IMAGE_SIZE) \- 1024)
-	dd if=/dev/zero of=$(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_BOOT_IMAGE) bs=$(BLOCK_SIZE) count=$(shell expr $(BOOT_PARTITION_SIZE) \* $(BLOCK_SECTOR))
-	mkfs.msdos -S 512 $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_BOOT_IMAGE)
-	dd conv=notrunc if=$(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_BOOT_IMAGE) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* $(BLOCK_SECTOR))
-#	dd conv=notrunc if=$(RELEASE_DIR)/boot/zImage.dtb of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(KERNEL_PARTITION_OFFSET) \* $(BLOCK_SECTOR))
-	$(HOST_DIR)/bin/resize2fs $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) $(ROOTFS_PARTITION_SIZE_MULTI)k
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(VUSOLO4K_BOOT_IMAGE) bs=$(BLOCK_SIZE) count=$(shell expr $(BOOT_PARTITION_SIZE) \* $(BLOCK_SECTOR))
+	mkfs.msdos -S 512 $(IMAGE_BUILD_DIR)/$(VUSOLO4K_BOOT_IMAGE)
+	dd conv=notrunc if=$(IMAGE_BUILD_DIR)/$(VUSOLO4K_BOOT_IMAGE) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* $(BLOCK_SECTOR))
+	#dd conv=notrunc if=$(RELEASE_DIR)/boot/zImage.dtb of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(KERNEL_PARTITION_OFFSET) \* $(BLOCK_SECTOR))
+	$(HOST_DIR)/bin/resize2fs $(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) $(ROOTFS_PARTITION_SIZE_MULTI)k
 	# Truncate on purpose
-	dd if=$(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_IMAGE_LINK) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(ROOTFS_PARTITION_OFFSET) \* $(BLOCK_SECTOR)) count=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR))
-	mv $(VUSOLO4K_BUILD_TMP)/disk.img $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/
+	dd if=$(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) seek=$(shell expr $(ROOTFS_PARTITION_OFFSET) \* $(BLOCK_SECTOR)) count=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR))
+	mv $(IMAGE_BUILD_DIR)/disk.img $(BASE_DIR)/flash/$(BOXTYPE)/
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-vusolo4k-multi-rootfs:
+flash-image-vusolo4k-multi-rootfs: release
 	# Create final USB-image
-	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/initrd_auto.bin
-	cp $(RELEASE_DIR)/boot/zImage $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/kernel_auto.bin
+	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/initrd_auto.bin
+	cp $(RELEASE_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/kernel_auto.bin
 	cd $(RELEASE_DIR); \
-	tar -cvf $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/rootfs.tar --exclude=zImage* --exclude=vmlinuz-initrd* . > /dev/null 2>&1; \
-	bzip2 $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/rootfs.tar
-	echo This file forces a reboot after the update. > $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/reboot.update
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(VUSOLO4K_BUILD_TMP)/$(VUSOLO4K_PREFIX)/imageversion
-	cd $(VUSOLO4K_BUILD_TMP) && \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/rootfs.tar --exclude=zImage* --exclude=vmlinuz-initrd* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/rootfs.tar
+	echo This file forces a reboot after the update. > $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/reboot.update
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)/imageversion
+	cd $(IMAGE_BUILD_DIR) && \
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUSOLO4K_PREFIX)/rootfs.tar.bz2 $(VUSOLO4K_PREFIX)/initrd_auto.bin $(VUSOLO4K_PREFIX)/kernel_auto.bin $(VUSOLO4K_PREFIX)/reboot.update $(VUSOLO4K_PREFIX)/imageversion
 	# cleanup
-	rm -rf $(VUSOLO4K_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-vusolo4k-online:
+flash-image-vusolo4k-online: release
 	# Create final USB-image
-	mkdir -p $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/initrd_auto.bin
-	cp $(RELEASE_DIR)/boot/zImage $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/kernel_auto.bin
+	cp $(RELEASE_DIR)/boot/vmlinuz-initrd-7366c0 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/initrd_auto.bin
+	cp $(RELEASE_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel_auto.bin
 	cd $(RELEASE_DIR); \
-	tar -cvf $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/rootfs.tar --exclude=zImage* --exclude=vmlinuz-initrd* . > /dev/null 2>&1; \
-	bzip2 $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/rootfs.tar
-	echo This file forces a reboot after the update. > $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/reboot.update
-	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE)/imageversion
-	cd $(VUSOLO4K_BUILD_TMP)/$(BOXTYPE) && \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=zImage* --exclude=vmlinuz-initrd* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar
+	echo This file forces a reboot after the update. > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/reboot.update
+	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	cd $(IMAGE_BUILD_DIR)/$(BOXTYPE) && \
 	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 initrd_auto.bin kernel_auto.bin reboot.update imageversion
 	# cleanup
-	rm -rf $(VUSOLO4K_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
 ### mipsbox vuduo
 VUDUO_PREFIX = vuplus/duo
 
-flash-image-vuduo:
+flash-image-vuduo: release
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -364,6 +360,6 @@ flash-image-vuduo:
 	cd $(IMAGE_BUILD_DIR)/ && \
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUDUO_PREFIX)*
 	# cleanup
-	rm -rf $(VUDUO_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
 
