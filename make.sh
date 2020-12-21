@@ -91,6 +91,9 @@ case $1 in
 		echo "   51)  Mut@nt HD51"
 		echo "   60)  Mut@nt HD60"
 		echo
+		echo "  Edision"
+		echo "   61)  OS mio 4k" 
+		echo
 		echo "  mips-based receivers"
 		echo "  VU Plus"
 		echo "   70)  VU+ Duo"
@@ -142,6 +145,7 @@ case "$REPLY" in
 	50) BOXARCH="arm";BOXTYPE="vusolo4k";;
 	51) BOXARCH="arm";BOXTYPE="hd51";;
 	60) BOXARCH="arm";BOXTYPE="hd60";;
+	61) BOXARCH="aarch64";BOXTYPE="osmio4k";;
 	70) BOXARCH="mips";BOXTYPE="vuduo";;
 	71) BOXARCH="mips";BOXTYPE="gb800se";;
 	 *) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";;

@@ -12,8 +12,8 @@ endif
 
 ifeq ($(BOXTYPE), hd60)
 DRIVER_VER = 4.4.35
-DRIVER_DATE = 20180918
-DRIVER_SRC = $(KERNEL_TYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_DATE = 20200731#20180918
+DRIVER_SRC = hd60-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip#$(KERNEL_TYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 EXTRA_PLAYERLIB_DATE = 20180912
 EXTRA_PLAYERLIB_SRC = $(KERNEL_TYPE)-libs-$(EXTRA_PLAYERLIB_DATE).zip
@@ -26,7 +26,8 @@ EXTRA_MALI_MODULE_SRC = $(EXTRA_MALI_MODULE_VER).tgz
 EXTRA_MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(DRIVER_SRC)
+	#$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(DRIVER_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC):
 	$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(EXTRA_PLAYERLIB_SRC)
@@ -47,6 +48,15 @@ DRIVER_SRC = vuplus-dvb-proxy-$(KERNEL_TYPE)-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIV
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+endif
+
+ifeq ($(BOXTYPE), osmio4k)
+DRIVER_VER = 5.9.0
+DRIVER_DATE = 20201013
+DRIVER_REV =
+DRIVER_SRC = osmio4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+$(ARCHIVE)/$(DRIVER_SRC):
+	$(WGET) http://source.mynonpublic.com/edision/$(DRIVER_SRC)
 endif
 
 driver-clean:

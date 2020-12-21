@@ -35,6 +35,17 @@ KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNEL_PATCHES_ARM     = $(VUSOLO4K_PATCHES)
 endif
 
+ifeq ($(BOXTYPE), osmio4k)
+KERNEL_VER             = 5.9.0
+KERNEL_TYPE            = 
+KERNEL_SRC_VER         = 5.9
+KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/edision
+KERNEL_CONFIG          = osmio4k_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
+KERNEL_PATCHES_ARM     = $(EDISION_PATCH_5_9)
+endif
+
 #
 # Todo: findkerneldevice.py
 
@@ -46,39 +57,43 @@ DEPMOD = $(HOST_DIR)/bin/depmod
 COMMON_PATCHES_ARM = \
 
 HD51_PATCHES = \
-		armbox/hd51_TBS-fixes-for-4.10-kernel.patch \
-		armbox/hd51_0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		armbox/hd51_0001-TBS-fixes-for-4.6-kernel.patch \
-		armbox/hd51_0001-STV-Add-PLS-support.patch \
-		armbox/hd51_0001-STV-Add-SNR-Signal-report-parameters.patch \
-		armbox/hd51_blindscan2.patch \
-		armbox/hd51_0001-stv090x-optimized-TS-sync-control.patch \
-		armbox/hd51_reserve_dvb_adapter_0.patch \
-		armbox/hd51_blacklist_mmc0.patch \
-		armbox/hd51_export_pmpoweroffprepare.patch
+		arm/hd51/TBS-fixes-for-4.10-kernel.patch \
+		arm/hd51/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		arm/hd51/0001-TBS-fixes-for-4.6-kernel.patch \
+		arm/hd51/0001-STV-Add-PLS-support.patch \
+		arm/hd51/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/hd51/blindscan2.patch \
+		arm/hd51/0001-stv090x-optimized-TS-sync-control.patch \
+		arm/hd51/reserve_dvb_adapter_0.patch \
+		arm/hd51/blacklist_mmc0.patch \
+		arm/hd51/export_pmpoweroffprepare.patch
 
 HD60_PATCHES = \
 
 VUSOLO4K_PATCHES = \
-		armbox/vusolo4k_bcm_genet_disable_warn.patch \
-		armbox/vusolo4k_linux_dvb-core.patch \
-		armbox/vusolo4k_rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		armbox/vusolo4k_usb_core_hub_msleep.patch \
-		armbox/vusolo4k_rtl8712_fix_build_error.patch \
-		armbox/vusolo4k_0001-Support-TBS-USB-drivers.patch \
-		armbox/vusolo4k_0001-STV-Add-PLS-support.patch \
-		armbox/vusolo4k_0001-STV-Add-SNR-Signal-report-parameters.patch \
-		armbox/vusolo4k_0001-stv090x-optimized-TS-sync-control.patch \
-		armbox/vusolo4k_linux_dvb_adapter.patch \
-		armbox/vusolo4k_kernel-gcc6.patch \
-		armbox/vusolo4k_genksyms_fix_typeof_handling.patch \
-		armbox/vusolo4k_0001-tuners-tda18273-silicon-tuner-driver.patch \
-		armbox/vusolo4k_01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
-		armbox/vusolo4k_02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
-		armbox/vusolo4k_0003-cxusb-Geniatech-T230-support.patch \
-		armbox/vusolo4k_CONFIG_DVB_SP2.patch \
-		armbox/vusolo4k_dvbsky.patch \
-		armbox/vusolo4k_rtl2832u-2.patch
+		arm/vusolo4k/bcm_genet_disable_warn.patch \
+		arm/vusolo4k/linux_dvb-core.patch \
+		arm/vusolo4k/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		arm/vusolo4k/usb_core_hub_msleep.patch \
+		arm/vusolo4k/rtl8712_fix_build_error.patch \
+		arm/vusolo4k/0001-Support-TBS-USB-drivers.patch \
+		arm/vusolo4k/0001-STV-Add-PLS-support.patch \
+		arm/vusolo4k/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/vusolo4k/0001-stv090x-optimized-TS-sync-control.patch \
+		arm/vusolo4k/linux_dvb_adapter.patch \
+		arm/vusolo4k/kernel-gcc6.patch \
+		arm/vusolo4k/genksyms_fix_typeof_handling.patch \
+		arm/vusolo4k/0001-tuners-tda18273-silicon-tuner-driver.patch \
+		arm/vusolo4k/01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		arm/vusolo4k/02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		arm/vusolo4k/0003-cxusb-Geniatech-T230-support.patch \
+		arm/vusolo4k/CONFIG_DVB_SP2.patch \
+		arm/vusolo4k/dvbsky.patch \
+		arm/vusolo4k/rtl2832u-2.patch
+
+EDISION_PATCH_5_9 = \
+		aarch64/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+		aarch64/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
 
 #
 # KERNEL
@@ -88,7 +103,7 @@ KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/armbox/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
@@ -97,7 +112,7 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/armbox/$(KERNEL_CONF
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
 			$(PATCH)/$$i; \
 		done
-	install -m 644 $(PATCHES)/armbox/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -127,6 +142,13 @@ ifeq ($(BOXTYPE), vusolo4k)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
+ifeq ($(BOXTYPE), osmio4k)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
 
@@ -160,6 +182,15 @@ ifeq ($(BOXTYPE), vusolo4k)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
 endif
+ifeq ($(BOXTYPE), osmio4k)
+	install -m 644 $(KERNEL_DIR)/arch/arm64/boot/zImage $(BOOT_DIR)/vmlinux
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm64-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm64-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm64/boot/zImage $(TARGET_DIR)/boot/
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
 
 kernel-distclean:
 	rm -f $(D)/kernel
@@ -176,9 +207,9 @@ kernel-clean:
 #
 kernel.menuconfig kernel.xconfig: \
 kernel.%: $(D)/kernel
-	$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $*
+	$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- $*
 	@echo ""
-	@echo "You have to edit $(PATCHES)/armbox/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
+	@echo "You have to edit $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
 	@echo ""
 	diff $(KERNEL_DIR)/.config.old $(KERNEL_DIR)/.config
 	@echo ""

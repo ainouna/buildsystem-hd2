@@ -83,6 +83,17 @@ TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloa
 CORTEX_STRINGS        = -lcortex-strings
 endif
 
+ifeq ($(BOXARCH), aarch64)
+CCACHE_DIR            = $(HOME)/.ccache-bs-aarch64
+export CCACHE_DIR
+TARGET               ?= aarch64-unknown-linux-gnu
+BOXARCH              ?= aarch64
+KERNELNAME            = zImage
+TARGET_MARCH_CFLAGS   =
+CORTEX_STRINGS        =
+#TARGET_ENDIAN         = big
+endif
+
 ifeq ($(BOXARCH), mips)
 CCACHE_DIR	      = $(HOME)/.ccache-bs-mips
 export CCACHE_DIR
@@ -90,6 +101,7 @@ TARGET		     ?= mipsel-unknown-linux-gnu
 BOXARCH		     ?= mips
 KERNELNAME            = vmlinux
 TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
+#TARGET_ENDIAN   = little
 CORTEX_STRINGS        =
 endif
 

@@ -15,10 +15,19 @@ $(TARGET_DIR)/lib/libc.so.6:
 #
 # crosstool-ng
 #
+ifeq ($(BOXARCH), arm)
 CROSSTOOL_NG_VER = 872341e3
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
 GCC_VER = linaro-6.3-2017.05
+endif
+
+ifeq ($(BOXARCH), aarch64)
+CROSSTOOL_NG_VER = dd20ee55
+CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
+CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
+GCC_VER = 6.5.0
+endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
@@ -47,7 +56,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 	fi;
 	$(REMOVE)/crosstool-ng-$(CROSSTOOL_NG_VER)
 	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
-	unset CONFIG_SITE LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE; \
+	unset CONFIG_SITE LIBRARY_PATH LD_LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE; \
 	$(CHDIR)/crosstool-ng-git-$(CROSSTOOL_NG_VER); \
 		cp -a $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER).config .config; \
 		NUM_CPUS=$$(expr `getconf _NPROCESSORS_ONLN` \* 2); \
