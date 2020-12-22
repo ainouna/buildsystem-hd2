@@ -89,7 +89,7 @@ case $1 in
 		echo "  VU Plus"
 		echo "   50)  Vu Solo4K"
 		echo
-		echo "	AX Mutant"
+		echo "  AX Mutant"
 		echo "   60)  Mut@nt HD51"
 		echo "   61)  Mut@nt HD60"
 		echo
