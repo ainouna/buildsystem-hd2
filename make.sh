@@ -13,7 +13,7 @@ fi
 ##############################################
 
 if [ "$1" == -h ] || [ "$1" == --help ]; then
-	echo "Parameter 1: target system (1-71)"
+	echo "Parameter 1: target system (1-90)"
 	echo "Parameter 2: kernel (1-2) for sh4 cpu"
 	echo "Parameter 3: optimization (1-4)"
 	echo "Parameter 4: Media Framework (1-2)"
@@ -103,7 +103,7 @@ case $1 in
 		echo "  Giga Blue"
 		echo "   90)  gb800se"
 		echo
-		read -p "Select target (1-71)? ";;
+		read -p "Select target (1-90)? ";;
 esac
 
 case "$REPLY" in
