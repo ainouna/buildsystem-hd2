@@ -88,18 +88,20 @@ case $1 in
 		echo "  arm-based receivers"
 		echo "  VU Plus"
 		echo "   50)  Vu Solo4K"
-		echo "   51)  Mut@nt HD51"
-		echo "   60)  Mut@nt HD60"
+		echo
+		echo "	AX Mutant"
+		echo "   60)  Mut@nt HD51"
+		echo "   61)  Mut@nt HD60"
 		echo
 		echo "  Edision"
-		echo "   61)  OS mio 4k" 
+		echo "   70)  osmio 4k" 
 		echo
 		echo "  mips-based receivers"
 		echo "  VU Plus"
-		echo "   70)  VU+ Duo"
+		echo "   80)  VU+ Duo"
 		echo
 		echo "  Giga Blue"
-		echo "   71)  gb800se"
+		echo "   90)  gb800se"
 		echo
 		read -p "Select target (1-71)? ";;
 esac
@@ -143,11 +145,11 @@ case "$REPLY" in
 	36) BOXARCH="sh4";BOXTYPE="arivalink200";;
 	37) BOXARCH="sh4";BOXTYPE="pace7241";;
 	50) BOXARCH="arm";BOXTYPE="vusolo4k";;
-	51) BOXARCH="arm";BOXTYPE="hd51";;
-	60) BOXARCH="arm";BOXTYPE="hd60";;
-	61) BOXARCH="aarch64";BOXTYPE="osmio4k";;
-	70) BOXARCH="mips";BOXTYPE="vuduo";;
-	71) BOXARCH="mips";BOXTYPE="gb800se";;
+	60) BOXARCH="arm";BOXTYPE="hd51";;
+	61) BOXARCH="arm";BOXTYPE="hd60";;
+	70) BOXARCH="aarch64";BOXTYPE="osmio4k";;
+	80) BOXARCH="mips";BOXTYPE="vuduo";;
+	90) BOXARCH="mips";BOXTYPE="gb800se";;
 	 *) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";;
 esac
 echo "BOXARCH=$BOXARCH" > config
