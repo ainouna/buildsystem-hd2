@@ -71,12 +71,7 @@ fi
 
 echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
 
-if [ ! -e /dev/brcm0 ]; then
-	insmod /lib/modules/procmk.ko
-	mknod -m a=rw /dev/brcm0 c 30 0
-	insmod /lib/modules/dvb-bcm7335.ko
-	insmod /lib/modules/brcmfb.ko
-fi
+insmod /lib/modules/dvb.ko
 
 while [ ! -c /dev/fb0 ]; do
 	usleep 100000
