@@ -62,10 +62,7 @@ GB800SE_PATCHES = \
     		mips/gb800se/blindscan2.patch \
     		mips/gb800se/genksyms_fix_typeof_handling.patch \
     		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
-    		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch \
-		mips/gb800se/add-attributes-fix-modules-compile.patch \
-    		mips/gb800se/makefile-silence-warnings.patch \
-    		mips/gb800se/move-default-dialect-to-SMB2.patch
+    		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
 
 # vuduo
 VUDUO_PATCHES = \
