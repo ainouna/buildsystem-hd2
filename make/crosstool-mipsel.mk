@@ -14,7 +14,7 @@ $(TARGET_DIR)/lib/libc.so.6:
 CROSSTOOL_NG_VER = dd20ee55#872341e3
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
-GCC_VER = 9.3.0#4.9.4
+GCC_VER = 4.9.4
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
