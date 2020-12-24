@@ -47,7 +47,7 @@ GB800SE_PATCHES = \
     		mips/gb800se/brcmnand.patch \
     		mips/gb800se/fix_fuse_for_linux_mips_3-9.patch \
     		mips/gb800se/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-    		mips/gb800se/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
+		mips/gb800se/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
     		mips/gb800se/rtl8712-fix-warnings.patch \
     		mips/gb800se/rtl8187se-fix-warnings.patch \
     		mips/gb800se/kernel-add-support-for-gcc-5.patch \
@@ -55,7 +55,7 @@ GB800SE_PATCHES = \
     		mips/gb800se/kernel-add-support-for-gcc7.patch \
     		mips/gb800se/kernel-add-support-for-gcc8.patch \
     		mips/gb800se/kernel-add-support-for-gcc9.patch \
-    		mips/gb800se/0001-Support-TBS-USB-drivers-3.9.patch \
+		mips/gb800se/0001-Support-TBS-USB-drivers-3.9.patch \
     		mips/gb800se/0001-STV-Add-PLS-support.patch \
     		mips/gb800se/0001-STV-Add-SNR-Signal-report-parameters.patch \
     		mips/gb800se/0001-stv090x-optimized-TS-sync-control.patch \
@@ -63,10 +63,9 @@ GB800SE_PATCHES = \
     		mips/gb800se/genksyms_fix_typeof_handling.patch \
     		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
     		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch \
-		#mips/gb800se/add-attributes-fix-modules-compile.patch \
-		mips/vuduo/gcc9_backport.patch \
-		mips/gb800se/makefile-silence-warnings.patch \
-		mips/gb800se/move-default-dialect-to-SMB2.patch
+		mips/gb800se/add-attributes-fix-modules-compile.patch \
+    		mips/gb800se/makefile-silence-warnings.patch \
+    		mips/gb800se/move-default-dialect-to-SMB2.patch
 
 # vuduo
 VUDUO_PATCHES = \
@@ -118,8 +117,8 @@ $(ARCHIVE)/$(KERNEL_SRC):
 
 $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
 	$(START_BUILD)
-ifeq ($(BOXTYPE), vuduo)
 	rm -rf $(KERNEL_DIR)
+ifeq ($(BOXTYPE), vuduo)
 	$(UNTAR)/$(KERNEL_SRC)
 endif
 ifeq ($(BOXTYPE), gb800se)
