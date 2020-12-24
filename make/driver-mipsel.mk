@@ -21,9 +21,13 @@ driver-clean:
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
-ifeq ($(BOXTYPE), vuduo)
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+ifeq ($(BOXTYPE), vuduo)
 	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 endif
+ifeq ($(BOXTYPE), gb800se)
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+endif
+
 	$(TOUCH)
