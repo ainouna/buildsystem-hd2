@@ -377,7 +377,7 @@ flash-image-gb800se: release
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	touch $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/reboot.update
+	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/noforce;
 	cp $(RELEASE_DIR)/boot/kernel.bin $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
 	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
