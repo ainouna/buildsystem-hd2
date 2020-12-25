@@ -145,16 +145,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
-ifeq ($(BOXTYPE), vuduo)
-	gzip -9c < "$(KERNEL_DIR)/vmlinux" > "$(KERNEL_DIR)/kernel_cfe_auto.bin"
-	install -m 644 $(KERNEL_DIR)/kernel_cfe_auto.bin $(TARGET_DIR)/boot/
-	ln -s $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(TARGET_DIR)/boot/vmlinux
-endif
-ifeq ($(BOXTYPE), gb800se)
-	gzip -c < "$(KERNEL_DIR)/vmlinux" > "$(KERNEL_DIR)/kernel.bin"
-	install -m 644 $(KERNEL_DIR)/kernel.bin $(TARGET_DIR)/boot/
-	ln -s $(TARGET_DIR)/boot/kernel.bin $(TARGET_DIR)/boot/vmlinux
-endif
+	install -m 644 $(KERNEL_DIR)/$(KERNELNAME) $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)

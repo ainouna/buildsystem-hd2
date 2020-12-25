@@ -479,7 +479,6 @@ release-vuduo:
 	install -m 0755 $(SKEL_ROOT)/release/halt_vuduo $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/release/fstab_vuduo $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(RELEASE_DIR)/boot/
 
 #
 # gb800se
@@ -488,7 +487,6 @@ release-gb800se:
 	install -m 0755 $(SKEL_ROOT)/release/halt_gb800se $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/release/fstab_gb800se $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/kernel.bin $(RELEASE_DIR)/boot/
 
 #
 # release-common
@@ -552,7 +550,7 @@ release-common: $(RELEASE_DEPS)
 	cp -a $(TARGET_DIR)/sbin/* $(RELEASE_DIR)/sbin/
 	cp -a $(TARGET_DIR)/usr/sbin/* $(RELEASE_DIR)/usr/sbin/
 	ln -sf /.version $(RELEASE_DIR)/var/etc/.version
-	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/ ### think about it
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 	cp -dp $(SKEL_ROOT)/sbin/MAKEDEV $(RELEASE_DIR)/sbin/
 	ln -sf ../sbin/MAKEDEV $(RELEASE_DIR)/dev/MAKEDEV
