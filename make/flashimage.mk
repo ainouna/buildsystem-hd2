@@ -112,7 +112,7 @@ SWAP_DATA_PARTITION_OFFSET = $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $
 
 SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 
-flash-image-hd51-multi-disk: $(D)/host_resize2fs release
+flash-image-hd51-multi-disk: $(D)/host_resize2fs
 	rm -rf $(IMAGE_BUILD_DIR)
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -154,7 +154,7 @@ flash-image-hd51-multi-disk: $(D)/host_resize2fs release
 	mv $(IMAGE_BUILD_DIR)/disk.img $(BASE_DIR)/flash/$(BOXTYPE)/
 	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-hd51-multi-rootfs: release
+flash-image-hd51-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -200,7 +200,7 @@ $(ARCHIVE)/$(HD60_BOOTARGS_SRC):
 $(ARCHIVE)/$(HD60_PARTITONS_SRC):
 	$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(HD60_PARTITONS_SRC)
 
-flash-image-hd60-multi-disk: release $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
+flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
 	# Create image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -274,7 +274,7 @@ SWAP_DATA_PARTITION_OFFSET = $(shell expr $(FOURTH_ROOTFS_PARTITION_OFFSET) \+ $
 
 SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DATA_PARTITION_SIZE))
 
-flash-image-vusolo4k-multi-disk: release $(D)/host_resize2fs
+flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
 	rm -rf $(IMAGE_BUILD_DIR)
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VU_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -307,7 +307,7 @@ flash-image-vusolo4k-multi-disk: release $(D)/host_resize2fs
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-vusolo4k-multi-rootfs: release
+flash-image-vusolo4k-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -323,7 +323,7 @@ flash-image-vusolo4k-multi-rootfs: release
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-vusolo4k-online: release
+flash-image-vusolo4k-online:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -345,15 +345,15 @@ flash-image-vusolo4k-online: release
 #
 VUDUO_PREFIX = vuplus/duo
 
-flash-image-vuduo: release
+flash-image-vuduo:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	touch $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update
 	# kernel
 	cp $(RELEASE_DIR)/boot/kernel_cfe_auto.bin $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
 	# rootfs
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
 	echo 'image=$(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
@@ -375,15 +375,15 @@ flash-image-vuduo: release
 #
 GB800SE_PREFIX = gigablue/se
 
-flash-image-gb800se: release
+flash-image-gb800se:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/noforce;
 	# kernel
 	cp $(RELEASE_DIR)/boot/kernel.bin $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi -m 2048 -e 126976 -c 4096
 	# rootfs
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi -m 2048 -e 126976 -c 4096
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'image=$(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
