@@ -151,7 +151,7 @@ ifeq ($(BOXTYPE), vuduo)
 	ln -s $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(TARGET_DIR)/boot/vmlinux
 endif
 ifeq ($(BOXTYPE), gb800se)
-	gzip -f -c < "$(KERNEL_DIR)/vmlinux" > "$(KERNEL_DIR)/kernel.bin"
+	gzip -c < "$(KERNEL_DIR)/vmlinux" > "$(KERNEL_DIR)/kernel.bin"
 	install -m 644 $(KERNEL_DIR)/kernel.bin $(TARGET_DIR)/boot/
 	ln -s $(TARGET_DIR)/boot/kernel.bin $(TARGET_DIR)/boot/vmlinux
 endif

@@ -349,7 +349,7 @@ flash-image-vuduo:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
-	touch $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update
+	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update;
 	# kernel
 	cp $(RELEASE_DIR)/boot/kernel_cfe_auto.bin $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	# rootfs
