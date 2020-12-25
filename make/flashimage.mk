@@ -350,8 +350,10 @@ flash-image-vuduo: release
 	mkdir -p $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	touch $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/reboot.update
+	# kernel
 	cp $(RELEASE_DIR)/boot/kernel_cfe_auto.bin $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)
 	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
+	# rootfs
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
 	echo 'image=$(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/root_cfe_auto.ubi' >> $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
@@ -378,17 +380,19 @@ flash-image-gb800se: release
 	mkdir -p $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/noforce;
+	# kernel
 	cp $(RELEASE_DIR)/boot/kernel.bin $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/root_cfe_auto.ubi -m 2048 -e 126976 -c 4096 -F
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi -m 2048 -e 126976 -c 4096
+	# rootfs
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
-	echo 'image=$(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/root_cfe_auto.ubi' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
+	echo 'image=$(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'vol_id=0' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	ubinize -o $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.bin -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
-	rm -f $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/root_cfe_auto.ubi
+	rm -f $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/rootfs.ubi
 	rm -f $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/ubinize.cfg
 	echo $(BOXTYPE)_DDT_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(GB800SE_PREFIX)/imageversion
 	cd $(IMAGE_BUILD_DIR)/ && \
