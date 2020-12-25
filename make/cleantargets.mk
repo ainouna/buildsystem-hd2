@@ -54,6 +54,8 @@ clean:
 	@-rm -rf $(D)/zlib
 	@-rm -rf $(D)/ca-bundle
 	@-rm -rf $(D)/driver-symlink
+	@-rm -rf $(BASE_DIR)/tufsbox/cdkroot
+	@-rm -rf $(D)/directories
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 distclean: depsclean

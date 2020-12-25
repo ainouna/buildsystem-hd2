@@ -79,7 +79,7 @@ INITSCRIPTS_ADAPTED_ETC_FILES += \
 endif
 
 #
-# Functions for copying customized etc files from cdk/root/etc into yaud targets and
+# Functions for copying customized etc files from /root/etc into cdkroot targets and
 # for updating init scripts in runlevel for yaud targets
 #
 define adapted-etc-files
