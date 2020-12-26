@@ -807,11 +807,6 @@ release-neutrino: neutrino neutrino-plugins
 #
 	cp -aR $(TARGET_DIR)/var/tuxbox/* $(RELEASE_DIR)/var/tuxbox
 
-ifneq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark7162 cuberevo_mini2 cuberevo_3000hd hd51))
-	rm -f $(RELEASE_DIR)/var/tuxbox/config/cables.xml
-	rm -f $(RELEASE_DIR)/var/tuxbox/config/terrestrial.xml
-endif
-
 #
 # httpd/icons/locale/themes/fonts/iso-codes/python/lcdd
 #
