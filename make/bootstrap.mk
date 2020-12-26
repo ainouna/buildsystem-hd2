@@ -306,6 +306,10 @@ $(D)/directories:
 	install -d $(TARGET_DIR)/var/{etc,lib,run}
 	install -d $(TARGET_DIR)/var/lib/{misc,nfs}
 	install -d $(TARGET_DIR)/var/bin
+ifeq ($(BOXARCH), aarch64)
+	cd $(TARGET_DIR; ln -sf lib lib64; \
+	cd $(TARGET_DIR)/usr; ln -sf lib lib64;
+endif
 	$(TOUCH)
 
 #

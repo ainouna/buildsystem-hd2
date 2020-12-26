@@ -329,16 +329,16 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh include/asm
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh include/linux/version.h
-		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- uImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap host_u_boot_tools $(D)/kernel.do_compile
-	install -m 644 $(KERNEL_DIR)/arch/sh/boot/uImage $(BOOT_DIR)/vmlinux.ub
+	install -m 644 $(KERNEL_DIR)/arch/sh/boot/$(KERNELNAME) $(BOOT_DIR)/vmlinux.ub
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-sh4-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-sh4-$(KERNEL_VER)
-	cp $(KERNEL_DIR)/arch/sh/boot/uImage $(TARGET_DIR)/boot/
+	cp $(KERNEL_DIR)/arch/sh/boot/$(KERNELNAME) $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
@@ -378,7 +378,7 @@ $(TFINSTALLER_DIR)/tfpacker:
 $(D)/tfkernel:
 	$(START_BUILD)
 	cd $(KERNEL_DIR); \
-		$(MAKE) $(if $(TF7700),TF7700=y) ARCH=sh CROSS_COMPILE=$(TARGET)- uImage
+		$(MAKE) $(if $(TF7700),TF7700=y) ARCH=sh CROSS_COMPILE=$(TARGET)- $(KERNELNAME)
 	$(TOUCH)
 
 #
@@ -415,3 +415,5 @@ kernel.%: $(D)/kernel
 	@echo ""
 	diff $(KERNEL_DIR)/.config.old $(KERNEL_DIR)/.config
 	@echo ""
+
+
