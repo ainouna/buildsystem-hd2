@@ -957,7 +957,7 @@ ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
 endif
 	@echo "***************************************************************"
 	@echo -e "\033[01;32m"
-	@echo " Build of Neutrino for $(BOXTYPE) successfully completed."
+	@echo " Build of Neutrino Release for $(BOXTYPE) successfully completed."
 	@echo -e "\033[00m"
 	@echo "***************************************************************"
 #
