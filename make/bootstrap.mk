@@ -328,7 +328,7 @@ CCACHE_LINKS = \
 CCACHE_ENV = install -d $(CCACHE_BINDIR); \
 	$(CCACHE_LINKS)
 
-$(D)/ccache:
+$(D)/ccache: directories
 	$(CCACHE_ENV)
 	touch $@
 

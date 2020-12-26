@@ -55,13 +55,14 @@ SUDOCMD               = echo $(SUDOPASSWD) | sudo -S
 
 MAINTAINER           ?= $(shell whoami)
 MAIN_ID               = $(shell echo -en "\x74\x68\x6f\x6d\x61\x73")
+
 CCACHE                = /usr/bin/ccache
+CCACHE_DIR            = $(HOME)/.ccache-bs-$(BOXARCH)
+export CCACHE_DIR
 
 BUILD                ?= $(shell /usr/share/libtool/config.guess 2>/dev/null || /usr/share/libtool/config/config.guess 2>/dev/null || /usr/share/misc/config.guess 2>/dev/null)
 
 ifeq ($(BOXARCH), sh4)
-CCACHE_DIR            = $(HOME)/.ccache-bs-sh4
-export CCACHE_DIR
 TARGET               ?= sh4-linux
 BOXARCH              ?= sh4
 KERNELNAME            = uImage
@@ -70,8 +71,6 @@ CORTEX_STRINGS        =
 endif
 
 ifeq ($(BOXARCH), arm)
-CCACHE_DIR            = $(HOME)/.ccache-bs-arm
-export CCACHE_DIR
 TARGET               ?= arm-cortex-linux-gnueabihf
 BOXARCH              ?= arm
 ifeq ($(BOXTYPE), hd60)
@@ -84,24 +83,18 @@ CORTEX_STRINGS        = -lcortex-strings
 endif
 
 ifeq ($(BOXARCH), aarch64)
-CCACHE_DIR            = $(HOME)/.ccache-bs-aarch64
-export CCACHE_DIR
 TARGET               ?= aarch64-unknown-linux-gnu
 BOXARCH              ?= aarch64
 KERNELNAME            = zImage
 TARGET_MARCH_CFLAGS   =
 CORTEX_STRINGS        =
-#TARGET_ENDIAN         = big
 endif
 
 ifeq ($(BOXARCH), mips)
-CCACHE_DIR	      = $(HOME)/.ccache-bs-mips
-export CCACHE_DIR
 TARGET		     ?= mipsel-unknown-linux-gnu
 BOXARCH		     ?= mips
 KERNELNAME            = vmlinux
 TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
-#TARGET_ENDIAN   = little
 CORTEX_STRINGS        =
 endif
 
