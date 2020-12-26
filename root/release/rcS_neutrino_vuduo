@@ -88,6 +88,7 @@ echo "Booting... DDT" > /dev/dbox/oled0
 /bin/initfb $(sed -n 's/osd_resolution=//p' /var/tuxbox/config/neutrino.conf)
 
 echo "[rcS] starting mdev"
+echo /sbin/mdev >/proc/sys/kernel/hotplug
 mdev -s
 
 # set dummy time
@@ -121,7 +122,7 @@ do
 			echo "SHUTDOWN" > /dev/dbox/oled0
 			init 0
 			;;
-		3) echo "$rtv"
+		2) echo "$rtv"
 			echo "REBOOT"
 			echo "RBOOT" > /dev/dbox/oled0
 			init 6

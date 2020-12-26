@@ -119,6 +119,10 @@ if [ ! -e /var/etc/.firstboot ]; then
    #timefix
    date -s "200901011200"
 
+   echo "[rcS] starting mdev"
+   echo /sbin/mdev >/proc/sys/kernel/hotplug
+   mdev -s
+
    echo "run" > /dev/vfd
    echo "LOADING neutrino"
 
@@ -130,9 +134,12 @@ if [ ! -e /var/etc/.firstboot ]; then
       echo "neutrino ended <- RTV: " $rtv
       case "$rtv" in
 		0) echo "0"
+		   echo "RESTART"
+		   sync;;
+		1) echo "1"
 		   echo "SHUTDOWN"
 		   init 0;;
-		1) echo "1"
+		2) echo "2"
 		   echo "REBOOT"
 		   init 6;;
 		*) echo "*"

@@ -521,8 +521,7 @@ release-common: $(RELEASE_DEPS)
 	install -d $(RELEASE_DIR)/{autofs,bin,boot,dev,dev.static,etc,hdd,lib,media,mnt,proc,ram,root,sbin,swap,sys,tmp,usr,var}
 	install -d $(RELEASE_DIR)/etc/{init.d,network,mdev,ssl}
 	install -d $(RELEASE_DIR)/etc/network/if-{post-{up,down},pre-{up,down},up,down}.d
-	install -d $(RELEASE_DIR)/lib/{modules,udev,firmware,tuxbox}
-	install -d $(RELEASE_DIR)/lib/tuxbox/plugins
+	install -d $(RELEASE_DIR)/lib/{modules,udev,firmware}
 	install -d $(RELEASE_DIR)/media/{dvd,nfs,usb,sda1,sdb1}
 	ln -sf /hdd $(RELEASE_DIR)/media/hdd
 	install -d $(RELEASE_DIR)/mnt/{hdd,nfs,usb}

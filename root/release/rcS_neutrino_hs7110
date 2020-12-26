@@ -138,6 +138,10 @@ echo "[rcS] Init portmap & ftp (LOAD 1)"
 #timefix
 date -s "201409011200"
 
+echo "[rcS] starting mdev"
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
 NFS=`grep -c nfs /proc/cmdline`
 if [ "$NFS" -eq "1" ]; then
    echo "[rcS] Booting from nfs, don't set network"
@@ -165,8 +169,10 @@ do
    case "$rtv" in
       0) echo "SHUTDOWN"
          init 0;;
-      1) echo "REBOOT"
-         init 6;;
+      1) echo "SHUTDOWN"
+         init 0;;
+      2) echo "REBOOT"
+	 init 6;;
       *) echo "ERROR"
          init 6;;
    esac

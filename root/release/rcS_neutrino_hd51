@@ -104,7 +104,7 @@ do
 			echo "SHUTDOWN" > /dev/dbox/oled0
 			init 0
 			;;
-		3) echo "$rtv"
+		2) echo "$rtv"
 			echo "REBOOT"
 			echo "RBOOT" > /dev/dbox/oled0
 			init 6

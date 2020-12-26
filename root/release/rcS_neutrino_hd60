@@ -72,6 +72,10 @@ NFS=$(grep -c nfs /proc/cmdline)
 # set dummy time
 date -s "2018-01-01 00:00"
 
+echo "[rcS] starting mdev"
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
 killall -9 showiframe
 
 until false
@@ -91,7 +95,7 @@ do
 			echo "SHUTDOWN" > /dev/dbox/oled0
 			init 0
 			;;
-		3) echo "$rtv"
+		2) echo "$rtv"
 			echo "REBOOT"
 			echo "RBOOT" > /dev/dbox/oled0
 			init 6

@@ -119,6 +119,10 @@ echo "Load 1" >/dev/vfd
 #timefix
 date -s "201601011200"
 
+echo "[rcS] starting mdev"
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
 NFS=`grep -c nfs /proc/cmdline`
 if [ "$NFS" -eq "1" ]; then
    echo "[rcS] Booting from nfs, don't set network"
@@ -145,10 +149,13 @@ do
    rtv=$?
    echo "[rcS] Neutrino ended <- return value: " $rtv
    case "$rtv" in
-      0) echo "SHUTDOWN"
-         echo "Shutdown" > /dev/vfd
+      0) echo "RESTART"
+         echo "Restart" > /dev/vfd
+         ;;
+      1) echo "SHUTDOWN"
+         echo "Shutsown" > /dev/vfd
          init 0;;
-      1) echo "REBOOT"
+      2) echo "REBOOT"
          echo "Reboot" > /dev/vfd
          init 6;;
       *) echo "ERROR"
