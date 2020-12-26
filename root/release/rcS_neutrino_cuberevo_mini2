@@ -146,7 +146,7 @@ if [ ! -e /var/etc/.firstboot ]; then
    until false
 do
  killall -9 showiframe
- echo "starting neutrino ->"
+ echo "starting neutrino GUI ->"
   /usr/local/bin/neutrino
      rtv=$?
       echo "neutrino ended <- RTV: " $rtv
