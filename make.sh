@@ -254,6 +254,10 @@ case "$REPLY" in
 	2) MEDIAFW="gstreamer";;
 	*) MEDIAFW="buildinplayer";;
 esac
+
+if [ $BOXARCH != "sh4" ]; then
+	MEDIAFW="gstreamer"
+fi
 echo "MEDIAFW=$MEDIAFW" >> config
 
 #
