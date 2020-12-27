@@ -290,7 +290,7 @@ MAKE_OPTS := \
 #
 # wlan driver
 #
-BUILD_CONFIG       = build-neutrino
+#BUILD_CONFIG       = sh4#build-neutrino
 
 ifeq ($(WLAN), wlandriver)
 WLANDRIVER         = WLANDRIVER=wlandriver

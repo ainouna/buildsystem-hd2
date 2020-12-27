@@ -1,3 +1,5 @@
+BUILD_CONFIG       = sh4#build-neutrino
+
 #
 # kernel
 #
@@ -331,14 +333,16 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh include/linux/version.h
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	@touch $@
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap host_u_boot_tools $(D)/kernel.do_compile
 	install -m 644 $(KERNEL_DIR)/arch/sh/boot/$(KERNELNAME) $(BOOT_DIR)/vmlinux.ub
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-sh4-$(KERNEL_VER)
-	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-sh4-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/sh/boot/$(KERNELNAME) $(TARGET_DIR)/boot/
+	$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
