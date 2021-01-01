@@ -1,7 +1,8 @@
 #!/bin/bash
 
-##############################################
-
+#
+#
+#
 if [ "$(id -u)" = "0" ]; then
 	echo ""
 	echo "You are running as root. Do not do this, it is dangerous."
@@ -10,8 +11,9 @@ if [ "$(id -u)" = "0" ]; then
 	exit 1
 fi
 
-##############################################
-
+#
+#
+#
 if [ "$1" == -h ] || [ "$1" == --help ]; then
 	echo "Parameter 1: target system (1-90)"
 	echo "Parameter 2: kernel (1-2) for sh4 cpu"
@@ -155,11 +157,9 @@ esac
 echo "BOXARCH=$BOXARCH" > config
 echo "BOXTYPE=$BOXTYPE" >> config
 
-##############################################
-
 if [ $BOXARCH == "sh4" ]; then
 #
-# elf files
+# check for elf files
 #
 CURDIR=`pwd`
 echo -ne "\n    Checking the .elf files in $CURDIR/root/boot..."
@@ -376,10 +376,15 @@ echo "FKEYS=$FKEYS" >> config
 #esac
 #echo "TESTING=$TESTING" >> config
 
-##############################################
+#
+#
+#
 echo " "
 make printenv
-##############################################
+
+#
+#
+#
 echo "Your next step could be:"
 echo "  make release"
 echo "  make flashimage"
