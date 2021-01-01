@@ -47,7 +47,6 @@ ifeq ($(BOXTYPE), gb800se)
 endif
 	$(TUXBOX_CUSTOMIZE)
 
-oi \
 online-image: release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 	$(MAKE) flash-image-hd51-online

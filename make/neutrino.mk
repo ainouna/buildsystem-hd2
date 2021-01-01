@@ -102,6 +102,10 @@ ifeq ($(FKEYS), fkeys)
 NHD2_OPTS += --enable-functionkeys
 endif
 
+ifeq ($(TESTING), testing)
+NHD2_OPTS += --enable-testing
+endif
+
 NEUTRINO_HD2_PATCHES =
 
 $(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)

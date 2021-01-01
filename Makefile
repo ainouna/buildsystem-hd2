@@ -52,6 +52,7 @@ printenv:
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
 	@echo "FKEYS            : $(FKEYS)"
+	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 ifeq ($(IMAGE), $(filter $(IMAGE), neutrino neutrino-wlandriver))

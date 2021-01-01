@@ -61,7 +61,7 @@ case $1 in
 		echo "   18)  9900HD"
 		echo "   19)  9000HD / id."
 		echo "   20)  900HD / mini"
-		echo -e "\033[01;32m   21)  910HD / mini2\033[00m"
+		echo "   21)  910HD / mini2"
 		echo "   22)  91HD / 250HD"
 		echo "   23)  9500HD / 7000HD"
 		echo "   24)  2000HD"
@@ -101,7 +101,7 @@ case $1 in
 		echo "   80)  VU+ Duo"
 		echo
 		echo "  Giga Blue"
-		echo "   90)  gb800se"
+		echo -e "\033[01;32m   90)  gb800se\033[00m"
 		echo
 		read -p "Select target (1-90)? ";;
 esac
@@ -150,7 +150,7 @@ case "$REPLY" in
 	70) BOXARCH="aarch64";BOXTYPE="osmio4k";;
 	80) BOXARCH="mips";BOXTYPE="vuduo";;
 	90) BOXARCH="mips";BOXTYPE="gb800se";;
-	 *) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";;
+	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
 echo "BOXARCH=$BOXARCH" > config
 echo "BOXTYPE=$BOXTYPE" >> config
@@ -286,7 +286,7 @@ echo "INTERFACE=$INTERFACE" >> config
 # CI-Cam Interface
 #
 case $7 in
-	[1-4]) REPLY=$7;;
+	[1-2]) REPLY=$7;;
 	*)	echo -e "\nci-cam interface?:"
 		echo -e "   \033[01;32m1) ci-cam\033[00m"
 		echo "   2)  none"
@@ -304,7 +304,7 @@ echo "CICAM=$CICAM" >> config
 # Scart Interface
 #
 case $8 in
-	[1-4]) REPLY=$8;;
+	[1-2]) REPLY=$8;;
 	*)	echo -e "\nScart interface?:"
 		echo -e "   \033[01;32m1) scart\033[00m"
 		echo "   2)  none"
@@ -344,7 +344,7 @@ echo "LCD=$LCD" >> config
 # Function Keys
 #
 case $10 in
-	[1-4]) REPLY=$10;;
+	[1-2]) REPLY=$10;;
 	*)	echo -e "\nFunctions Keys Support?:"
 		echo "   1)  fkeys"
 		echo -e "   \033[01;32m2) none\033[00m"
@@ -357,6 +357,24 @@ case "$REPLY" in
 	*) FKEYS=" ";;
 esac
 echo "FKEYS=$FKEYS" >> config
+
+#
+# testing
+#
+#case $11 in
+#	[1-2]) REPLY=$11;;
+#	*)	echo -e "\nTesting Support?:"
+#		echo "   1)  testing"
+#		echo -e "   \033[01;32m2) none\033[00m"
+#		read -p "Select with Tesing or not (1-2)? ";;
+#esac
+#
+#case "$REPLY" in
+#	1) TESTING="testing";;
+#	2) TESTING=" ";;
+#	*) TESTING=" ";;
+#esac
+#echo "TESTING=$TESTING" >> config
 
 ##############################################
 echo " "
