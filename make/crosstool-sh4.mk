@@ -6,22 +6,22 @@ STL_FTP          = http://archive.stlinux.com/stlinux/2.4
 STL_FTP_UPD_SRC  = $(STL_FTP)/updates/SRPMS
 STL_FTP_UPD_SH4  = $(STL_FTP)/updates/RPMS/sh4
 STL_FTP_UPD_HOST = $(STL_FTP)/updates/RPMS/host
-STL_GET          = $(WGET)/stlinux
+#STL_GET          = $(WGET)
 
 ## ordering is important here. The /host/ rule must stay before the less
 ## specific %.sh4/%.i386/%.noarch rule. No idea if this is portable or
 ## even reliable :-(
 $(ARCHIVE)/stlinux24-host-%.i386.rpm \
 $(ARCHIVE)/stlinux24-host-%noarch.rpm:
-	$(STL_GET) $(STL_FTP_UPD_HOST)/$(subst $(ARCHIVE)/,"",$@)
+	$(WGET) $(STL_FTP_UPD_HOST)/$(subst $(ARCHIVE)/,"",$@)
 
 $(ARCHIVE)/stlinux24-host-%.src.rpm:
-	$(STL_GET) $(STL_FTP_UPD_SRC)/$(subst $(ARCHIVE)/,"",$@)
+	$(WGET) $(STL_FTP_UPD_SRC)/$(subst $(ARCHIVE)/,"",$@)
 
 $(ARCHIVE)/stlinux24-sh4-%.sh4.rpm \
 $(ARCHIVE)/stlinux24-cross-%.i386.rpm \
 $(ARCHIVE)/stlinux24-sh4-%.noarch.rpm:
-	$(STL_GET) $(STL_FTP_UPD_SH4)/$(subst $(ARCHIVE)/,"",$@)
+	$(WGET) $(STL_FTP_UPD_SH4)/$(subst $(ARCHIVE)/,"",$@)
 
 #
 # install the RPMs
