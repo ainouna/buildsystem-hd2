@@ -144,13 +144,17 @@ if [ ! -e /var/etc/.firstboot ]; then
     /bin/fp_control -l 0 1
 
    until false
-do
- killall -9 showiframe
- echo "starting neutrino GUI ->"
-  /usr/local/bin/neutrino
-     rtv=$?
-      echo "neutrino ended <- RTV: " $rtv
-      case "$rtv" in
+   do
+ 	killall -9 showiframe
+ 	echo "starting neutrino GUI ->"
+  	if [ -e /var/bin/neutrino ];then
+		/var/bin/neutrino
+  	else
+  		/usr/local/bin/neutrino
+	fi
+     	rtv=$?
+      	echo "neutrino ended <- RTV: " $rtv
+      	case "$rtv" in
 		0)
 		   echo "RESTART";;
 		1) echo "1"
@@ -162,7 +166,7 @@ do
 		*) echo "*"
 		   echo "ERROR"
 		   init 6;;
-      esac
+      	esac
    done
 fi
 
