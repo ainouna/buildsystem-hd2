@@ -2,8 +2,8 @@
 ifeq ($(BOXTYPE), vuduo)
 KERNEL_VER             = 3.9.6
 KERNEL_TYPE            = vuduo
-KERNEL_SRC_VER         = 3.9.6
-KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+#KERNEL_SRC_VER         = 3.9.6
+KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vuduo_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
@@ -20,6 +20,18 @@ KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
 KERNEL_CONFIG          = gb800se_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_MIPSEL  = $(GB800SE_PATCHES)
+endif
+
+# osnino
+ifeq ($(BOXTYPE), osnino)
+KERNEL_VER             = 4.8.17
+KERNEL_TYPE            = osnino
+#KERNEL_SRC_VER         = 4.8.17
+KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
+KERNEL_URL             = http://source.mynonpublic.com/edision
+KERNEL_CONFIG          = osnino_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_PATCHES_MIPSEL  = $(OSNINO_PATCHES)
 endif
 
 DEPMOD = $(HOST_DIR)/bin/depmod
@@ -107,6 +119,18 @@ VUDUO_PATCHES = \
 		mips/vuduo/CONFIG_DVB_SP2.patch \
 		mips/vuduo/dvbsky-t330.patch
 
+# osnino
+OSNINO_PATCHES = \
+		mips/osnino/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		mips/osnino/0001-TBS-fixes-for-4.6-kernel.patch \
+		mips/osnino/0001-STV-Add-PLS-support.patch \
+		mips/osnino/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		mips/osnino/blindscan2.patch \
+		mips/osnino/0001-stv090x-optimized-TS-sync-control.patch \
+		mips/osnino/0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		mips/osnino/0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
+		mips/osnino/move-default-dialect-to-SMB3.patch 
+
 KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
@@ -120,6 +144,9 @@ ifeq ($(BOXTYPE), vuduo)
 endif
 ifeq ($(BOXTYPE), gb800se)
 	$(UNTARGZ)/$(KERNEL_SRC)
+endif
+ifeq ($(BOXTYPE), osnino)
+	$(UNTAR)/$(KERNEL_SRC)
 endif
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
@@ -169,7 +196,7 @@ kernel.menuconfig kernel.xconfig: \
 kernel.%: $(D)/kernel
 	$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- $*
 	@echo ""
-	@echo "You have to edit $(PATCHES)/armbox/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
+	@echo "You have to edit $(PATCHES)/mips/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
 	@echo ""
 	diff $(KERNEL_DIR)/.config.old $(KERNEL_DIR)/.config
 	@echo ""

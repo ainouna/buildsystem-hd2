@@ -45,6 +45,9 @@ endif
 ifeq ($(BOXTYPE), gb800se)
 	$(MAKE) flash-image-gb800se
 endif
+ifeq ($(BOXTYPE), osnino)
+	$(MAKE) flash-image-osnino
+endif
 	$(TUXBOX_CUSTOMIZE)
 
 online-image: release
@@ -404,4 +407,38 @@ flash-image-gb800se:
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(GB800SE_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+
+#
+# vuduo
+#
+OSNINO_PREFIX = edision/osnino
+
+flash-image-osnino:
+	# Create final USB-image
+	mkdir -p $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)
+	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
+	# splash
+	cp $(SKEL_ROOT)/boot/splash.bin $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)
+	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/noforce;
+	# kernel
+	gzip -9c < "$(TARGET_DIR)/boot/vmlinux" > "$(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/kernel.bin"
+	# rootfs
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/rootfs.ubi -m 2048 -e 126976 -c 4096 -F
+	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'image=$(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/rootfs.ubi' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'vol_id=0' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	ubinize -o $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/rootfs.bin -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
+	rm -f $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/root.ubi
+	rm -f $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
+	echo $(BOXTYPE)_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/imageversion
+	cd $(IMAGE_BUILD_DIR)/ && \
+	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(OSNINO_PREFIX)*
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
+
+
 

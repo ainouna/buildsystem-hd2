@@ -489,6 +489,14 @@ release-gb800se:
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 
 #
+# osnino
+#
+release-osnino:
+	install -m 0755 $(SKEL_ROOT)/release/halt_osnino $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/fstab_osnino $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+
+#
 # release-common
 #
 # the following target creates the common file base

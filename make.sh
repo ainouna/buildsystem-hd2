@@ -35,7 +35,6 @@ case $1 in
 	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9]) REPLY=$1;;
 	*)
 		echo "Target receivers:"
-		echo "  sh4-based receivers"
 		echo "  Kathrein"
 		echo "    1)  UFS-910"
 		echo "    2)  UFS-912"
@@ -87,7 +86,6 @@ case $1 in
 		echo "   36)  Ferguson Ariva @Link 200"
 		echo "   37)  Pace HDS-7241 (stm 217 only)"
 		echo
-		echo "  arm-based receivers"
 		echo "  VU Plus"
 		echo "   50)  Vu Solo4K"
 		echo
@@ -96,9 +94,9 @@ case $1 in
 		echo "   61)  Mut@nt HD60"
 		echo
 		echo "  Edision"
-		echo "   70)  osmio 4k" 
+		echo "   70)  osmio 4k"
+		echo "   71)  osnino"  
 		echo
-		echo "  mips-based receivers"
 		echo "  VU Plus"
 		echo "   80)  VU+ Duo"
 		echo
@@ -150,6 +148,7 @@ case "$REPLY" in
 	60) BOXARCH="arm";BOXTYPE="hd51";;
 	61) BOXARCH="arm";BOXTYPE="hd60";;
 	70) BOXARCH="aarch64";BOXTYPE="osmio4k";;
+	71) BOXARCH="mips";BOXTYPE="osnino";;
 	80) BOXARCH="mips";BOXTYPE="vuduo";;
 	90) BOXARCH="mips";BOXTYPE="gb800se";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
@@ -254,10 +253,6 @@ case "$REPLY" in
 	2) MEDIAFW="gstreamer";;
 	*) MEDIAFW="buildinplayer";;
 esac
-
-if [ $BOXARCH != "sh4" ]; then
-	MEDIAFW="gstreamer"
-fi
 echo "MEDIAFW=$MEDIAFW" >> config
 
 #
@@ -325,8 +320,8 @@ case $9 in
 	[1-4]) REPLY=$9;;
 	*)	echo -e "\nLCD Support?:"
 		echo "   1)  lcd"
-		echo -e "   \033[01;32m2) vfd\033[00m"
-		echo "   3)  4 digits"
+		echo "   2)  vfd"
+		echo -e "   \033[01;32m3) 4 digits\033[00m"
 		echo "   4)  none"
 		read -p "Select with LCD Support or not (1-4)? ";;
 esac
@@ -336,7 +331,7 @@ case "$REPLY" in
 	2) LCD="vfd";;
 	3) LCD="4-digits";;
 	4) LCD=" ";;
-	*) LCD="vfd";;
+	*) LCD="4-digits";;
 esac
 echo "LCD=$LCD" >> config
 
