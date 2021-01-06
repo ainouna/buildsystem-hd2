@@ -3,6 +3,42 @@
 #
 tools-clean:
 	rm -f $(D)/tools-*
+	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) clean
+	-$(MAKE) -C $(APPS_DIR)/tools/satfind clean
+	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) clean
+	-$(MAKE) -C $(APPS_DIR)/tools/minimon-$(BOXARCH) clean
+	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool clean
+ifeq ($(BOXARCH), sh4)
+	-$(MAKE) -C $(APPS_DIR)/tools/devinit clean
+	-$(MAKE) -C $(APPS_DIR)/tools/evremote2 clean
+	-$(MAKE) -C $(APPS_DIR)/tools/fp_control clean
+	-$(MAKE) -C $(APPS_DIR)/tools/flashtool-fup clean
+	-$(MAKE) -C $(APPS_DIR)/tools/flashtool-mup clean
+	-$(MAKE) -C $(APPS_DIR)/tools/flashtool_mup clean
+	-$(MAKE) -C $(APPS_DIR)/tools/flashtool-pad clean
+	-$(MAKE) -C $(APPS_DIR)/tools/hotplug clean
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ipbox55 ipbox99 ipbox9900 cuberevo cuberevo_mini cuberevo_mini2 cuberevo_250hd cuberevo_2000hd cuberevo_3000hd))
+	-$(MAKE) -C $(APPS_DIR)/tools/ipbox_eeprom clean
+endif
+	-$(MAKE) -C $(APPS_DIR)/tools/stfbcontrol clean
+	-$(MAKE) -C $(APPS_DIR)/tools/streamproxy clean
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), tf7700))
+	-$(MAKE) -C $(APPS_DIR)/tools/tfd2mtd clean
+	-$(MAKE) -C $(APPS_DIR)/tools/tffpctl clean
+endif
+	-$(MAKE) -C $(APPS_DIR)/tools/ustslave clean
+	-$(MAKE) -C $(APPS_DIR)/tools/vfdctl clean
+	-$(MAKE) -C $(APPS_DIR)/tools/wait4button clean
+endif
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vusolo4k))
+	-$(MAKE) -C $(APPS_DIR)/tools/initfb clean
+endif
+ifneq ($(wildcard $(APPS_DIR)/tools/own-tools),)
+	-$(MAKE) -C $(APPS_DIR)/tools/own-tools clean
+endif
+
+tools-distclean:
+	rm -f $(D)/tools-*
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/satfind distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) distclean
@@ -382,6 +418,9 @@ $(D)/tools-own-tools: $(D)/bootstrap $(D)/libcurl
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(TOUCH)
 
+#
+# TOOLS
+#
 TOOLS  = $(D)/tools-aio-grab
 TOOLS += $(D)/tools-satfind
 TOOLS += $(D)/tools-showiframe

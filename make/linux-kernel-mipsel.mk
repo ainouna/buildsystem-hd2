@@ -1,7 +1,6 @@
 # vuduo
 ifeq ($(BOXTYPE), vuduo)
 KERNEL_VER             = 3.9.6
-KERNEL_TYPE            = vuduo
 KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vuduo_defconfig
@@ -13,7 +12,6 @@ endif
 ifeq ($(BOXTYPE), gb800se)
 KERNEL_VER             = 3.9.6
 KERNEL_DATE            = 20140904
-KERNEL_TYPE            = gb800se
 KERNEL_SRC             = gigablue-linux-$(KERNEL_VER)-$(KERNEL_DATE).tgz
 KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
 KERNEL_CONFIG          = gb800se_defconfig
@@ -24,7 +22,6 @@ endif
 # osnino
 ifeq ($(BOXTYPE), osnino)
 KERNEL_VER             = 4.8.17
-KERNEL_TYPE            = osnino
 KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
 KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = osnino_defconfig

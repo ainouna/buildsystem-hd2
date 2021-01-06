@@ -4,8 +4,8 @@ depsclean:
 clean:
 	@echo -e "$(TERM_YELLOW)---> cleaning system build directories and files .. $(TERM_NORMAL)"
 	@-$(MAKE) kernel-clean
-	@-$(MAKE) tools-clean
 	@-$(MAKE) driver-clean
+	@-$(MAKE) tools-clean
 	@-rm -rf $(BASE_DIR)/tufsbox/release
 	@-rm -rf $(D)/*.do_*
 	@-rm -rf $(D)/*.config.status
@@ -61,8 +61,8 @@ clean:
 distclean: depsclean
 	@echo -e "$(TERM_YELLOW)---> cleaning system build directories and files .. $(TERM_NORMAL)"
 	@-$(MAKE) kernel-clean
-	@-$(MAKE) tools-clean
 	@-$(MAKE) driver-clean
+	@-$(MAKE) tools-distclean
 	@-rm -rf $(BASE_DIR)/tufsbox
 	@-rm -rf $(BUILD_TMP)
 	@-rm -rf $(SOURCE_DIR)

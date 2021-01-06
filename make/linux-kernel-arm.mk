@@ -4,7 +4,6 @@
 ifeq ($(BOXTYPE), hd51)
 KERNEL_VER             = 4.10.12
 KERNEL_DATE            = 20180424
-KERNEL_TYPE            = hd51
 KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
 KERNEL_CONFIG          = hd51_defconfig
@@ -16,7 +15,6 @@ endif
 ifeq ($(BOXTYPE), hd60)
 KERNEL_VER             = 4.4.35
 KERNEL_DATE            = 20180301
-KERNEL_TYPE            = hd60
 KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
 KERNEL_URL             = http://downloads.mutant-digital.net
 KERNEL_CONFIG          = hd60_defconfig
@@ -26,7 +24,6 @@ endif
 
 ifeq ($(BOXTYPE), vusolo4k)
 KERNEL_VER             = 3.14.28-1.8
-KERNEL_TYPE            = vusolo4k
 KERNEL_SRC_VER         = 3.14-1.8
 KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
@@ -37,7 +34,6 @@ endif
 
 ifeq ($(BOXTYPE), osmio4k)
 KERNEL_VER             = 5.9.0
-KERNEL_TYPE            = 
 KERNEL_SRC_VER         = 5.9
 KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/edision

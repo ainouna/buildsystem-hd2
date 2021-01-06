@@ -1366,7 +1366,6 @@ $(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SOURCE)
 #
 SAMBA_VER = 3.6.25
 SAMBA_SOURCE = samba-$(SAMBA_VER).tar.gz
-#SAMBA_PATCH = $(PATCHES)/samba
 SAMBA_PATCH = \
 	010-patch-cve-2015-5252.patch \
 	011-patch-cve-2015-5296.patch \
