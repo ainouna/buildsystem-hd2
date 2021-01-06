@@ -6,7 +6,6 @@ STL_FTP          = http://archive.stlinux.com/stlinux/2.4
 STL_FTP_UPD_SRC  = $(STL_FTP)/updates/SRPMS
 STL_FTP_UPD_SH4  = $(STL_FTP)/updates/RPMS/sh4
 STL_FTP_UPD_HOST = $(STL_FTP)/updates/RPMS/host
-#STL_GET          = $(WGET)
 
 ## ordering is important here. The /host/ rule must stay before the less
 ## specific %.sh4/%.i386/%.noarch rule. No idea if this is portable or
