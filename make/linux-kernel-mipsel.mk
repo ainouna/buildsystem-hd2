@@ -2,7 +2,6 @@
 ifeq ($(BOXTYPE), vuduo)
 KERNEL_VER             = 3.9.6
 KERNEL_TYPE            = vuduo
-#KERNEL_SRC_VER         = 3.9.6
 KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vuduo_defconfig
@@ -26,7 +25,6 @@ endif
 ifeq ($(BOXTYPE), osnino)
 KERNEL_VER             = 4.8.17
 KERNEL_TYPE            = osnino
-#KERNEL_SRC_VER         = 4.8.17
 KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
 KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = osnino_defconfig
