@@ -87,7 +87,8 @@ case $1 in
 		echo "   37)  Pace HDS-7241 (stm 217 only)"
 		echo
 		echo "  VU Plus"
-		echo "   50)  Vu Solo4K"
+		echo "   50)  Vu+ Solo4K"
+		echo "   51)  VU+ Duo"
 		echo
 		echo "  AX Mutant"
 		echo "   60)  Mut@nt HD51"
@@ -97,11 +98,8 @@ case $1 in
 		echo "   70)  osmio 4k"
 		echo "   71)  osnino"  
 		echo
-		echo "  VU Plus"
-		echo "   80)  VU+ Duo"
-		echo
 		echo "  Giga Blue"
-		echo -e "\033[01;32m   90)  gb800se\033[00m"
+		echo -e "\033[01;32m   80)  gb800se\033[00m"
 		echo
 		read -p "Select target (1-90)? ";;
 esac
@@ -145,12 +143,12 @@ case "$REPLY" in
 	36) BOXARCH="sh4";BOXTYPE="arivalink200";;
 	37) BOXARCH="sh4";BOXTYPE="pace7241";;
 	50) BOXARCH="arm";BOXTYPE="vusolo4k";;
+	51) BOXARCH="mips";BOXTYPE="vuduo";;
 	60) BOXARCH="arm";BOXTYPE="hd51";;
 	61) BOXARCH="arm";BOXTYPE="hd60";;
 	70) BOXARCH="aarch64";BOXTYPE="osmio4k";;
 	71) BOXARCH="mips";BOXTYPE="osnino";;
 	80) BOXARCH="mips";BOXTYPE="vuduo";;
-	90) BOXARCH="mips";BOXTYPE="gb800se";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
 echo "BOXARCH=$BOXARCH" > config
