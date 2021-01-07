@@ -26,14 +26,13 @@ EXTRA_MALI_MODULE_SRC = $(EXTRA_MALI_MODULE_VER).tgz
 EXTRA_MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	#$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(DRIVER_SRC)
 	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(EXTRA_PLAYERLIB_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures/$(EXTRA_PLAYERLIB_SRC)
 
 $(ARCHIVE)/$(EXTRA_MALILIB_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(EXTRA_MALILIB_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures//$(EXTRA_MALILIB_SRC)
 
 $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC):
 	$(WGET) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(EXTRA_MALI_MODULE_SRC);name=driver
