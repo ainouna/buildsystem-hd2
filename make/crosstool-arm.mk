@@ -15,24 +15,14 @@ $(TARGET_DIR)/lib/libc.so.6:
 #
 # crosstool-ng
 #
-ifeq ($(BOXARCH), arm)
 CROSSTOOL_NG_VER = 872341e3
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
 GCC_VER = linaro-6.3-2017.05
-endif
-
-ifeq ($(BOXARCH), aarch64)
-CROSSTOOL_NG_VER = dd20ee55
-CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
-CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
-GCC_VER = 6.5.0
-endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
-CUSTOM_KERNEL = $(ARCHIVE)/$(KERNEL_SRC)
 ifeq ($(BOXTYPE), hd51)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
 endif
@@ -40,7 +30,10 @@ ifeq ($(BOXTYPE), hd60)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-$(KERNEL_DATE)-arm
 endif
 ifeq ($(BOXTYPE), vusolo4k)
-CUSTOM_KERNEL_VER = 3.14-1.8
+CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
+endif
+ifeq ($(BOXTYPE), osmio4k)
+CUSTOM_KERNEL_VER = $(KERNEL_VER)
 endif
 
 ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)

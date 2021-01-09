@@ -88,8 +88,8 @@ VUSOLO4K_PATCHES = \
 		arm/vusolo4k/rtl2832u-2.patch
 
 EDISION_PATCH_5_9 = \
-		aarch64/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
-		aarch64/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+		arm/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+		arm/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
 
 #
 # KERNEL
@@ -142,9 +142,9 @@ ifeq ($(BOXTYPE), vusolo4k)
 endif
 ifeq ($(BOXTYPE), osmio4k)
 	set -e; cd $(KERNEL_DIR); \
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 oldconfig
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
 
@@ -179,10 +179,10 @@ ifeq ($(BOXTYPE), vusolo4k)
 	$(TOUCH)
 endif
 ifeq ($(BOXTYPE), osmio4k)
-	install -m 644 $(KERNEL_DIR)/arch/arm64/boot/$(KERNELNAME) $(BOOT_DIR)/vmlinux
-	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm64-$(KERNEL_VER)
-	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm64-$(KERNEL_VER)
-	cp $(KERNEL_DIR)/arch/arm64/boot/$(KERNELNAME) $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/arch/arm/boot/$(KERNELNAME) $(BOOT_DIR)/vmlinux
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/$(KERNELNAME) $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
@@ -203,7 +203,7 @@ kernel-clean:
 #
 kernel.menuconfig kernel.xconfig: \
 kernel.%: $(D)/kernel
-	$(MAKE) -C $(KERNEL_DIR) ARCH=arm64 CROSS_COMPILE=$(TARGET)- $*
+	$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $*
 	@echo ""
 	@echo "You have to edit $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
 	@echo ""

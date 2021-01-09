@@ -82,14 +82,6 @@ TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloa
 CORTEX_STRINGS        = -lcortex-strings
 endif
 
-ifeq ($(BOXARCH), aarch64)
-TARGET               ?= aarch64-unknown-linux-gnu
-BOXARCH              ?= aarch64
-KERNELNAME            = zImage
-TARGET_MARCH_CFLAGS   =
-CORTEX_STRINGS        =
-endif
-
 ifeq ($(BOXARCH), mips)
 TARGET		     ?= mipsel-unknown-linux-gnu
 BOXARCH		     ?= mips

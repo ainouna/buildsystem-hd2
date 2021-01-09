@@ -29,7 +29,7 @@ $(ARCHIVE)/$(DRIVER_SRC):
 endif
 
 driver-clean:
-	rm -f $(D)/driver $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/$(BOXTYPE)*
+	rm -f $(D)/driver $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

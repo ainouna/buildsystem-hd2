@@ -505,6 +505,15 @@ release-osnino:
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 
 #
+# osmio4k
+#
+release-osmio4k:
+	install -m 0755 $(SKEL_ROOT)/release/halt_osmio4k $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/fstab_osmio4k $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+
+#
 # release-common
 #
 # the following target creates the common file base

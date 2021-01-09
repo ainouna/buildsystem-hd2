@@ -105,7 +105,7 @@ include make/linux-kernel-sh4.mk
 include make/crosstool-sh4.mk
 include make/driver-sh4.mk
 endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm aarch64))
+ifeq ($(BOXARCH), arm)
 include make/linux-kernel-arm.mk
 include make/crosstool-arm.mk
 include make/driver-arm.mk
