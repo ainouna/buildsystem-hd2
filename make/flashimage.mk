@@ -199,10 +199,12 @@ HD60_BOOTARGS_SRC = $(BOXTYPE)-bootargs-$(HD60_SRCDATE).zip
 HD60_PARTITONS_SRC = $(BOXTYPE)-partitions-$(HD60_SRCDATE).zip
 
 $(ARCHIVE)/$(HD60_BOOTARGS_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_BOOTARGS_SRC)
+	#$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_BOOTARGS_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures/$(HD60_BOOTARGS_SRC)
 
 $(ARCHIVE)/$(HD60_PARTITONS_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_PARTITONS_SRC)
+	#$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_PARTITONS_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures/$(HD60_PARTITONS_SRC)
 
 flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
 	# Create image

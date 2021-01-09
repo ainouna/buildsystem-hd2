@@ -464,6 +464,14 @@ release-hd51:
 	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
+# Mutant HD60
+#
+release-hd60:
+	install -m 0755 $(SKEL_ROOT)/release/halt_hd60 $(RELEASE_DIR)/etc/init.d/halt
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	cp $(TARGET_DIR)/boot/uImage $(RELEASE_DIR)/boot/
+
+#
 # vusolo4k
 #
 release-vusolo4k:
