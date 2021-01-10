@@ -1,5 +1,3 @@
-BUILD_CONFIG       = sh4#build-neutrino
-
 #
 # kernel
 #
@@ -280,8 +278,8 @@ PACE7241_PATCHES_24 = $(COMMONPATCHES_24) \
 KERNEL_PATCHES = $(KERNEL_PATCHES_24)
 KERNEL_CONFIG = linux-sh4-$(subst _stm24_,_,$(KERNEL_VER))_$(BOXTYPE).config
 
-$(D)/kernel.do_prepare: $(PATCHES)/$(BUILD_CONFIG)/$(KERNEL_CONFIG) \
-	$(if $(KERNEL_PATCHES),$(KERNEL_PATCHES:%=$(PATCHES)/$(BUILD_CONFIG)/%))
+$(D)/kernel.do_prepare: $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) \
+	$(if $(KERNEL_PATCHES),$(KERNEL_PATCHES:%=$(PATCHES)/$(BOXARCH)/%))
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	REPO=https://github.com/Duckbox-Developers/linux-sh4-2.6.32.71.git;protocol=https;branch=stmicro; \
@@ -294,10 +292,10 @@ $(D)/kernel.do_prepare: $(PATCHES)/$(BUILD_CONFIG)/$(KERNEL_CONFIG) \
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$(BUILD_CONFIG)/$$i; \
+			$(PATCH)/$(BOXARCH)/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BUILD_CONFIG)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
-	sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"$(BASE_DIR)/integrated_firmware\"#" $(KERNEL_DIR)/.config
+	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"$(BASE_DIR)/root/integrated_firmware\"#" $(KERNEL_DIR)/.config
 	-rm $(KERNEL_DIR)/localversion*
 	echo "$(KERNEL_STM_LABEL)" > $(KERNEL_DIR)/localversion-stm
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
@@ -369,9 +367,9 @@ tfinstaller: $(D)/bootstrap $(TFINSTALLER_DIR)/u-boot.ftfd $(D)/kernel
 
 $(TFINSTALLER_DIR)/u-boot.ftfd: $(D)/uboot $(TFINSTALLER_DIR)/tfpacker
 	$(START_BUILD)
-	$(TFINSTALLER_DIR)/tfpacker $(BUILD_TMP)/u-boot-$(U_BOOT_VER)/u-boot.bin $(TFINSTALLER_DIR)/u-boot.ftfd
-	$(TFINSTALLER_DIR)/tfpacker -t $(BUILD_TMP)/u-boot-$(U_BOOT_VER)/u-boot.bin $(TFINSTALLER_DIR)/Enigma_Installer.tfd
-	$(REMOVE)/u-boot-$(U_BOOT_VER)
+	$(TFINSTALLER_DIR)/tfpacker $(BUILD_TMP)/u-boot-$(UBOOT_VER)/u-boot.bin $(TFINSTALLER_DIR)/u-boot.ftfd
+	$(TFINSTALLER_DIR)/tfpacker -t $(BUILD_TMP)/u-boot-$(UBOOT_VER)/u-boot.bin $(TFINSTALLER_DIR)/Enigma_Installer.tfd
+	$(REMOVE)/u-boot-$(UBOOT_VER)
 	$(TOUCH)
 
 $(TFINSTALLER_DIR)/tfpacker:
@@ -395,7 +393,7 @@ UBOOT_PATCH += u-boot-$(UBOOT_VER)-tf7700.patch
 endif
 
 $(ARCHIVE)/u-boot-$(UBOOT_VER).tar.bz2:
-	$(WGET) ftp://ftp.denx.de/pub/u-boot/u-boot-$(U_BOOT_VER).tar.bz2
+	$(WGET) ftp://ftp.denx.de/pub/u-boot/u-boot-$(UBOOT_VER).tar.bz2
 
 $(D)/uboot: bootstrap $(ARCHIVE)/u-boot-$(UBOOT_VER).tar.bz2
 	$(START_BUILD)
@@ -415,7 +413,7 @@ kernel.menuconfig kernel.xconfig: \
 kernel.%: $(D)/kernel
 	$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- $*
 	@echo ""
-	@echo "You have to edit $(PATCHES)/$(BUILD_CONFIG)/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
+	@echo "You have to edit $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) m a n u a l l y to make changes permanent !!!"
 	@echo ""
 	diff $(KERNEL_DIR)/.config.old $(KERNEL_DIR)/.config
 	@echo ""

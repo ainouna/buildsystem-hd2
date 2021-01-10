@@ -16,6 +16,7 @@ BUILD_TMP             = $(BASE_DIR)/build_tmp
 SOURCE_DIR            = $(BASE_DIR)/build_source
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
+#HOSTAPPS_DIR	      = $(BASE_DIR)/hostapps
 
 -include $(BASE_DIR)/config
 
@@ -43,7 +44,7 @@ HOST_DIR              = $(TUFSBOX_DIR)/host
 RELEASE_DIR           = $(TUFSBOX_DIR)/release
 
 CUSTOM_DIR            = $(BASE_DIR)/custom
-OWN_BUILD             = $(BASE_DIR)/own_build
+#OWN_BUILD             = $(BASE_DIR)/own_build
 PATCHES               = $(BASE_DIR)/Patches
 SCRIPTS_DIR           = $(BASE_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
