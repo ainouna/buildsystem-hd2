@@ -19,10 +19,6 @@ CROSSTOOL_NG_VER = 872341e3
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
 GCC_VER = linaro-6.3-2017.05
-
-$(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
-	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
-
 ifeq ($(BOXTYPE), hd51)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
 endif
@@ -35,6 +31,9 @@ endif
 ifeq ($(BOXTYPE), osmio4k)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)
 endif
+
+$(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
+	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
 ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
