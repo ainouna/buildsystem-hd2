@@ -209,12 +209,13 @@ HD60_SRCDATE = 20180912
 HD60_BOOTARGS_SRC = $(BOXTYPE)-bootargs-$(HD60_SRCDATE).zip
 HD60_PARTITONS_SRC = $(BOXTYPE)-partitions-$(HD60_SRCDATE).zip
 
+BLOCK_SIZE = 512
+BLOCK_SECTOR = 2
+
 $(ARCHIVE)/$(HD60_BOOTARGS_SRC):
-	#$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_BOOTARGS_SRC)
 	$(WGET) http://source.mynonpublic.com/gfutures/$(HD60_BOOTARGS_SRC)
 
 $(ARCHIVE)/$(HD60_PARTITONS_SRC):
-	#$(WGET) http://downloads.mutant-digital.net/$(BOXTYPE)/$(HD60_PARTITONS_SRC)
 	$(WGET) http://source.mynonpublic.com/gfutures/$(HD60_PARTITONS_SRC)
 
 flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_PARTITONS_SRC)
