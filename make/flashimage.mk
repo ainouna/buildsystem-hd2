@@ -80,9 +80,10 @@ endif
 # general
 IMAGE_BUILD_DIR = $(BUILD_TMP)/image-build
 
-### armbox hd51
-
-# general
+#
+# hd51
+#
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 HD51_IMAGE_NAME = disk
 HD51_BOOT_IMAGE = boot.img
 HD51_IMAGE_LINK = $(HD51_IMAGE_NAME).ext4
@@ -191,8 +192,12 @@ flash-image-hd51-online:
 	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 kernel.bin imageversion
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
-### armbox hd60
+#
+# hd60
+#
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60))
 HD60_IMAGE_NAME = disk
 HD60_BOOT_IMAGE = bootoptions.img
 HD60_IMAGE_LINK = $(HD60_IMAGE_NAME).ext4
@@ -244,10 +249,12 @@ flash-image-hd60-multi-disk: $(ARCHIVE)/$(HD60_BOOTARGS_SRC) $(ARCHIVE)/$(HD60_P
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').zip *
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
-### armbox vusolo4k
-
-# general
+#
+# vusolo4k
+#
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vusolo4k))
 VUSOLO4K_IMAGE_NAME = disk
 VUSOLO4K_BOOT_IMAGE = boot.img
 VUSOLO4K_IMAGE_LINK = $(VUSOLO4K_IMAGE_NAME).ext4
@@ -288,13 +295,13 @@ SWAP_PARTITION_OFFSET = $(shell expr $(SWAP_DATA_PARTITION_OFFSET) \+ $(SWAP_DAT
 
 flash-image-vusolo4k-multi-disk: $(D)/host_resize2fs
 	rm -rf $(IMAGE_BUILD_DIR)
-	mkdir -p $(IMAGE_BUILD_DIR)/$(VU_PREFIX)
+	mkdir -p $(IMAGE_BUILD_DIR)/$(VUSOLO4K_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
 	# Create a sparse image block
-	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(VU_PREFIX)/$(VUSOLO4K_IMAGE_LINK) seek=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) seek=$(shell expr $(VUSOLO4K_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
 	$(HOST_DIR)/bin/mkfs.ext4 -F $(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) -d $(RELEASE_DIR)
 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
-	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(VU_PREFIX)/$(VUSOLO4K_IMAGE_LINK) || [ $? -le 3 ]
+	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(VUSOLO4K_IMAGE_LINK) || [ $? -le 3 ]
 	dd if=/dev/zero of=$(EMMC_IMAGE) bs=$(BLOCK_SIZE) count=0 seek=$(shell expr $(EMMC_IMAGE_SIZE) \* $(BLOCK_SECTOR))
 	parted -s $(EMMC_IMAGE) mklabel gpt
 	parted -s $(EMMC_IMAGE) unit KiB mkpart boot fat16 $(IMAGE_ROOTFS_ALIGNMENT) $(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \+ $(BOOT_PARTITION_SIZE))
@@ -350,11 +357,12 @@ flash-image-vusolo4k-online:
 	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 initrd_auto.bin kernel_auto.bin reboot.update imageversion
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
-### mips
 #
 # vuduo
 #
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vuduo))
 VUDUO_PREFIX = vuplus/duo
 
 flash-image-vuduo:
@@ -383,10 +391,12 @@ flash-image-vuduo:
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(VUDUO_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
 #
 # gb800se
 #
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), gb800se))
 GB800SE_PREFIX = gigablue/se
 
 flash-image-gb800se:
@@ -415,10 +425,12 @@ flash-image-gb800se:
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(GB800SE_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
 #
 # osnino
 #
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino))
 OSNINO_PREFIX = edision/osnino
 
 flash-image-osnino:
@@ -447,11 +459,12 @@ flash-image-osnino:
 	zip -r $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_usb_$(shell date '+%d.%m.%Y-%H.%M').zip $(OSNINO_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
 #
 # osmio4k
 #
-#
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k))
 FLASH_BUILD_TMP = $(BUILD_TMP)/image-build
 IMAGE_BUILD_DIR = $(BUILD_TMP)/image-build
 
@@ -552,5 +565,6 @@ flash-image-osmio4k-online:
 	tar -cvzf $(BASE_DIR)/flash/$(BOXTYPE)/$(BOXTYPE)_multi_usb_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 kernel.bin imageversion
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
+endif
 
 
