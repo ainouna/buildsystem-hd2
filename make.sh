@@ -97,7 +97,8 @@ case $1 in
 		echo "  Edision"
 		echo "   60)  osnino"
 		echo "   61)  osmio4k"
-		echo "   62)  osninoplus"    
+		echo "   62)  osninoplus" 
+		echo "   63)  osninopro"   
 		echo
 		echo "  Giga Blue"
 		echo -e "\033[01;32m   70)  gb800se\033[00m"
@@ -150,6 +151,7 @@ case "$REPLY" in
 	60) BOXARCH="mips";BOXTYPE="osnino";;
 	61) BOXARCH="arm";BOXTYPE="osmio4k";;
 	62) BOXARCH="mips";BOXTYPE="osninoplus";;
+	63) BOXARCH="mips";BOXTYPE="osninopro";;
 	70) BOXARCH="mips";BOXTYPE="gb800se";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
