@@ -45,8 +45,8 @@ endif
 ifeq ($(BOXTYPE), gb800se)
 	$(MAKE) flash-image-gb800se
 endif
-ifeq ($(BOXTYPE), osnino)
-	$(MAKE) flash-image-osnino
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
+	$(MAKE) flash-image-$(BOXTYPE)
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k))
 	$(MAKE) flash-image-osmio4k-multi-disk flash-image-osmio4k-multi-rootfs
@@ -431,10 +431,10 @@ endif
 #
 # osnino
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino))
-OSNINO_PREFIX = edision/osnino
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
+OSNINO_PREFIX = edision/$(BOXTYPE)
 
-flash-image-osnino:
+flash-image-$(BOXTYPE):
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)

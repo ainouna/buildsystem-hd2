@@ -18,11 +18,11 @@ $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://source.mynonpublic.com/gigablue/drivers/$(DRIVER_SRC)
 endif
 
-# osnino
-ifeq ($(BOXTYPE), osnino)
+# osnino | osninoplus | osninopro
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
 DRIVER_VER = 4.8.17
 DRIVER_DATE = 20201104
-DRIVER_SRC = osnino-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://source.mynonpublic.com/edision/$(DRIVER_SRC)
@@ -41,7 +41,7 @@ endif
 ifeq ($(BOXTYPE), gb800se)
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 endif
-ifeq ($(BOXTYPE), osnino)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 endif
 

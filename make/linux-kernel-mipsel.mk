@@ -19,12 +19,12 @@ KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_MIPSEL  = $(GB800SE_PATCHES)
 endif
 
-# osnino
-ifeq ($(BOXTYPE), osnino)
+# osnino | osninoplus | osninopro
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
 KERNEL_VER             = 4.8.17
 KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
 KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = osnino_defconfig
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_MIPSEL  = $(OSNINO_PATCHES)
 endif
@@ -114,7 +114,7 @@ VUDUO_PATCHES = \
 		mips/vuduo/CONFIG_DVB_SP2.patch \
 		mips/vuduo/dvbsky-t330.patch
 
-# osnino
+# osnino | osninoplus | osninopro
 OSNINO_PATCHES = \
 		mips/osnino/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
 		mips/osnino/0001-TBS-fixes-for-4.6-kernel.patch \
@@ -140,7 +140,7 @@ endif
 ifeq ($(BOXTYPE), gb800se)
 	$(UNTARGZ)/$(KERNEL_SRC)
 endif
-ifeq ($(BOXTYPE), osnino)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
 	$(UNTAR)/$(KERNEL_SRC)
 endif
 	set -e; cd $(KERNEL_DIR); \
