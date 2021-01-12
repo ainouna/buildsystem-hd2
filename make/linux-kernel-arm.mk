@@ -1,6 +1,4 @@
-#
-# KERNEL
-#
+# hd51
 ifeq ($(BOXTYPE), hd51)
 KERNEL_VER             = 4.10.12
 KERNEL_DATE            = 20180424
@@ -12,6 +10,7 @@ KERNEL_PATCHES_ARM     = $(HD51_PATCHES)
 KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
 endif
 
+# hd60
 ifeq ($(BOXTYPE), hd60)
 KERNEL_VER             = 4.4.35
 KERNEL_DATE            = 20180301
@@ -22,6 +21,7 @@ KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_ARM     = $(HD60_PATCHES)
 endif
 
+# vusolo4k
 ifeq ($(BOXTYPE), vusolo4k)
 KERNEL_VER             = 3.14.28-1.8
 KERNEL_SRC_VER         = 3.14-1.8
@@ -32,12 +32,13 @@ KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNEL_PATCHES_ARM     = $(VUSOLO4K_PATCHES)
 endif
 
-ifeq ($(BOXTYPE), osmio4k)
+# osmio4k | osmio4kplus | osmini4k
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 KERNEL_VER             = 5.9.0
 KERNEL_SRC_VER         = 5.9
 KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = osmio4k_defconfig
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
 KERNEL_PATCHES_ARM     = $(EDISION_PATCH_5_9)
 endif
@@ -140,7 +141,7 @@ ifeq ($(BOXTYPE), vusolo4k)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
-ifeq ($(BOXTYPE), osmio4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
@@ -178,7 +179,7 @@ ifeq ($(BOXTYPE), vusolo4k)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
 endif
-ifeq ($(BOXTYPE), osmio4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 	install -m 644 $(KERNEL_DIR)/arch/arm/boot/$(KERNELNAME) $(BOOT_DIR)/vmlinux
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)

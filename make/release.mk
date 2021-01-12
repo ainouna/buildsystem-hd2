@@ -507,13 +507,15 @@ release-$(BOXTYPE):
 endif
 
 #
-# osmio4k
+# osmio4k | osmio4kplus | osmini4k
 #
-release-osmio4k:
-	install -m 0755 $(SKEL_ROOT)/release/halt_osmio4k $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/release/fstab_osmio4k $(RELEASE_DIR)/etc/fstab
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+release-$(BOXTYPE):
+	install -m 0755 $(SKEL_ROOT)/release/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+endif
 
 #
 # release-common

@@ -28,7 +28,7 @@ endif
 ifeq ($(BOXTYPE), vusolo4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
-ifeq ($(BOXTYPE), osmio4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 CUSTOM_KERNEL_VER = $(KERNEL_VER)
 endif
 

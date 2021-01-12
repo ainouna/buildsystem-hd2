@@ -51,12 +51,12 @@ $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
 endif
 
-# osmio4k
-ifeq ($(BOXTYPE), osmio4k)
+# osmio4k | osmio4kplus | osmini4k
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 DRIVER_VER = 5.9.0
 DRIVER_DATE = 20201013
 DRIVER_REV =
-DRIVER_SRC = osmio4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 LIBGLES_VER = 2.0
 LIBGLES_DIR = edision-libv3d-$(LIBGLES_VER)
@@ -74,11 +74,22 @@ driver-clean:
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
-ifeq ($(BOXTYPE), osmio4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus))
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	for i in brcmstb-osmio4k brcmstb-decoder ci si2183 avl6862 avl6261; do \
+	for i in brcmstb-$(BOXTYPE) brcmstb-decoder ci si2183 avl6862 avl6261; do \
+		echo $$i >> $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default; \
+	done
+	$(MAKE) install-v3ddriver
+	$(MAKE) wlan-qcom
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmini4k))
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	for i in brcmstb-$(BOXTYPE) ci si2183 avl6862 avl6261; do \
 		echo $$i >> $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default; \
 	done
 	$(MAKE) install-v3ddriver
@@ -210,7 +221,7 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	install -d $(TARGET_DIR)/boot
 	$(TOUCH)
 endif
-ifeq ($(BOXTYPE), osmio4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	$(REMOVE)/$(LIBGLES_DIR)
@@ -221,7 +232,7 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	$(REMOVE)/$(LIBGLES_DIR)
 
 #
-# wlan-qcom osmio4k | osmio4kplus
+# wlan-qcom osmio4k | osmio4kplus | osmini4
 #
 WLAN_QCOM_VER    = 4.5.25.46
 WLAN_QCOM_DIR    = qcacld-2.0-$(WLAN_QCOM_VER)

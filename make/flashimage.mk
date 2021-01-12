@@ -48,8 +48,8 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
 	$(MAKE) flash-image-$(BOXTYPE)
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k))
-	$(MAKE) flash-image-osmio4k-multi-disk flash-image-osmio4k-multi-rootfs
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+	$(MAKE) flash-image-$(BOXTYPE)-multi-disk flash-image-$(BOXTYPE)-multi-rootfs
 endif
 	$(TUXBOX_CUSTOMIZE)
 
@@ -60,8 +60,8 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vusolo4k))
 	$(MAKE) flash-image-vusolo4k-online
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k))
-	$(MAKE) flash-image-osmio4k-online
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+	$(MAKE) flash-image-$(BOXTYPE)-online
 endif
 	$(TUXBOX_CUSTOMIZE)
 
@@ -463,9 +463,9 @@ flash-image-$(BOXTYPE):
 endif
 
 #
-# osmio4k
+# osmio4k | osmio4kplus | osmini4k
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 FLASH_BUILD_TMP = $(BUILD_TMP)/image-build
 IMAGE_BUILD_DIR = $(BUILD_TMP)/image-build
 
@@ -496,7 +496,7 @@ ROOTFS4_PARTITION_OFFSET = $(shell expr $(KERNEL4_PARTITION_OFFSET) + $(KERNEL_P
 
 SWAP_PARTITION_OFFSET = $(shell expr $(ROOTFS4_PARTITION_OFFSET) + $(ROOTFS_PARTITION_SIZE))
 
-flash-image-osmio4k-multi-disk:
+flash-image-$(BOXTYPE)-multi-disk:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	# Create a sparse image block
@@ -537,7 +537,7 @@ flash-image-osmio4k-multi-disk:
 	dd if=$(IMAGE_BUILD_DIR)/$(IMAGE_LINK) of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024 + $(BOOT_PARTITION_SIZE) \* 1024 + $(KERNEL_PARTITION_SIZE) \* 1024)
 	mv $(EMMC_IMAGE) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 
-flash-image-osmio4k-multi-rootfs:
+flash-image-$(BOXTYPE)-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(BASE_DIR)/flash/$(BOXTYPE)
@@ -552,7 +552,7 @@ flash-image-osmio4k-multi-rootfs:
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
-flash-image-osmio4k-online:
+flash-image-$(BOXTYPE)-online:
 	# Create final USB-image
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
