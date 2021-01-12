@@ -249,15 +249,15 @@ echo "WLAN=$WLAN" >> config
 case $5 in
 	[1-2]) REPLY=$5;;
 	*)	echo -e "\nMedia Framework:"
-		echo -e "   \033[01;32m1) libeplayer3\033[00m"
-		echo "   2) gstreamer"
+		echo "   1) libeplayer3"
+		echo -e "   \033[01;32m2) gstreamer\033[00m"
 		read -p "Select media framework (1-2)? ";;
 esac
 
 case "$REPLY" in
 	1) MEDIAFW="buildinplayer";;
 	2) MEDIAFW="gstreamer";;
-	*) MEDIAFW="buildinplayer";;
+	*) MEDIAFW="gstreamer";;
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
 
