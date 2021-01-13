@@ -6,9 +6,8 @@ tools-clean:
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) clean
 	-$(MAKE) -C $(APPS_DIR)/tools/satfind clean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) clean
-	-$(MAKE) -C $(APPS_DIR)/tools/minimon-$(BOXARCH) clean
-	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool clean
 ifeq ($(BOXARCH), sh4)
+	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool clean
 	-$(MAKE) -C $(APPS_DIR)/tools/devinit clean
 	-$(MAKE) -C $(APPS_DIR)/tools/evremote2 clean
 	-$(MAKE) -C $(APPS_DIR)/tools/fp_control clean
@@ -42,9 +41,8 @@ tools-distclean:
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/satfind distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) distclean
-	-$(MAKE) -C $(APPS_DIR)/tools/minimon-$(BOXARCH) distclean
-	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool distclean
 ifeq ($(BOXARCH), sh4)
+	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/devinit distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/evremote2 distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/fp_control distclean
