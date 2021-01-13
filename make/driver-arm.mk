@@ -14,7 +14,7 @@ endif
 # hd60
 ifeq ($(BOXTYPE), hd60)
 DRIVER_VER = 4.4.35
-DRIVER_DATE = 20200731#20180918
+DRIVER_DATE = 20200731
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 EXTRA_PLAYERLIB_DATE = 20180912
@@ -102,7 +102,6 @@ ifeq ($(BOXTYPE), hd51)
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(TOUCH)
 endif
-
 ifeq ($(BOXTYPE), hd60)
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
