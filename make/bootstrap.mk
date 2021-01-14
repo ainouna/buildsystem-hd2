@@ -290,7 +290,6 @@ $(D)/bootstrap: $(BOOTSTRAP)
 #
 # preqs
 #
-#
 $(DRIVER_DIR):
 	@echo '===================================================================='
 	@echo '      Cloning $(GIT_NAME_DRIVER)-driver git repository'
@@ -314,11 +313,20 @@ $(FLASH_DIR):
 	if [ ! -e $(FLASH_DIR)/.git ]; then \
 		git clone $(GITHUB)/$(GIT_NAME_FLASH)/flash.git flash; \
 	fi
+
+$(HOSTAPPS_DIR):
+	@echo '===================================================================='
+	@echo '      Cloning $(GIT_NAME_HOSTAPPS)-hostapps git repository'
+	@echo '===================================================================='
+	if [ ! -e $(HOSTAPPS_DIR)/.git ]; then \
+		git clone $(GITHUB)/$(GIT_NAME_HOSTAPPS)/hostapps.git hostapps; \
+	fi
 	@echo ''
 
 PREQS  = $(DRIVER_DIR)
 PREQS += $(APPS_DIR)
 PREQS += $(FLASH_DIR)
+PREQS += $(HOSTAPPS_DIR)
 
 preqs: $(PREQS)
 

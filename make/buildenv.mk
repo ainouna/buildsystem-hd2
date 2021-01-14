@@ -11,9 +11,9 @@ export LD_LIBRARY_PATH
 BASE_DIR             := $(shell pwd)
 
 ARCHIVE               = $(HOME)/Archive
-APPS_DIR              = $(BASE_DIR)/apps
 BUILD_TMP             = $(BASE_DIR)/build_tmp
 SOURCE_DIR            = $(BASE_DIR)/build_source
+APPS_DIR              = $(BASE_DIR)/apps
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
 HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
@@ -35,6 +35,7 @@ GIT_NAME             ?= Duckbox-Developers
 GIT_NAME_DRIVER      ?= Duckbox-Developers
 GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= mohousch
+GIT_NAME_HOSTAPPS    ?= mohousch
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
