@@ -34,7 +34,7 @@ endif
 GIT_NAME             ?= Duckbox-Developers
 GIT_NAME_DRIVER      ?= Duckbox-Developers
 GIT_NAME_APPS        ?= Duckbox-Developers
-GIT_NAME_FLASH       ?= Duckbox-Developers
+GIT_NAME_FLASH       ?= mohousch
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
