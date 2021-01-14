@@ -16,6 +16,7 @@ BUILD_TMP             = $(BASE_DIR)/build_tmp
 SOURCE_DIR            = $(BASE_DIR)/build_source
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
+HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
 
 -include $(BASE_DIR)/config
 

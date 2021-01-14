@@ -358,7 +358,7 @@ kernel-clean:
 #
 # TF7700 installer
 #
-TFINSTALLER_DIR := $(BASE_DIR)/hostapps/tfinstaller
+TFINSTALLER_DIR := $(HOSTAPPS_DIR)/tfinstaller
 
 tfinstaller: $(D)/bootstrap $(TFINSTALLER_DIR)/u-boot.ftfd $(D)/kernel
 	$(START_BUILD)
