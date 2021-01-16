@@ -279,7 +279,7 @@ KERNEL_PATCHES = $(KERNEL_PATCHES_24)
 KERNEL_CONFIG = linux-sh4-$(subst _stm24_,_,$(KERNEL_VER))_$(BOXTYPE).config
 
 $(D)/kernel.do_prepare: $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) \
-	$(if $(KERNEL_PATCHES),$(KERNEL_PATCHES:%=$(PATCHES)/$(BOXARCH)/stm/%))
+	$(if $(KERNEL_PATCHES),$(KERNEL_PATCHES:%=$(PATCHES)/$(BOXARCH)/stm24/%))
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	REPO=https://github.com/Duckbox-Developers/linux-sh4-2.6.32.71.git;protocol=https;branch=stmicro; \
@@ -292,7 +292,7 @@ $(D)/kernel.do_prepare: $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) \
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$(BOXARCH)/stm/$$i; \
+			$(PATCH)/$(BOXARCH)/stm24/$$i; \
 		done
 	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"$(BASE_DIR)/root/integrated_firmware\"#" $(KERNEL_DIR)/.config
