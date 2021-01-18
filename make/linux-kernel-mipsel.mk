@@ -6,6 +6,7 @@ KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vuduo_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNEL_PATCHES_MIPSEL  = $(VUDUO_PATCHES)
+KERNELNAME             = vmlinux
 endif
 
 # gb800se
@@ -17,6 +18,7 @@ KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
 KERNEL_CONFIG          = gb800se_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_MIPSEL  = $(GB800SE_PATCHES)
+KERNELNAME             = vmlinux
 endif
 
 # osnino | osninoplus | osninopro
@@ -27,6 +29,7 @@ KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = $(BOXTYPE)_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_MIPSEL  = $(OSNINO_PATCHES)
+KERNELNAME             = vmlinux
 endif
 
 DEPMOD = $(HOST_DIR)/bin/depmod

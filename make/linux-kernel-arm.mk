@@ -8,6 +8,7 @@ KERNEL_CONFIG          = hd51_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_ARM     = $(HD51_PATCHES)
 KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+KERNELNAME             = zImage
 endif
 
 # hd60
@@ -15,12 +16,12 @@ ifeq ($(BOXTYPE), hd60)
 KERNEL_VER             = 4.4.35
 KERNEL_DATE            = 20180301
 KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
-#KERNEL_URL             = http://downloads.mutant-digital.net
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
 KERNEL_CONFIG          = hd60_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_PATCHES_ARM     = $(HD60_PATCHES)
 KERNEL_DTB_VER         = hi3798mv200.dtb
+KERNELNAME             = uImage
 endif
 
 # vusolo4k
@@ -32,6 +33,7 @@ KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vusolo4k_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNEL_PATCHES_ARM     = $(VUSOLO4K_PATCHES)
+KERNELNAME             = zImage
 endif
 
 # osmio4k | osmio4kplus | osmini4k
@@ -43,6 +45,7 @@ KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = $(BOXTYPE)_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
 KERNEL_PATCHES_ARM     = $(EDISION_PATCH_5_9)
+KERNELNAME             = zImage
 endif
 
 #

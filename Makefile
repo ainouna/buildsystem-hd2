@@ -185,6 +185,19 @@ update:
 		fi; \
 	fi
 	@echo;
+	@if test -d $(HOSTAPPS_DIR); then \
+		cd $(HOSTAPPS_DIR)/; \
+		echo '==================================================================='; \
+		echo '      updating $(GIT_NAME_HOSTAPPS)-hostapps git repository'; \
+		echo '==================================================================='; \
+		echo; \
+		if [ "$(GIT_STASH_PULL)" = "stashpull" ]; then \
+			git stash && git stash show -p > ./pull-stash-hostapps.patch || true && git pull && git stash pop || true; \
+		else \
+			git pull; \
+		fi; \
+	fi
+	@echo;
 
 all:
 	@echo "'make all' is not a valid target. Please read the documentation."

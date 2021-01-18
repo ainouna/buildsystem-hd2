@@ -22,6 +22,7 @@ KERNEL_LABEL      :=$(word 3,$(call split_version,$(KERNEL_VER)))
 KERNEL_RELEASE    :=$(subst ^0,,^$(KERNEL_LABEL))
 KERNEL_STM_LABEL  :=_$(KERNEL_STM)_$(KERNEL_LABEL)
 KERNEL_DIR         =$(BUILD_TMP)/linux-sh4-$(KERNEL_VER)
+KERNELNAME         = uImage
 
 DEPMOD = $(HOST_DIR)/bin/depmod
 

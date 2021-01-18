@@ -70,7 +70,7 @@ BUILD                ?= $(shell /usr/share/libtool/config.guess 2>/dev/null || /
 ifeq ($(BOXARCH), sh4)
 TARGET               ?= sh4-linux
 BOXARCH              ?= sh4
-KERNELNAME            = uImage
+#KERNELNAME            = uImage
 TARGET_MARCH_CFLAGS   =
 CORTEX_STRINGS        =
 endif
@@ -78,11 +78,11 @@ endif
 ifeq ($(BOXARCH), arm)
 TARGET               ?= arm-cortex-linux-gnueabihf
 BOXARCH              ?= arm
-ifeq ($(BOXTYPE), hd60)
-KERNELNAME            = uImage
-else
-KERNELNAME            = zImage
-endif
+#ifeq ($(BOXTYPE), hd60)
+#KERNELNAME            = uImage
+#else
+#KERNELNAME            = zImage
+#endif
 TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
 CORTEX_STRINGS        = -lcortex-strings
 endif
@@ -90,7 +90,7 @@ endif
 ifeq ($(BOXARCH), mips)
 TARGET		     ?= mipsel-unknown-linux-gnu
 BOXARCH		     ?= mips
-KERNELNAME            = vmlinux
+#KERNELNAME            = vmlinux
 TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
 CORTEX_STRINGS        =
 endif
