@@ -132,7 +132,6 @@ update-self:
 	git pull
 
 update:
-	$(MAKE) distclean
 	@if test -d $(BASE_DIR); then \
 		cd $(BASE_DIR)/; \
 		echo '===================================================================='; \
