@@ -469,7 +469,6 @@ release-hd51:
 release-hd60:
 	install -m 0755 $(SKEL_ROOT)/release/halt_hd60 $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/uImage $(RELEASE_DIR)/boot/
 
 #
 # vusolo4k
@@ -478,7 +477,6 @@ release-vusolo4k:
 	install -m 0755 $(SKEL_ROOT)/release/halt_vusolo4k $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7366c0 $(RELEASE_DIR)/boot/
-	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
 
 #
 # vuduo
@@ -514,7 +512,6 @@ release-$(BOXTYPE):
 	install -m 0755 $(SKEL_ROOT)/release/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/release/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
 endif
 
 #
@@ -578,7 +575,7 @@ release-common: $(RELEASE_DEPS)
 	cp -a $(TARGET_DIR)/sbin/* $(RELEASE_DIR)/sbin/
 	cp -a $(TARGET_DIR)/usr/sbin/* $(RELEASE_DIR)/usr/sbin/
 	ln -sf /.version $(RELEASE_DIR)/var/etc/.version
-#	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/ #FIXME: think about it
+	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 	cp -dp $(SKEL_ROOT)/sbin/MAKEDEV $(RELEASE_DIR)/sbin/
 	ln -sf ../sbin/MAKEDEV $(RELEASE_DIR)/dev/MAKEDEV
