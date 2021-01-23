@@ -59,7 +59,7 @@ clean:
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 distclean: depsclean
-	@echo -e "$(TERM_YELLOW)---> cleaning whole system build .. $(TERM_NORMAL)"
+	@echo -e "$(TERM_YELLOW)---> cleaning whole build system .. $(TERM_NORMAL)"
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) driver-clean
 	@-$(MAKE) tools-distclean

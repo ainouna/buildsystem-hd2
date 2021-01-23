@@ -31,7 +31,7 @@ GITHUB               ?= git://github.com
 else
 GITHUB               ?= https://github.com
 endif
-GIT_NAME             ?= Duckbox-Developers
+GIT_NAME             ?= mohousch
 GIT_NAME_DRIVER      ?= Duckbox-Developers
 GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= mohousch
