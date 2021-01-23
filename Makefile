@@ -81,7 +81,6 @@ help:
 	@echo " make print-targets		- print out all available targets"
 	@echo ""
 	@echo "later, you might find these useful:"
-	@echo " make update-self		- update the build system"
 	@echo " make update			- update the build system, apps, driver and flash"
 	@echo ""
 	@echo " make release			- build neutrino with full release dir"
@@ -92,7 +91,7 @@ help:
 	@echo " make neutrino"
 	@echo ""
 	@echo "cleantargets:"
-	@echo " make clean			- clears everything except kernel."
+	@echo " make clean			- clears everything except toolchain."
 	@echo " make distclean			- clears the whole construction."
 	@echo
 
@@ -127,9 +126,6 @@ include make/cleantargets.mk
 include make/patches.mk
 include make/bootstrap.mk
 include make/system-tools.mk
-
-update-self:
-	git pull
 
 update:
 	@if test -d $(BASE_DIR); then \
@@ -221,7 +217,7 @@ print-targets:
 
 PHONY += everything print-targets
 PHONY += all printenv .print-phony
-PHONY += update update-self
+PHONY += update
 .PHONY: $(PHONY)
 
 # this makes sure we do not build top-level dependencies in parallel
