@@ -574,7 +574,7 @@ release-common: $(RELEASE_DEPS)
 	install -d $(RELEASE_DIR)/mnt/mnt{0..7}
 	install -d $(RELEASE_DIR)/usr/{bin,lib,sbin,share}
 	install -d $(RELEASE_DIR)/usr/local/{bin,sbin}
-	install -d $(RELEASE_DIR)/usr/share/{tuxbox,udhcpc,zoneinfo,lua}
+	install -d $(RELEASE_DIR)/usr/share/{tuxbox,udhcpc,zoneinfo,lua,fonts}
 	install -d $(RELEASE_DIR)/usr/share/tuxbox/neutrino
 	install -d $(RELEASE_DIR)/usr/share/lua/5.2
 	install -d $(RELEASE_DIR)/var/{bin,etc,httpd,lib,net,tuxbox}
@@ -604,6 +604,7 @@ release-common: $(RELEASE_DEPS)
 	cp -aR $(SKEL_ROOT)/etc/mdev_$(BOXARCH).conf $(RELEASE_DIR)/etc/mdev.conf
 	cp -aR $(SKEL_ROOT)/usr/share/udhcpc/* $(RELEASE_DIR)/usr/share/udhcpc/
 	cp -aR $(SKEL_ROOT)/usr/share/zoneinfo/* $(RELEASE_DIR)/usr/share/zoneinfo/
+	cp -aR $(SKEL_ROOT)/usr/share/fonts/* $(RELEASE_DIR)/usr/share/fonts/
 	cp $(SKEL_ROOT)/bin/autologin $(RELEASE_DIR)/bin/
 	cp $(SKEL_ROOT)/bin/vdstandby $(RELEASE_DIR)/bin/
 	cp $(SKEL_ROOT)/usr/sbin/fw_printenv $(RELEASE_DIR)/usr/sbin/
