@@ -525,6 +525,16 @@ release-bre2ze4k:
 	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
+# h7
+#
+release-h7:
+	install -m 0755 $(SKEL_ROOT)/release/halt_h7 $(RELEASE_DIR)/etc/init.d/halt
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
+	cp -f $(SKEL_ROOT)/release/fstab_h7 $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+
+#
 # release-common
 #
 # the following target creates the common file base

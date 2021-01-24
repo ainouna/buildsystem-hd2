@@ -54,6 +54,9 @@ endif
 ifeq ($(BOXTYPE), bre2ze4k)
 	$(MAKE) flash-image-bre2ze4k-multi-disk flash-image-bre2ze4k-multi-rootfs
 endif
+ifeq ($(BOXTYPE), h7)
+	$(MAKE) flash-image-h7-multi-disk flash-image-h7-multi-rootfs
+endif
 	$(TUXBOX_CUSTOMIZE)
 
 online-image: release
@@ -68,6 +71,9 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 endif
 ifeq ($(BOXTYPE), bre2ze4k)
 	$(MAKE) flash-image-bre2ze4k-online
+endif
+ifeq ($(BOXTYPE), h7)
+	$(MAKE) flash-image-h7-online
 endif
 	$(TUXBOX_CUSTOMIZE)
 
@@ -574,7 +580,7 @@ flash-image-$(BOXTYPE)-online:
 	rm -rf $(IMAGE_BUILD_DIR)
 endif
 
-ifeq ($(BOXTYPE), bre2ze4k)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7))
 # general
 FLASH_IMAGE_NAME = disk
 FLASH_BOOT_IMAGE = boot.img
