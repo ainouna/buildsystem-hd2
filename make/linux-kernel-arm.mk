@@ -6,59 +6,10 @@ KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
 KERNEL_CONFIG          = hd51_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_PATCHES_ARM     = $(HD51_PATCHES)
 KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
 KERNELNAME             = zImage
-endif
 
-# hd60
-ifeq ($(BOXTYPE), hd60)
-KERNEL_VER             = 4.4.35
-KERNEL_DATE            = 20180301
-KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = hd60_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_PATCHES_ARM     = $(HD60_PATCHES)
-KERNEL_DTB_VER         = hi3798mv200.dtb
-KERNELNAME             = uImage
-endif
-
-# vusolo4k
-ifeq ($(BOXTYPE), vusolo4k)
-KERNEL_VER             = 3.14.28-1.8
-KERNEL_SRC_VER         = 3.14-1.8
-KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
-KERNEL_URL             = http://archive.vuplus.com/download/kernel
-KERNEL_CONFIG          = vusolo4k_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux
-KERNEL_PATCHES_ARM     = $(VUSOLO4K_PATCHES)
-KERNELNAME             = zImage
-endif
-
-# osmio4k | osmio4kplus | osmini4k
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
-KERNEL_VER             = 5.9.0
-KERNEL_SRC_VER         = 5.9
-KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
-KERNEL_PATCHES_ARM     = $(EDISION_PATCH_5_9)
-KERNELNAME             = zImage
-endif
-
-#
-# Todo: findkerneldevice.py
-
-DEPMOD = $(HOST_DIR)/bin/depmod
-
-#
-# Patches Kernel
-#
-COMMON_PATCHES_ARM = \
-
-HD51_PATCHES = \
+KERNEL_PATCHES_ARM     = \
 		arm/hd51/TBS-fixes-for-4.10-kernel.patch \
 		arm/hd51/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
 		arm/hd51/0001-TBS-fixes-for-4.6-kernel.patch \
@@ -69,8 +20,20 @@ HD51_PATCHES = \
 		arm/hd51/reserve_dvb_adapter_0.patch \
 		arm/hd51/blacklist_mmc0.patch \
 		arm/hd51/export_pmpoweroffprepare.patch
+endif
 
-HD60_PATCHES = \
+# hd60
+ifeq ($(BOXTYPE), hd60)
+KERNEL_VER             = 4.4.35
+KERNEL_DATE            = 20180301
+KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/gfutures
+KERNEL_CONFIG          = hd60_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_DTB_VER         = hi3798mv200.dtb
+KERNELNAME             = uImage
+
+KERNEL_PATCHES_ARM     = \
 		arm/hd60/0002-log2-give-up-on-gcc-constant-optimizations.patch \
 		arm/hd60/0003-dont-mark-register-as-const.patch \
 		arm/hd60/0001-remote.patch \
@@ -87,8 +50,19 @@ HD60_PATCHES = \
 		arm/hd60/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
 		arm/hd60/0007-dvb-mn88472-staging.patch \
 		arm/hd60/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
+endif
 
-VUSOLO4K_PATCHES = \
+# vusolo4k
+ifeq ($(BOXTYPE), vusolo4k)
+KERNEL_VER             = 3.14.28-1.8
+KERNEL_SRC_VER         = 3.14-1.8
+KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = vusolo4k_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = zImage
+
+KERNEL_PATCHES_ARM     = \
 		arm/vusolo4k/bcm_genet_disable_warn.patch \
 		arm/vusolo4k/linux_dvb-core.patch \
 		arm/vusolo4k/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
@@ -108,10 +82,51 @@ VUSOLO4K_PATCHES = \
 		arm/vusolo4k/CONFIG_DVB_SP2.patch \
 		arm/vusolo4k/dvbsky.patch \
 		arm/vusolo4k/rtl2832u-2.patch
+endif
 
-EDISION_PATCH_5_9 = \
+# osmio4k | osmio4kplus | osmini4k
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+KERNEL_VER             = 5.9.0
+KERNEL_SRC_VER         = 5.9
+KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/edision
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
+KERNELNAME             = zImage
+
+KERNEL_PATCHES_ARM     = \
 		arm/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
 		arm/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+endif
+
+# bre2ze4k
+ifeq ($(BOXTYPE), bre2ze4k)
+KERNEL_VER             = 4.10.12
+KERNEL_DATE            = 20180424
+KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/gfutures
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+KERNELNAME             = zImage
+
+KERNEL_PATCHES_ARM     = \
+		arm/bre2ze4k/TBS-fixes-for-4.10-kernel.patch \
+		arm/bre2ze4k/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		arm/bre2ze4k/0001-TBS-fixes-for-4.6-kernel.patch \
+		arm/bre2ze4k/0001-STV-Add-PLS-support.patch \
+		arm/bre2ze4k/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/bre2ze4k/blindscan2.patch \
+		arm/bre2ze4k/0001-stv090x-optimized-TS-sync-control.patch \
+		arm/bre2ze4k/reserve_dvb_adapter_0.patch \
+		arm/bre2ze4k/blacklist_mmc0.patch \
+		arm/bre2ze4k/export_pmpoweroffprepare.patch \
+		arm/bre2ze4k/t230c2.patch \
+		arm/bre2ze4k/add-more-devices-rtl8xxxu.patch \
+		arm/bre2ze4k/dvbs2x.patch
+endif
+
+DEPMOD = $(HOST_DIR)/bin/depmod
 
 #
 # KERNEL
@@ -169,6 +184,13 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), bre2ze4k)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB_VER) zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -205,6 +227,15 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/arm/boot/$(KERNELNAME) $(TARGET_DIR)/boot/
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), bre2ze4k)
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
+	cat $(KERNEL_DIR)/arch/arm/boot/zImage $(KERNEL_DIR)/arch/arm/boot/dts/$(KERNEL_DTB_VER) > $(TARGET_DIR)/boot/zImage.dtb
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)

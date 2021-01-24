@@ -105,6 +105,8 @@ case $1 in
 		echo "  Giga Blue"
 		echo -e "\033[01;32m   70)  gb800se\033[00m"
 		echo
+		echo "  WWIO"
+		echo "   80)  WWIO BRE2ZE 4K"
 		read -p "Select target (1-90)? ";;
 esac
 
@@ -157,6 +159,7 @@ case "$REPLY" in
 	64) BOXARCH="arm";BOXTYPE="osmio4kplus";;
 	65) BOXARCH="arm";BOXTYPE="osmini4k";;
 	70) BOXARCH="mips";BOXTYPE="gb800se";;
+	80) BOXARCH="arm";BOXTYPE="bre2ze4k";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
 echo "BOXARCH=$BOXARCH" > config
@@ -387,7 +390,6 @@ make printenv
 #
 #
 echo "Your next step could be:"
-echo "  make release"
 echo "  make flashimage"
 echo "for more details:"
 echo "  make help"
