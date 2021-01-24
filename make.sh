@@ -107,6 +107,9 @@ case $1 in
 		echo
 		echo "  WWIO"
 		echo "   80)  WWIO BRE2ZE 4K"
+		echo
+		echo "  Air Digital"
+		echo "   90)  Zgemma h7"
 		read -p "Select target (1-90)? ";;
 esac
 
@@ -160,6 +163,7 @@ case "$REPLY" in
 	65) BOXARCH="arm";BOXTYPE="osmini4k";;
 	70) BOXARCH="mips";BOXTYPE="gb800se";;
 	80) BOXARCH="arm";BOXTYPE="bre2ze4k";;
+	90) BOXARCH="arm";BOXTYPE="h7";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
 echo "BOXARCH=$BOXARCH" > config

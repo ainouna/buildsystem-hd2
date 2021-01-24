@@ -126,6 +126,33 @@ KERNEL_PATCHES_ARM     = \
 		arm/bre2ze4k/dvbs2x.patch
 endif
 
+# h7
+ifeq ($(BOXTYPE), h7)
+KERNEL_VER             = 4.10.12
+KERNEL_DATE            = 20180424
+KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/gfutures
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+KERNELNAME             = zImage
+
+KERNEL_PATCHES_ARM = \
+		arm/h7/TBS-fixes-for-4.10-kernel.patch \
+		arm/h7/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		arm/h7/0001-TBS-fixes-for-4.6-kernel.patch \
+		arm/h7/0001-STV-Add-PLS-support.patch \
+		arm/h7/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/h7/blindscan2.patch \
+		arm/h7/0001-stv090x-optimized-TS-sync-control.patch \
+		arm/h7/reserve_dvb_adapter_0.patch \
+		arm/h7/blacklist_mmc0.patch \
+		arm/h7/export_pmpoweroffprepare.patch \
+		arm/h7/t230c2.patch \
+		arm/h7/add-more-devices-rtl8xxxu.patch \
+		arm/h7/dvbs2x.patch
+endif
+
 #
 # kernel
 #
@@ -190,6 +217,13 @@ ifeq ($(BOXTYPE), bre2ze4k)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), h7)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB_VER) zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -231,6 +265,15 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 	$(TOUCH)
 endif
 ifeq ($(BOXTYPE), bre2ze4k)
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
+	cat $(KERNEL_DIR)/arch/arm/boot/zImage $(KERNEL_DIR)/arch/arm/boot/dts/$(KERNEL_DTB_VER) > $(TARGET_DIR)/boot/zImage.dtb
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), h7)
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
