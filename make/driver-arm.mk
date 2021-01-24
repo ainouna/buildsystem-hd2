@@ -81,13 +81,13 @@ LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
 LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_SRC)
+	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(DOWNLOAD) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
+	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
 endif
 
 driver-clean:
