@@ -387,7 +387,7 @@ endif
 #
 # h7
 #
-ifeq ($(BOXTYPE), bre2ze4k)
+ifeq ($(BOXTYPE), h7)
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
