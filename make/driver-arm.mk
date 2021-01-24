@@ -132,7 +132,30 @@ ifeq ($(BOXTYPE), hd60)
 	$(MAKE) install-extra-libs
 	$(MAKE) mali-gpu-modul
 	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vusolo4k)
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(MAKE) platform_util
+	$(MAKE) libgles
+	$(MAKE) vmlinuz_initrd
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), bre2ze4k)
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	ls $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra | sed s/.ko//g > $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default
+	$(MAKE) install-v3ddriver
+	$(MAKE) install-v3ddriver-header
+	$(TOUCH)
+endif
 
+#
+# hd60
+#
+ifeq ($(BOXTYPE), hd60)
 $(D)/install-extra-libs: $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC) $(ARCHIVE)/$(EXTRA_MALILIB_SRC) $(D)/zlib $(D)/libpng $(D)/freetype $(D)/libcurl $(D)/libxml2 $(D)/libjpeg_turbo2
 	install -d $(TARGET_DIR)/usr/lib
 	unzip -o $(PATCHES)/libgles-mali-utgard-headers.zip -d $(TARGET_DIR)/usr/include
@@ -178,15 +201,10 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC) $(D)/bootstrap $(D)/ker
 	$(TOUCH)
 endif
 
+#
+# vusolo4k
+#
 ifeq ($(BOXTYPE), vusolo4k)
-	$(START_BUILD)
-	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	$(MAKE) platform_util
-	$(MAKE) libgles
-	$(MAKE) vmlinuz_initrd
-	$(TOUCH)
-
 #
 # platform util
 #
@@ -241,6 +259,10 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	install -d $(TARGET_DIR)/boot
 	$(TOUCH)
 endif
+
+#
+# osmio4k | osmio4kplus | osmini4k
+#
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
@@ -306,15 +328,11 @@ $(D)/wlan-qcom-firmware: $(D)/bootstrap $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE)
 	$(REMOVE)/$(WLAN_QCOM_FIRMWARE_DIR)
 	$(TOUCH)
 endif
-ifeq ($(BOXTYPE), bre2ze4k)
-	$(START_BUILD)
-	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	ls $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra | sed s/.ko//g > $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default
-	$(MAKE) install-v3ddriver
-	$(MAKE) install-v3ddriver-header
-	$(TOUCH)
 
+#
+# bre2ze4k
+#
+ifeq ($(BOXTYPE), bre2ze4k)
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
