@@ -5,77 +5,9 @@ KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
 KERNEL_CONFIG          = vuduo_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
-KERNEL_PATCHES_MIPSEL  = $(VUDUO_PATCHES)
 KERNELNAME             = vmlinux
-endif
 
-# gb800se
-ifeq ($(BOXTYPE), gb800se)
-KERNEL_VER             = 3.9.6
-KERNEL_DATE            = 20140904
-KERNEL_SRC             = gigablue-linux-$(KERNEL_VER)-$(KERNEL_DATE).tgz
-KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
-KERNEL_CONFIG          = gb800se_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_PATCHES_MIPSEL  = $(GB800SE_PATCHES)
-KERNELNAME             = vmlinux
-endif
-
-# osnino | osninoplus | osninopro
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
-KERNEL_VER             = 4.8.17
-KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
-KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_PATCHES_MIPSEL  = $(OSNINO_PATCHES)
-KERNELNAME             = vmlinux
-endif
-
-DEPMOD = $(HOST_DIR)/bin/depmod
-
-# kernel patches
-# gb800se
-GB800SE_PATCHES = \
-		mips/gb800se/nor-maps-gb800solo.patch \
-       		mips/gb800se/add-dmx-source-timecode.patch \
-    		mips/gb800se/af9015-output-full-range-SNR.patch \
-    		mips/gb800se/af9033-output-full-range-SNR.patch \
-    		mips/gb800se/as102-adjust-signal-strength-report.patch \
-    		mips/gb800se/as102-scale-MER-to-full-range.patch \
-    		mips/gb800se/cinergy_s2_usb_r2.patch \
-    		mips/gb800se/cxd2820r-output-full-range-SNR.patch \
-    		mips/gb800se/dvb-usb-dib0700-disable-sleep.patch \
-    		mips/gb800se/dvb_usb_disable_rc_polling.patch \
-    		mips/gb800se/it913x-switch-off-PID-filter-by-default.patch \
-    		mips/gb800se/tda18271-advertise-supported-delsys.patch \
-    		mips/gb800se/fix-dvb-siano-sms-order.patch \
-    		mips/gb800se/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
-    		mips/gb800se/nfs-max-rwsize-8k.patch \
-    		mips/gb800se/0001-rt2800usb-add-support-for-rt55xx.patch \
-    		mips/gb800se/linux-sata_bcm.patch \
-    		mips/gb800se/brcmnand.patch \
-    		mips/gb800se/fix_fuse_for_linux_mips_3-9.patch \
-    		mips/gb800se/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		mips/gb800se/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
-    		mips/gb800se/rtl8712-fix-warnings.patch \
-    		mips/gb800se/rtl8187se-fix-warnings.patch \
-    		mips/gb800se/kernel-add-support-for-gcc-5.patch \
-    		mips/gb800se/kernel-add-support-for-gcc6.patch \
-    		mips/gb800se/kernel-add-support-for-gcc7.patch \
-    		mips/gb800se/kernel-add-support-for-gcc8.patch \
-    		mips/gb800se/kernel-add-support-for-gcc9.patch \
-		mips/gb800se/0001-Support-TBS-USB-drivers-3.9.patch \
-    		mips/gb800se/0001-STV-Add-PLS-support.patch \
-    		mips/gb800se/0001-STV-Add-SNR-Signal-report-parameters.patch \
-    		mips/gb800se/0001-stv090x-optimized-TS-sync-control.patch \
-    		mips/gb800se/blindscan2.patch \
-    		mips/gb800se/genksyms_fix_typeof_handling.patch \
-    		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
-    		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
-
-# vuduo
-VUDUO_PATCHES = \
+KERNEL_PATCHES_MIPSEL  = \
 		mips/vuduo/add-dmx-source-timecode.patch \
 		mips/vuduo/af9015-output-full-range-SNR.patch \
 		mips/vuduo/af9033-output-full-range-SNR.patch \
@@ -116,9 +48,67 @@ VUDUO_PATCHES = \
 		mips/vuduo/02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
 		mips/vuduo/CONFIG_DVB_SP2.patch \
 		mips/vuduo/dvbsky-t330.patch
+endif
+
+# gb800se
+ifeq ($(BOXTYPE), gb800se)
+KERNEL_VER             = 3.9.6
+KERNEL_DATE            = 20140904
+KERNEL_SRC             = gigablue-linux-$(KERNEL_VER)-$(KERNEL_DATE).tgz
+KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
+KERNEL_CONFIG          = gb800se_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNELNAME             = vmlinux
+
+KERNEL_PATCHES_MIPSEL  = \
+		mips/gb800se/nor-maps-gb800solo.patch \
+       		mips/gb800se/add-dmx-source-timecode.patch \
+    		mips/gb800se/af9015-output-full-range-SNR.patch \
+    		mips/gb800se/af9033-output-full-range-SNR.patch \
+    		mips/gb800se/as102-adjust-signal-strength-report.patch \
+    		mips/gb800se/as102-scale-MER-to-full-range.patch \
+    		mips/gb800se/cinergy_s2_usb_r2.patch \
+    		mips/gb800se/cxd2820r-output-full-range-SNR.patch \
+    		mips/gb800se/dvb-usb-dib0700-disable-sleep.patch \
+    		mips/gb800se/dvb_usb_disable_rc_polling.patch \
+    		mips/gb800se/it913x-switch-off-PID-filter-by-default.patch \
+    		mips/gb800se/tda18271-advertise-supported-delsys.patch \
+    		mips/gb800se/fix-dvb-siano-sms-order.patch \
+    		mips/gb800se/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
+    		mips/gb800se/nfs-max-rwsize-8k.patch \
+    		mips/gb800se/0001-rt2800usb-add-support-for-rt55xx.patch \
+    		mips/gb800se/linux-sata_bcm.patch \
+    		mips/gb800se/brcmnand.patch \
+    		mips/gb800se/fix_fuse_for_linux_mips_3-9.patch \
+    		mips/gb800se/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		mips/gb800se/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
+    		mips/gb800se/rtl8712-fix-warnings.patch \
+    		mips/gb800se/rtl8187se-fix-warnings.patch \
+    		mips/gb800se/kernel-add-support-for-gcc-5.patch \
+    		mips/gb800se/kernel-add-support-for-gcc6.patch \
+    		mips/gb800se/kernel-add-support-for-gcc7.patch \
+    		mips/gb800se/kernel-add-support-for-gcc8.patch \
+    		mips/gb800se/kernel-add-support-for-gcc9.patch \
+		mips/gb800se/0001-Support-TBS-USB-drivers-3.9.patch \
+    		mips/gb800se/0001-STV-Add-PLS-support.patch \
+    		mips/gb800se/0001-STV-Add-SNR-Signal-report-parameters.patch \
+    		mips/gb800se/0001-stv090x-optimized-TS-sync-control.patch \
+    		mips/gb800se/blindscan2.patch \
+    		mips/gb800se/genksyms_fix_typeof_handling.patch \
+    		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
+    		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
+endif
 
 # osnino | osninoplus | osninopro
-OSNINO_PATCHES = \
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
+KERNEL_VER             = 4.8.17
+KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
+KERNEL_URL             = http://source.mynonpublic.com/edision
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNELNAME             = vmlinux
+
+KERNEL_PATCHES_MIPSEL  = \
 		mips/osnino/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
 		mips/osnino/0001-TBS-fixes-for-4.6-kernel.patch \
 		mips/osnino/0001-STV-Add-PLS-support.patch \
@@ -127,8 +117,13 @@ OSNINO_PATCHES = \
 		mips/osnino/0001-stv090x-optimized-TS-sync-control.patch \
 		mips/osnino/0002-log2-give-up-on-gcc-constant-optimizations.patch \
 		mips/osnino/0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
-		mips/osnino/move-default-dialect-to-SMB3.patch 
+		mips/osnino/move-default-dialect-to-SMB3.patch
+endif
 
+#
+# kernel
+#
+DEPMOD = $(HOST_DIR)/bin/depmod
 KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):

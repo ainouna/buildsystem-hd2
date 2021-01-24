@@ -126,11 +126,10 @@ KERNEL_PATCHES_ARM     = \
 		arm/bre2ze4k/dvbs2x.patch
 endif
 
+#
+# kernel
+#
 DEPMOD = $(HOST_DIR)/bin/depmod
-
-#
-# KERNEL
-#
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
