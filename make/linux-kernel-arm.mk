@@ -153,6 +153,36 @@ KERNEL_PATCHES_ARM = \
 		arm/h7/dvbs2x.patch
 endif
 
+# hd61
+ifeq ($(BOXTYPE), hd61)
+KERNEL_VER             = 4.4.35
+KERNEL_DATE            = 20181228
+KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/gfutures
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_DTB_VER         = hi3798mv200.dtb
+KERNELNAME             = uImage
+
+KERNEL_PATCHES_ARM = \
+		arm/hd61/0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		arm/hd61/0003-dont-mark-register-as-const.patch \
+		arm/hd61/0001-remote.patch \
+		arm/hd61/HauppaugeWinTV-dualHD.patch \
+		arm/hd61/dib7000-linux_4.4.179.patch \
+		arm/hd61/dvb-usb-linux_4.4.179.patch \
+		arm/hd61/wifi-linux_4.4.183.patch \
+		arm/hd61/move-default-dialect-to-SMB3.patch \
+		arm/hd61/0004-linux-fix-buffer-size-warning-error.patch \
+		arm/hd61/modules_mark__inittest__exittest_as__maybe_unused.patch \
+		arm/hd61/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
+		arm/hd61/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
+		arm/hd61/0005-xbox-one-tuner-4.4.patch \
+		arm/hd61/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
+		arm/hd61/0007-dvb-mn88472-staging.patch \
+		arm/hd61/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
+endif
+
 #
 # kernel
 #
@@ -224,6 +254,13 @@ ifeq ($(BOXTYPE), h7)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), hd61)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB_VER) $(KERNELNAME) modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -278,6 +315,14 @@ ifeq ($(BOXTYPE), h7)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
 	cat $(KERNEL_DIR)/arch/arm/boot/zImage $(KERNEL_DIR)/arch/arm/boot/dts/$(KERNEL_DTB_VER) > $(TARGET_DIR)/boot/zImage.dtb
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), hd61)
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/uImage $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)

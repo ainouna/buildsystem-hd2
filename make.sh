@@ -20,7 +20,7 @@ if [ "$1" == -h ] || [ "$1" == --help ]; then
 	echo "Parameter 3: optimization (1-4)"
 	echo "Parameter 4: Media Framework (1-2)"
 	echo "Parameter 5: WLAN Support (1-2)"
-	echo "Parameter 6: Neutrino Interfaces (1-4)"
+	echo "Parameter 6: Neutrino Plugin Interfaces (lua/python) (1-4)"
 	echo "Parameter 7: CI-Cam Interface (1-2)"
 	echo "Parameter 8: Scart Interface (1-2)"
 	echo "Parameter 9: VFD/LCD Interface (1-4)"
@@ -93,6 +93,7 @@ case $1 in
 		echo "  AX Mutant"
 		echo "   50)  Mut@nt HD51"
 		echo "   51)  Mut@nt HD60"
+		echo "   52)  Mut@nt HD61"
 		echo
 		echo "  Edision"
 		echo "   60)  osnino"
@@ -155,6 +156,7 @@ case "$REPLY" in
 	41) BOXARCH="mips";BOXTYPE="vuduo";;
 	50) BOXARCH="arm";BOXTYPE="hd51";;
 	51) BOXARCH="arm";BOXTYPE="hd60";;
+	52) BOXARCH="arm";BOXTYPE="hd61";;
 	60) BOXARCH="mips";BOXTYPE="osnino";;
 	61) BOXARCH="mips";BOXTYPE="osninoplus";;
 	62) BOXARCH="mips";BOXTYPE="osninopro";;

@@ -535,6 +535,15 @@ release-h7:
 	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
+# hd61
+#
+release-hd61:
+	install -m 0755 $(SKEL_ROOT)/release/halt_hd61 $(RELEASE_DIR)/etc/init.d/halt
+	install -m 0755 $(SKEL_ROOT)/bin/showiframe $(RELEASE_DIR)/bin
+	cp -f $(SKEL_ROOT)/release/fstab_hd60 $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+
+#
 # release-common
 #
 # the following target creates the common file base
