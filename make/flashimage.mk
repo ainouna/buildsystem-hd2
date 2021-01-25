@@ -57,6 +57,9 @@ endif
 ifeq ($(BOXTYPE), h7)
 	$(MAKE) flash-image-h7-multi-disk flash-image-h7-multi-rootfs
 endif
+ifeq ($(BOXTYPE), hd61)
+	$(MAKE) flash-image-hd61-multi-disk flash-image-hd61-multi-rootfs
+endif
 	$(TUXBOX_CUSTOMIZE)
 
 online-image: release
@@ -74,6 +77,9 @@ ifeq ($(BOXTYPE), bre2ze4k)
 endif
 ifeq ($(BOXTYPE), h7)
 	$(MAKE) flash-image-h7-online
+endif
+ifeq ($(BOXTYPE), hd61)
+	$(MAKE) flash-image-hd61-online
 endif
 	$(TUXBOX_CUSTOMIZE)
 
@@ -580,6 +586,9 @@ flash-image-$(BOXTYPE)-online:
 	rm -rf $(IMAGE_BUILD_DIR)
 endif
 
+#
+# bre2ze4k | h7
+#
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7))
 # general
 FLASH_IMAGE_NAME = disk
@@ -686,6 +695,7 @@ flash-image-$(BOXTYPE)-multi-disk: $(D)/host_resize2fs
 
 flash-image-$(BOXTYPE)-multi-rootfs:
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
+	mkdir -p $(FLASH_DIR)/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
 	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
@@ -699,6 +709,7 @@ flash-image-$(BOXTYPE)-multi-rootfs:
 flash-image-$(BOXTYPE)-online:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
+	mkdir -p $(FLASH_DIR)/$(BOXTYPE)
 	cp $(RELEASE_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel.bin
 	cd $(RELEASE_DIR); \
 	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=zImage* . > /dev/null 2>&1; \
@@ -710,4 +721,127 @@ flash-image-$(BOXTYPE)-online:
 	rm -rf $(IMAGE_BUILD_DIR)
 endif
 
+#
+# hd61
+#
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd61))
+# general
+FLASH_IMAGE_NAME = disk
+FLASH_BOOT_IMAGE = bootoptions.img
+FLASH_IMAGE_LINK = $(FLASH_IMAGE_NAME).ext4
+
+FLASH_BOOTOPTIONS_PARTITION_SIZE = 32768
+FLASH_IMAGE_ROOTFS_SIZE = 1024M
+
+FLASH_BOOTARGS_DATE = 20200504
+FLASH_BOOTARGS_SRC = hd61-bootargs-$(FLASH_BOOTARGS_DATE).zip
+FLASH_PARTITONS_DATE = 20200319
+FLASH_PARTITONS_SRC = hd61-partitions-$(FLASH_PARTITONS_DATE).zip
+FLASH_RECOVERY_DATE = 20200424
+FLASH_RECOVERY_SRC = hd61-recovery-$(FLASH_RECOVERY_DATE).zip
+
+$(ARCHIVE)/$(FLASH_BOOTARGS_SRC):
+	$(WGET) http://source.mynonpublic.com/gfutures/$(FLASH_BOOTARGS_SRC)
+
+$(ARCHIVE)/$(FLASH_PARTITONS_SRC):
+	$(WGET) http://source.mynonpublic.com/gfutures/$(FLASH_PARTITONS_SRC)
+
+$(ARCHIVE)/$(FLASH_RECOVERY_SRC):
+	$(WGET) http://downloads.mutant-digital.net/hd61/$(FLASH_RECOVERY_SRC)
+
+flash-image-hd61-multi-disk: $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) $(ARCHIVE)/$(FLASH_PARTITONS_SRC) $(ARCHIVE)/$(FLASH_RECOVERY_SRC)
+	rm -rf $(IMAGE_BUILD_DIR) || true
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
+	mkdir -p $(FLASH_DIR)/$(BOXTYPE)
+	unzip -o $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)
+	unzip -o $(ARCHIVE)/$(FLASH_PARTITONS_SRC) -d $(IMAGE_BUILD_DIR)
+	unzip -o $(ARCHIVE)/$(FLASH_RECOVERY_SRC) -d $(IMAGE_BUILD_DIR)
+	install -m 0755 $(IMAGE_BUILD_DIR)/bootargs-8gb.bin $(RELEASE_DIR)/usr/share/bootargs.bin
+	install -m 0755 $(IMAGE_BUILD_DIR)/fastboot.bin $(RELEASE_DIR)/usr/share/fastboot.bin
+	if [ -e $(RELEASE_DIR)/boot/logo.img ]; then \
+		cp -rf $(RELEASE_DIR)/boot/logo.img $(IMAGE_BUILD_DIR)/$(BOXTYPE); \
+	fi
+	echo "$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M')_RECOVERY" > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/recoveryversion
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) bs=1024 count=$(FLASH_BOOTOPTIONS_PARTITION_SIZE)
+	mkfs.msdos -S 512 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE)
+	echo "bootcmd=setenv bootargs \$$(bootargs) \$$(bootargs_common); mmc read 0 0x1000000 0x3BD000 0x8000; bootm 0x1000000; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP
+	echo "bootargs=root=/dev/mmcblk0p23 rootsubdir=linuxrootfs1 rootfstype=ext4 kernel=/dev/mmcblk0p19" >> $(IMAGE_BUILD_DIR)/STARTUP
+	echo "bootcmd=setenv vfd_msg andr;setenv bootargs \$$(bootargs) \$$(bootargs_common); run bootcmd_android; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_ANDROID
+	echo "bootargs=androidboot.selinux=disable androidboot.serialno=0123456789" >> $(IMAGE_BUILD_DIR)/STARTUP_ANDROID
+	echo "bootcmd=setenv vfd_msg andr;setenv bootargs \$$(bootargs) \$$(bootargs_common); run bootcmd_android; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_ANDROID_DISABLE_LINUXSE
+	echo "bootargs=androidboot.selinux=disable androidboot.serialno=0123456789" >> $(IMAGE_BUILD_DIR)/STARTUP_ANDROID_DISABLE_LINUXSE
+	echo "bootcmd=setenv bootargs \$$(bootargs) \$$(bootargs_common); mmc read 0 0x1000000 0x3BD000 0x8000; bootm 0x1000000; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_LINUX_1
+	echo "bootargs=root=/dev/mmcblk0p23 rootsubdir=linuxrootfs1 rootfstype=ext4 kernel=/dev/mmcblk0p19" >> $(IMAGE_BUILD_DIR)/STARTUP_LINUX_1
+	echo "bootcmd=setenv bootargs \$$(bootargs) \$$(bootargs_common); mmc read 0 0x1000000 0x3C5000 0x8000; bootm 0x1000000; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_LINUX_2
+	echo "bootargs=root=/dev/mmcblk0p23 rootsubdir=linuxrootfs2 rootfstype=ext4 kernel=/dev/mmcblk0p20" >> $(IMAGE_BUILD_DIR)/STARTUP_LINUX_2
+	echo "bootcmd=setenv bootargs \$$(bootargs) \$$(bootargs_common); mmc read 0 0x1000000 0x3CD000 0x8000; bootm 0x1000000; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_LINUX_3
+	echo "bootargs=root=/dev/mmcblk0p23 rootsubdir=linuxrootfs3 rootfstype=ext4 kernel=/dev/mmcblk0p21" >> $(IMAGE_BUILD_DIR)/STARTUP_LINUX_3
+	echo "bootcmd=setenv bootargs \$$(bootargs) \$$(bootargs_common); mmc read 0 0x1000000 0x3D5000 0x8000; bootm 0x1000000; run bootcmd_fallback" > $(IMAGE_BUILD_DIR)/STARTUP_LINUX_4
+	echo "bootargs=root=/dev/mmcblk0p23 rootsubdir=linuxrootfs4 rootfstype=ext4 kernel=/dev/mmcblk0p22" >> $(IMAGE_BUILD_DIR)/STARTUP_LINUX_4
+	echo "bootcmd=setenv bootargs \$$(bootargs_common); mmc read 0 0x1000000 0x1000 0x9000; bootm 0x1000000" > $(IMAGE_BUILD_DIR)/STARTUP_RECOVERY
+	echo "bootcmd=setenv bootargs \$$(bootargs_common); mmc read 0 0x1000000 0x1000 0x9000; bootm 0x1000000" > $(IMAGE_BUILD_DIR)/STARTUP_ONCE
+	echo "imageurl https://raw.githubusercontent.com/oe-alliance/bootmenu/master/$(BOXTYPE)/images" > $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "# " >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "iface eth0" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "dhcp yes" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "# " >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "# for static config leave out 'dhcp yes' and add the following settings:" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "# " >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "#ip 192.168.178.10" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "#netmask 255.255.255.0" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "#gateway 192.168.178.1" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	echo "#dns 192.168.178.1" >> $(IMAGE_BUILD_DIR)/bootmenu.conf
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_ANDROID ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_ANDROID_DISABLE_LINUXSE ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_LINUX_1 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_LINUX_2 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_LINUX_3 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_LINUX_4 ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/STARTUP_RECOVERY ::
+	mcopy -i $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(FLASH_BOOT_IMAGE) -v $(IMAGE_BUILD_DIR)/bootmenu.conf ::
+	mv $(IMAGE_BUILD_DIR)/bootargs-8gb.bin $(IMAGE_BUILD_DIR)/bootargs.bin
+	mv $(IMAGE_BUILD_DIR)/$(BOXTYPE)/bootargs-8gb.bin $(IMAGE_BUILD_DIR)/$(BOXTYPE)/bootargs.bin
+	echo boot-recovery > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/misc-boot.img
+	cp $(RELEASE_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage
+	rm -rf $(IMAGE_BUILD_DIR)/STARTUP*
+	rm -rf $(IMAGE_BUILD_DIR)/*.txt
+	rm -rf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/*.txt
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_LINK)
+	echo "To access the recovery image press immediately by power-up the frontpanel button or hold down a remote button key untill the display says boot" > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/recovery.txt
+	cd $(IMAGE_BUILD_DIR) && \
+	zip -r $(FLASH_DIR)/$(BOXTYPE)/$(BOXTYPE)_multiroot_usb_$(shell date '+%d.%m.%Y-%H.%M')_recovery_emmc.zip *
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
+
+flash-image-hd61-multi-rootfs:
+	rm -rf $(IMAGE_BUILD_DIR) || true
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
+	mkdir -p $(FLASH_DIR)/$(BOXTYPE)
+	cp $(RELEASE_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage
+	cd $(RELEASE_DIR); \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=uImage* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar
+	echo "$(BOXTYPE)_multiroot_usb_$(shell date '+%d.%m.%Y-%H.%M')" > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	echo "$(BOXTYPE)_multiroot_usb_$(shell date '+%d.%m.%Y-%H.%M')_emmc.zip" > $(IMAGE_BUILD_DIR)/unforce_$(BOXTYPE).txt; \
+	echo "Rename the unforce_$(BOXTYPE).txt to force_$(BOXTYPE).txt and move it to the root of your usb-stick" > $(IMAGE_BUILD_DIR)/force_$(BOXTYPE)_READ.ME; \
+	echo "When you enter the recovery menu then it will force to install the image $$(cat $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion).zip in the image-slot1" >> $(IMAGE_BUILD_DIR)/force_$(BOXTYPE)_READ.ME; \
+	cd $(IMAGE_BUILD_DIR) && \
+	zip -r $(FLASH_DIR)/$(BOXTYPE)/$(BOXTYPE)_multiroot_usb_$(shell date '+%d.%m.%Y-%H.%M')_mmc.zip unforce_$(BOXTYPE).txt force_$(BOXTYPE)_READ.ME $(BOXTYPE)/rootfs.tar.bz2 $(BOXTYPE)/uImage $(BOXTYPE)/imageversion
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
+
+flash-image-hd61-online:
+	rm -rf $(IMAGE_BUILD_DIR) || true
+	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
+	cp $(RELEASE_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage
+	cd $(RELEASE_DIR); \
+	tar -cvf $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar --exclude=uImage* . > /dev/null 2>&1; \
+	bzip2 $(IMAGE_BUILD_DIR)/$(BOXTYPE)/rootfs.tar
+	echo $(BOXTYPE)_online_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(BOXTYPE)/imageversion
+	cd $(IMAGE_BUILD_DIR)/$(BOXTYPE) && \
+	tar -cvzf $(FLASH_DIR)/$(BOXTYPE)/$(BOXTYPE)_multiroot_online_$(shell date '+%d.%m.%Y-%H.%M').tgz rootfs.tar.bz2 uImage imageversion
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
+endif
 

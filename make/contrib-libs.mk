@@ -2552,3 +2552,125 @@ $(D)/glib_networking: $(D)/bootstrap $(D)/gnutls $(D)/libglib2 $(ARCHIVE)/$(GLIB
 		$(MAKE) install prefix=$(TARGET_DIR) giomoduledir=$(TARGET_DIR)/usr/lib/gio/modules itlocaledir=$(TARGET_DIR)/.remove
 	$(REMOVE)/glib-networking-$(GLIB_NETWORKING_VER)
 	$(TOUCH)
+
+#
+# Pixman: Pixel Manipulation library
+#
+PIXMAN_VER = 0.34.0
+PIXMAN_SOURCE = pixman-$(PIXMAN_VER).tar.gz
+PIXMAN_PATCH  = pixman-$(PIXMAN_VER)-0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch
+PIXMAN_PATCH += pixman-$(PIXMAN_VER)-asm_include.patch
+PIXMAN_PATCH += pixman-$(PIXMAN_VER)-0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+
+$(ARCHIVE)/$(PIXMAN_SOURCE):
+	$(WGET) https://www.cairographics.org/releases/$(PIXMAN_SOURCE)
+
+$(D)/pixman: $(ARCHIVE)/$(PIXMAN_SOURCE) $(D)/bootstrap $(D)/zlib $(D)/libpng
+	$(START_BUILD)
+	$(REMOVE)/pixman-$(PIXMAN_VER)
+	$(UNTAR)/$(PIXMAN_SOURCE)
+	$(CHDIR)/pixman-$(PIXMAN_VER); \
+		$(call apply_patches, $(PIXMAN_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--disable-gtk \
+			--disable-arm-simd \
+			--disable-loongson-mmi \
+			--disable-docs \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REWRITE_LIBTOOL)/libpixman-1.la
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/pixman-1.pc
+	$(REMOVE)/pixman-$(PIXMAN_VER)
+	$(TOUCH)
+
+#
+# The Cairo library GObject wrapper library
+#
+CAIRO_VER = 1.16.0
+CAIRO_SOURCE = cairo-$(CAIRO_VER).tar.xz
+CAIRO_PATCH  = cairo-$(CAIRO_VER)-get_bitmap_surface.diff
+
+CAIRO_OPTS ?= \
+		--disable-egl \
+		--disable-glesv2
+
+$(ARCHIVE)/$(CAIRO_SOURCE):
+	$(WGET) https://www.cairographics.org/releases/$(CAIRO_SOURCE)
+
+$(D)/cairo: $(ARCHIVE)/$(CAIRO_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/libpng $(D)/pixman $(D)/zlib
+	$(START_BUILD)
+	$(REMOVE)/cairo-$(CAIRO_VER)
+	$(UNTAR)/$(CAIRO_SOURCE)
+	$(CHDIR)/cairo-$(CAIRO_VER); \
+		$(call apply_patches, $(CAIRO_PATCH)); \
+		$(BUILDENV) \
+		ax_cv_c_float_words_bigendian="no" \
+		./configure $(SILENT_OPT) $(CONFIGURE_OPTS) \
+			--prefix=/usr \
+			--with-x=no \
+			--disable-xlib \
+			--disable-xcb \
+			$(CAIRO_OPTS) \
+			--disable-gl \
+			--enable-tee \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	rm -rf $(TARGET_DIR)/usr/bin/cairo-sphinx
+	rm -rf $(TARGET_LIB_DIR)/cairo/cairo-fdr*
+	rm -rf $(TARGET_LIB_DIR)/cairo/cairo-sphinx*
+	rm -rf $(TARGET_LIB_DIR)/cairo/.debug/cairo-fdr*
+	rm -rf $(TARGET_LIB_DIR)/cairo/.debug/cairo-sphinx*
+	$(REWRITE_LIBTOOL)/libcairo.la
+	$(REWRITE_LIBTOOL)/libcairo-script-interpreter.la
+	$(REWRITE_LIBTOOL)/libcairo-gobject.la
+	$(REWRITE_LIBTOOL)/cairo/libcairo-trace.la
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-ft.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-gobject.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-pdf.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-png.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-ps.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-script.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-svg.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-tee.pc
+	$(REMOVE)/cairo-$(CAIRO_VER)
+	$(TOUCH)
+
+#
+# HarfBuzz is an OpenType text shaping engine
+#
+HARFBUZZ_VER = 1.8.8
+HARFBUZZ_SOURCE = harfbuzz-$(HARFBUZZ_VER).tar.bz2
+HARFBUZZ_PATCH  = harfbuzz-$(HARFBUZZ_VER)-disable-docs.patch
+
+$(ARCHIVE)/$(HARFBUZZ_SOURCE):
+	$(WGET) https://www.freedesktop.org/software/harfbuzz/release/$(HARFBUZZ_SOURCE)
+
+$(D)/harfbuzz: $(ARCHIVE)/$(HARFBUZZ_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/cairo $(D)/freetype
+	$(START_BUILD)
+	$(REMOVE)/harfbuzz-$(HARFBUZZ_VER)
+	$(UNTAR)/$(HARFBUZZ_SOURCE)
+	$(CHDIR)/harfbuzz-$(HARFBUZZ_VER); \
+		$(call apply_patches, $(HARFBUZZ_PATCH)); \
+		autoreconf -fi $(SILENT_OPT); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--with-cairo \
+			--with-freetype \
+			--without-fontconfig \
+			--with-glib \
+			--without-graphite2 \
+			--without-icu \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REWRITE_LIBTOOL)/libharfbuzz.la
+	$(REWRITE_LIBTOOL)/libharfbuzz-subset.la
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/harfbuzz.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/harfbuzz-subset.pc
+	$(REMOVE)/harfbuzz-$(HARFBUZZ_VER)
+	$(TOUCH)
+
