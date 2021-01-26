@@ -120,6 +120,60 @@ KERNEL_PATCHES_MIPSEL  = \
 		mips/osnino/move-default-dialect-to-SMB3.patch
 endif
 
+# vuduo2
+ifeq ($(BOXTYPE), vuduo2)
+KERNEL_VER             = 3.13.5
+KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = vmlinux
+
+KERNEL_PATCHES_MIPSEL = \
+		mips/vuduo2/kernel-add-support-for-gcc5.patch \
+		mips/vuduo2/kernel-add-support-for-gcc6.patch \
+		mips/vuduo2/kernel-add-support-for-gcc7.patch \
+		mips/vuduo2/kernel-add-support-for-gcc8.patch \
+		mips/vuduo2/kernel-add-support-for-gcc9.patch \
+		mips/vuduo2/kernel-add-support-for-gcc10.patch \
+		mips/vuduo2/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		mips/vuduo2/add-dmx-source-timecode.patch \
+		mips/vuduo2/af9015-output-full-range-SNR.patch \
+		mips/vuduo2/af9033-output-full-range-SNR.patch \
+		mips/vuduo2/as102-adjust-signal-strength-report.patch \
+		mips/vuduo2/as102-scale-MER-to-full-range.patch \
+		mips/vuduo2/cxd2820r-output-full-range-SNR.patch \
+		mips/vuduo2/dvb-usb-dib0700-disable-sleep.patch \
+		mips/vuduo2/dvb_usb_disable_rc_polling.patch \
+		mips/vuduo2/it913x-switch-off-PID-filter-by-default.patch \
+		mips/vuduo2/tda18271-advertise-supported-delsys.patch \
+		mips/vuduo2/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
+		mips/vuduo2/linux-tcp_output.patch \
+		mips/vuduo2/linux-3.13-gcc-4.9.3-build-error-fixed.patch \
+		mips/vuduo2/rtl8712-fix-warnings.patch \
+		mips/vuduo2/0001-Support-TBS-USB-drivers-3.13.patch \
+		mips/vuduo2/0001-STV-Add-PLS-support.patch \
+		mips/vuduo2/0001-STV-Add-SNR-Signal-report-parameters.patch \
+		mips/vuduo2/0001-stv090x-optimized-TS-sync-control.patch \
+		mips/vuduo2/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
+		mips/vuduo2/0003-log2-give-up-on-gcc-constant-optimizations.patch \
+		mips/vuduo2/blindscan2.patch \
+		mips/vuduo2/linux_dvb_adapter.patch \
+		mips/vuduo2/genksyms_fix_typeof_handling.patch \
+		mips/vuduo2/test.patch \
+		mips/vuduo2/0001-tuners-tda18273-silicon-tuner-driver.patch \
+		mips/vuduo2/T220-kern-13.patch \
+		mips/vuduo2/01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		mips/vuduo2/02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		mips/vuduo2/CONFIG_DVB_SP2.patch \
+		mips/vuduo2/dvbsky.patch \
+		mips/vuduo2/fix_hfsplus.patch \
+		mips/vuduo2/mac80211_hwsim-fix-compiler-warning-on-MIPS.patch \
+		mips/vuduo2/prism2fw.patch \
+		mips/vuduo2/mm-Move-__vma_address-to-internal.h-to-be-inlined-in-huge_memory.c.patch \
+		mips/vuduo2/compile-with-gcc9.patch
+endif
+
 #
 # kernel
 #
@@ -139,6 +193,9 @@ ifeq ($(BOXTYPE), gb800se)
 	$(UNTARGZ)/$(KERNEL_SRC)
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
+	$(UNTAR)/$(KERNEL_SRC)
+endif
+ifeq ($(BOXTYPE), vuduo2)
 	$(UNTAR)/$(KERNEL_SRC)
 endif
 	set -e; cd $(KERNEL_DIR); \
