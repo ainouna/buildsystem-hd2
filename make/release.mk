@@ -550,9 +550,19 @@ release-vuduo2:
 	install -m 0755 $(SKEL_ROOT)/release/halt_vuduo2 $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/release/fstab_vuduo2 $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/kernel_cfe_auto.bin $(RELEASE_DIR)/boot/
-#	cp $(TARGET_DIR)/boot/initrd_cfe_auto.bin $(RELEASE_DIR)/boot/
 	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(RELEASE_DIR)/boot/
+
+#
+# vuduo4k
+#
+release-vuduo4k:
+	install -m 0755 $(SKEL_ROOT)/release/halt_vuduo4k $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/bp3flash.sh $(RELEASE_DIR)/usr/bin
+	cp -f $(SKEL_ROOT)/release/nvram $(RELEASE_DIR)/usr/bin
+	cp -f $(SKEL_ROOT)/release/fstab_vuduo4k $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
+	cp $(TARGET_DIR)/boot/$(KERNEL_INITRD) $(RELEASE_DIR)/boot/
 
 #
 # release-common

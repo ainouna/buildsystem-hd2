@@ -40,6 +40,9 @@ endif
 ifeq ($(BOXTYPE), hd61)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-$(KERNEL_DATE)-arm
 endif
+ifeq ($(BOXTYPE), vuduo4k)
+CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
+endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)

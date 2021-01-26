@@ -183,6 +183,57 @@ KERNEL_PATCHES_ARM = \
 		arm/hd61/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
 endif
 
+ifeq ($(BOXTYPE), vuduo4k)
+KERNEL_VER             = 4.1.45-1.17
+KERNEL_SRC_VER         = 4.1-1.17
+KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = zImage
+
+#KERNEL_INITRD          = vmlinuz-initrd-7278b1
+
+KERNEL_PATCHES_ARM = \
+		arm/vuduo4k/4_1_linux_dvb_adapter.patch \
+		arm/vuduo4k/4_1_linux_dvb-core.patch \
+		arm/vuduo4k/4_1_linux_4_1_45_dvbs2x.patch \
+		arm/vuduo4k/4_1_dmx_source_dvr.patch \
+		arm/vuduo4k/4_1_bcmsysport_4_1_45.patch \
+		arm/vuduo4k/4_1_linux_usb_hub.patch \
+		arm/vuduo4k/4_1_0001-regmap-add-regmap_write_bits.patch \
+		arm/vuduo4k/4_1_0002-af9035-fix-device-order-in-ID-list.patch \
+		arm/vuduo4k/4_1_0003-Add-support-for-dvb-usb-stick-Hauppauge-WinTV-soloHD.patch \
+		arm/vuduo4k/4_1_0004-af9035-add-USB-ID-07ca-0337-AVerMedia-HD-Volar-A867.patch \
+		arm/vuduo4k/4_1_0005-Add-support-for-EVOLVEO-XtraTV-stick.patch \
+		arm/vuduo4k/4_1_0006-dib8000-Add-support-for-Mygica-Geniatech-S2870.patch \
+		arm/vuduo4k/4_1_0007-dib0700-add-USB-ID-for-another-STK8096-PVR-ref-desig.patch \
+		arm/vuduo4k/4_1_0008-add-Hama-Hybrid-DVB-T-Stick-support.patch \
+		arm/vuduo4k/4_1_0009-Add-Terratec-H7-Revision-4-to-DVBSky-driver.patch \
+		arm/vuduo4k/4_1_0010-media-Added-support-for-the-TerraTec-T1-DVB-T-USB-tu.patch \
+		arm/vuduo4k/4_1_0011-media-tda18250-support-for-new-silicon-tuner.patch \
+		arm/vuduo4k/4_1_0012-media-dib0700-add-support-for-Xbox-One-Digital-TV-Tu.patch \
+		arm/vuduo4k/4_1_0013-mn88472-Fix-possible-leak-in-mn88472_init.patch \
+		arm/vuduo4k/4_1_0014-staging-media-Remove-unneeded-parentheses.patch \
+		arm/vuduo4k/4_1_0015-staging-media-mn88472-simplify-NULL-tests.patch \
+		arm/vuduo4k/4_1_0016-mn88472-fix-typo.patch \
+		arm/vuduo4k/4_1_0017-mn88472-finalize-driver.patch \
+		arm/vuduo4k/4_1_0001-dvb-usb-fix-a867.patch \
+		arm/vuduo4k/4_1_kernel-add-support-for-gcc6.patch \
+		arm/vuduo4k/4_1_kernel-add-support-for-gcc7.patch \
+		arm/vuduo4k/4_1_kernel-add-support-for-gcc8.patch \
+		arm/vuduo4k/4_1_kernel-add-support-for-gcc9.patch \
+		arm/vuduo4k/4_1_kernel-add-support-for-gcc10.patch \
+		arm/vuduo4k/4_1_0001-Support-TBS-USB-drivers-for-4.1-kernel.patch \
+		arm/vuduo4k/4_1_0001-TBS-fixes-for-4.1-kernel.patch \
+		arm/vuduo4k/4_1_0001-STV-Add-PLS-support.patch \
+		arm/vuduo4k/4_1_0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/vuduo4k/4_1_blindscan2.patch \
+		arm/vuduo4k/4_1_0001-stv090x-optimized-TS-sync-control.patch \
+		arm/vuduo4k/4_1_0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		arm/vuduo4k/4_1_0003-uaccess-dont-mark-register-as-const.patch
+endif
+
 #
 # kernel
 #
@@ -261,6 +312,13 @@ ifeq ($(BOXTYPE), hd61)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), vuduo4k)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -323,6 +381,15 @@ ifeq ($(BOXTYPE), hd61)
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/arm/boot/uImage $(TARGET_DIR)/boot/
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuduo4k)
+	install -m 644 $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/vmlinux
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
