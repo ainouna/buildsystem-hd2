@@ -10,15 +10,15 @@ export LD_LIBRARY_PATH
 
 BASE_DIR             := $(shell pwd)
 
+-include $(BASE_DIR)/$(BOXTYPE).config
+
 ARCHIVE               = $(HOME)/Archive
-BUILD_TMP             = $(BASE_DIR)/build_tmp
-SOURCE_DIR            = $(BASE_DIR)/build_source
+BUILD_TMP             = $(BASE_DIR)/tufsbox/$(BOXTYPE)/build_tmp
+SOURCE_DIR            = $(BASE_DIR)/tufsbox/$(BOXTYPE)/build_source
 APPS_DIR              = $(BASE_DIR)/apps
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
 HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
-
--include $(BASE_DIR)/config
 
 # for local extensions
 -include $(BASE_DIR)/config.local
@@ -37,7 +37,7 @@ GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= mohousch
 GIT_NAME_HOSTAPPS    ?= mohousch
 
-TUFSBOX_DIR           = $(BASE_DIR)/tufsbox
+TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
@@ -48,7 +48,7 @@ CUSTOM_DIR            = $(BASE_DIR)/custom
 PATCHES               = $(BASE_DIR)/Patches
 SCRIPTS_DIR           = $(BASE_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
-D                     = $(BASE_DIR)/.deps
+D                     = $(BASE_DIR)/tufsbox/$(BOXTYPE)/.deps
 # backwards compatibility
 DEPDIR                = $(D)
 
@@ -280,8 +280,6 @@ MAKE_OPTS := \
 #
 # wlan driver
 #
-#BUILD_CONFIG       = sh4#build-neutrino
-
 ifeq ($(WLAN), wlandriver)
 WLANDRIVER         = WLANDRIVER=wlandriver
 endif

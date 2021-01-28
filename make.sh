@@ -174,8 +174,8 @@ case "$REPLY" in
 	90) BOXARCH="arm";BOXTYPE="h7";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
-echo "BOXARCH=$BOXARCH" > config
-echo "BOXTYPE=$BOXTYPE" >> config
+echo "BOXARCH=$BOXARCH" > $BOXTYPE.config
+echo "BOXTYPE=$BOXTYPE" >> $BOXTYPE.config
 
 if [ $BOXARCH == "sh4" ]; then
 #
@@ -214,7 +214,7 @@ case "$REPLY" in
 	2)  KERNEL_STM="p0217";;
 	*)  KERNEL_STM="p0217";;
 esac
-echo "KERNEL_STM=$KERNEL_STM" >> config
+echo "KERNEL_STM=$KERNEL_STM" >> $BOXTYPE.config
 
 fi
 
@@ -238,7 +238,7 @@ case "$REPLY" in
 	4)  OPTIMIZATIONS="debug";;
 	*)  OPTIMIZATIONS="size";;
 esac
-echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> config
+echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> $BOXTYPE.config
 
 #
 # WLAN Support
@@ -256,7 +256,7 @@ case "$REPLY" in
 	2) WLAN="wlandriver";;
 	*) WLAN=" ";;
 esac
-echo "WLAN=$WLAN" >> config
+echo "WLAN=$WLAN" >> $BOXTYPE.config
 
 #
 # Media Framework
@@ -274,7 +274,7 @@ case "$REPLY" in
 	2) MEDIAFW="gstreamer";;
 	*) MEDIAFW="gstreamer";;
 esac
-echo "MEDIAFW=$MEDIAFW" >> config
+echo "MEDIAFW=$MEDIAFW" >> $BOXTYPE.config
 
 #
 # Plugins Interface (lua/python)
@@ -296,7 +296,7 @@ case "$REPLY" in
 	4) INTERFACE=" ";;
 	*) INTERFACE="lua";;
 esac
-echo "INTERFACE=$INTERFACE" >> config
+echo "INTERFACE=$INTERFACE" >> $BOXTYPE.config
 
 #
 # CI-Cam Interface
@@ -314,7 +314,7 @@ case "$REPLY" in
 	2) CICAM=" ";;
 	*) CICAM="ci-cam";;
 esac
-echo "CICAM=$CICAM" >> config
+echo "CICAM=$CICAM" >> $BOXTYPE.config
 
 #
 # Scart Interface
@@ -332,7 +332,7 @@ case "$REPLY" in
 	2) SCART=" ";;
 	*) SCART="scart";;
 esac
-echo "SCART=$SCART" >> config
+echo "SCART=$SCART" >> $BOXTYPE.config
 
 #
 # VFD/LCD Interface
@@ -354,7 +354,7 @@ case "$REPLY" in
 	4) LCD=" ";;
 	*) LCD="4-digits";;
 esac
-echo "LCD=$LCD" >> config
+echo "LCD=$LCD" >> $BOXTYPE.config
 
 #
 # Function Keys
@@ -372,7 +372,7 @@ case "$REPLY" in
 	2) FKEYS=" ";;
 	*) FKEYS=" ";;
 esac
-echo "FKEYS=$FKEYS" >> config
+echo "FKEYS=$FKEYS" >> $BOXTYPE.config
 
 #
 # testing
@@ -390,13 +390,13 @@ echo "FKEYS=$FKEYS" >> config
 #	2) TESTING=" ";;
 #	*) TESTING=" ";;
 #esac
-#echo "TESTING=$TESTING" >> config
+#echo "TESTING=$TESTING" >> $BOXTYPE.config
 
 #
 #
 #
 echo " "
-make printenv
+BOXTYPE=$BOXTYPE make printenv
 
 #
 #

@@ -6,7 +6,7 @@ clean:
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) driver-clean
 	@-$(MAKE) tools-clean
-	@-rm -rf $(BASE_DIR)/tufsbox/release
+	@-rm -rf $(RELEASE_DIR)
 	@-rm -rf $(D)/*.do_*
 	@-rm -rf $(D)/*.config.status
 	@-rm -rf $(D)/*.build
@@ -54,7 +54,7 @@ clean:
 	@-rm -rf $(D)/zlib
 	@-rm -rf $(D)/ca-bundle
 	@-rm -rf $(D)/driver-symlink
-	@-rm -rf $(BASE_DIR)/tufsbox/cdkroot
+	@-rm -rf $(TARGET_DIR)
 	@-rm -rf $(D)/directories
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
@@ -63,10 +63,10 @@ distclean: depsclean
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) driver-clean
 	@-$(MAKE) tools-distclean
-	@-rm -rf $(BASE_DIR)/tufsbox
+	@-rm -rf $(TUFSBOX_DIR)
 	@-rm -rf $(BUILD_TMP)
 	@-rm -rf $(SOURCE_DIR)
-	@-rm -rf $(BASE_DIR)/cross
+	@-rm -rf $(CROSS_DIR)
 	@-rm -rf $(D)
 	@test -d $(D) || mkdir $(D)
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"

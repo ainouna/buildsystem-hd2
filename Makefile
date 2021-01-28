@@ -16,7 +16,6 @@ include make/buildenv.mk
 PARALLEL_JOBS := $(shell echo $$((1 + `getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1`)))
 override MAKE = make $(if $(findstring j,$(filter-out --%,$(MAKEFLAGS))),,-j$(PARALLEL_JOBS))
 
-
 ############################################################################
 #  A print out of environment variables
 #
@@ -70,7 +69,7 @@ ifeq ($(MAINTAINER),)
 	@echo "##########################################################################"
 	@echo
 endif
-	@if ! test -e $(BASE_DIR)/config; then \
+	@if ! test -e $(BASE_DIR)/$(BOXTYPE).config; then \
 		echo;echo "If you want to create or modify the configuration, run './make.sh'"; \
 		echo; fi
 
