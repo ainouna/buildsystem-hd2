@@ -23,8 +23,10 @@ $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
 crosstool:
-	make crosstool-ng
-	make crosstool-backup
+	make MAKEFLAGS=--no-print-directory crosstool-ng
+	if [ ! -e $(CROSSTOOL_NG_BACKUP) ]; then \
+		make crosstool-backup; \
+	fi;
 
 crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
 	make $(BUILD_TMP)
@@ -49,12 +51,13 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 		test -f ./configure || ./bootstrap && \
 		./configure --enable-local; \
 		MAKELEVEL=0 make; \
+		chmod 0755 ct-ng; \
 		./ct-ng oldconfig; \
 		./ct-ng build
 	chmod -R +w $(CROSS_DIR)
 	test -e $(CROSS_DIR)/$(TARGET)/lib || ln -sf sys-root/lib $(CROSS_DIR)/$(TARGET)/
 	rm -f $(CROSS_DIR)/$(TARGET)/sys-root/lib/libstdc++.so.6.0.*-gdb.py
-	$(REMOVE)/crosstool-ng
+	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
 endif
 
 

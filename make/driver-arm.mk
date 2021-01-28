@@ -1,7 +1,6 @@
 #
-# driver
-#
 # hd51
+#
 ifeq ($(BOXTYPE), hd51)
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20180424
@@ -11,7 +10,9 @@ $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
 endif
 
+#
 # hd60
+#
 ifeq ($(BOXTYPE), hd60)
 DRIVER_VER = 4.4.35
 DRIVER_DATE = 20200731
@@ -40,7 +41,9 @@ $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC):
 	$(WGET) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(EXTRA_MALI_MODULE_SRC);name=driver
 endif
 
+#
 # vusolo4k
+#
 ifeq ($(BOXTYPE), vusolo4k)
 DRIVER_VER = 3.14.28
 DRIVER_DATE = 20180702
@@ -51,7 +54,9 @@ $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
 endif
 
+#
 # osmio4k | osmio4kplus | osmini4k
+#
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
 DRIVER_VER = 5.9.0
 DRIVER_DATE = 20201013
@@ -69,7 +74,9 @@ $(ARCHIVE)/$(LIBGLES_SRC):
 	$(WGET) http://source.mynonpublic.com/edision/$(LIBGLES_SRC)
 endif
 
+#
 # bre3ze4k
+#
 ifeq ($(BOXTYPE), bre2ze4k)
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20191120
@@ -90,7 +97,9 @@ $(ARCHIVE)/$(LIBGLES_HEADERS):
 	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
 endif
 
+#
 # h7
+#
 ifeq ($(BOXTYPE), h7)
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20191123
@@ -111,7 +120,9 @@ $(ARCHIVE)/$(LIBGLES_HEADERS):
 	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
 endif
 
+#
 # hd61
+#
 ifeq ($(BOXTYPE), hd61)
 DRIVER_DATE = 20200731
 DRIVER_VER = 4.4.35
@@ -151,6 +162,19 @@ DRIVER_DATE = 20191218
 #DRIVER_DATE = 20190212
 DRIVER_REV = r0
 DRIVER_SRC = vuplus-dvb-proxy-vuduo4k-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
+
+$(ARCHIVE)/$(DRIVER_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+endif
+
+#
+# vuultimo4k
+#
+ifeq ($(BOXTYPE), vuultimo4k)
+DRIVER_VER = 3.14.28
+DRIVER_DATE = 20190424
+DRIVER_REV = r0
+DRIVER_SRC = vuplus-dvb-proxy-vuultimo4k-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
@@ -247,6 +271,15 @@ ifeq ($(BOXTYPE), hd61)
 	$(TOUCH)
 endif
 ifeq ($(BOXTYPE), vuduo4k)
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(MAKE) platform_util
+	$(MAKE) libgles
+	$(MAKE) vmlinuz_initrd
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuultimo4k)
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
@@ -620,6 +653,63 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	$(TOUCH)
 endif
 
+#
+# vuultimo
+#
+ifeq ($(BOXTYPE), vuultimo4k)
+#
+# platform util
+#
+UTIL_VER = 17.1
+UTIL_DATE = $(DRIVER_DATE)
+UTIL_REV = r0
+UTIL_SRC = platform-util-vuultimo4k-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
 
+$(ARCHIVE)/$(UTIL_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
+
+$(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(UTIL_SRC)
+	install -m 0755 $(BUILD_TMP)/platform-util-vuultimo4k/* $(TARGET_DIR)/usr/bin
+	$(REMOVE)/platform-util-vuultimo4k
+	$(TOUCH)
+
+#
+# libgles
+#
+GLES_VER = 17.1
+GLES_DATE = $(DRIVER_DATE)
+GLES_REV = r0
+GLES_SRC = libgles-vuultimo4k-$(GLES_VER)-$(GLES_DATE).$(GLES_REV).tar.gz
+
+$(ARCHIVE)/$(GLES_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(GLES_SRC)
+
+$(D)/libgles: $(D)/bootstrap $(ARCHIVE)/$(GLES_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(GLES_SRC)
+	install -m 0755 $(BUILD_TMP)/libgles-vuultimo4k/lib/* $(TARGET_LIB_DIR)
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so
+	cp -a $(BUILD_TMP)/libgles-vuultimo4k/include/* $(TARGET_INCLUDE_DIR)
+	$(REMOVE)/libgles-vuultimo4k
+	$(TOUCH)
+
+#
+# vmlinuz initrd
+#
+INITRD_DATE = 20170209
+INITRD_SRC = vmlinuz-initrd_vuultimo4k_$(INITRD_DATE).tar.gz
+
+$(ARCHIVE)/$(INITRD_SRC):
+	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
+
+$(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
+	$(START_BUILD)
+	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
+	install -d $(TARGET_DIR)/boot
+	$(TOUCH)
+endif
 
 

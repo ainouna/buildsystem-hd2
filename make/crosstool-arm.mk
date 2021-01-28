@@ -43,6 +43,9 @@ endif
 ifeq ($(BOXTYPE), vuduo4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
+ifeq ($(BOXTYPE), vuultimo4k)
+CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
+endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
@@ -50,8 +53,10 @@ $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
 crosstool:
-	make crosstool-ng
-	make crosstool-backup
+	make MAKEFLAGS=--no-print-directory crosstool-ng
+	if [ ! -e $(CROSSTOOL_NG_BACKUP) ]; then \
+		make crosstool-backup; \
+	fi;
 
 crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
 	make $(BUILD_TMP)
