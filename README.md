@@ -10,7 +10,7 @@ sudo ./prepare-for-bs.sh
 
 ./make.sh
 
-make flashimage
+BOXTYPE=hd51 make flashimage
 
 **for more details**
 
