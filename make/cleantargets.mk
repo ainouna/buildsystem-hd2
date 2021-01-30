@@ -67,8 +67,6 @@ distclean: depsclean
 	@-rm -rf $(BUILD_TMP)
 	@-rm -rf $(SOURCE_DIR)
 	@-rm -rf $(CROSS_DIR)
-	@-rm -rf $(D)
-	@test -d $(D) || mkdir $(D)
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 %-clean:
