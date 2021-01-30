@@ -4,9 +4,9 @@
 tools-clean:
 	rm -f $(D)/tools-*
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) clean
-	-$(MAKE) -C $(APPS_DIR)/tools/satfind clean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) clean
 ifeq ($(BOXARCH), sh4)
+	-$(MAKE) -C $(APPS_DIR)/tools/satfind clean
 	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool clean
 	-$(MAKE) -C $(APPS_DIR)/tools/devinit clean
 	-$(MAKE) -C $(APPS_DIR)/tools/evremote2 clean
@@ -39,9 +39,9 @@ endif
 tools-distclean:
 	rm -f $(D)/tools-*
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) distclean
-	-$(MAKE) -C $(APPS_DIR)/tools/satfind distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/showiframe-$(BOXARCH) distclean
 ifeq ($(BOXARCH), sh4)
+	-$(MAKE) -C $(APPS_DIR)/tools/satfind distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/spf_tool distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/devinit distclean
 	-$(MAKE) -C $(APPS_DIR)/tools/evremote2 distclean
