@@ -141,7 +141,7 @@ $(D)/neutrinohd2.config.status:
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
-	@touch $@
+#	@touch $@
 
 $(D)/neutrinohd2.do_compile: $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \
@@ -170,15 +170,6 @@ neutrino-clean: neutrino-cdkroot-clean
 neutrino-distclean: neutrino-cdkroot-clean
 	rm -f $(D)/neutrino*
 	rm -f $(D)/neutrino-plugins*
-
-################################################################################
-neutrino-cdkroot-clean:
-	[ -e $(TARGET_DIR)/usr/local/bin ] && cd $(TARGET_DIR)/usr/local/bin && find -name '*' -delete || true
-	[ -e $(TARGET_DIR)/usr/local/share/iso-codes ] && cd $(TARGET_DIR)/usr/local/share/iso-codes && find -name '*' -delete || true
-	[ -e $(TARGET_DIR)/usr/share/tuxbox/neutrino ] && cd $(TARGET_DIR)/usr/share/tuxbox/neutrino && find -name '*' -delete || true
-	[ -e $(TARGET_DIR)/usr/share/fonts ] && cd $(TARGET_DIR)/usr/share/fonts && find -name '*' -delete || true
-	[ -e $(TARGET_DIR)/var/tuxbox ] && cd $(TARGET_DIR)/var/tuxbox && find -name '*' -delete || true
-
 
 #
 #

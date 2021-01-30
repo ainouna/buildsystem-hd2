@@ -34,7 +34,7 @@ $(D)/neutrinohd2-plugins.config.status: $(D)/bootstrap neutrino
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(CPPFLAGS) -I$(driverdir) -I$(KERNEL_DIR)/include -I$(TARGET_DIR)/include" \
 			LDFLAGS="$(TARGET_LDFLAGS)"
-	@touch $@
+#	@touch $@
 
 $(D)/neutrinohd2-plugins.do_compile: $(D)/neutrinohd2-plugins.config.status
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
