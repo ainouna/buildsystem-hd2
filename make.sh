@@ -394,7 +394,7 @@ echo "FKEYS=$FKEYS" >> config
 #
 #
 echo " "
-BOXTYPE=$BOXTYPE make printenv
+make printenv
 
 #
 #
