@@ -18,9 +18,6 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ufs913))
 	cd $(FLASH_DIR)/$(BOXTYPE) && $(SUDOCMD) ./$(BOXTYPE).sh $(MAINTAINER)
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ufc960))
-	cd $(FLASH_DIR)/$(BOXTYPE) && $(SUDOCMD) ./$(BOXTYPE).sh $(MAINTAINER)
-endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), tf7700))
 	cd $(FLASH_DIR)/$(BOXTYPE) && $(SUDOCMD) ./$(BOXTYPE).sh $(MAINTAINER)
 endif
@@ -105,7 +102,6 @@ ifeq ($(BOXARCH), sh4)
 	cd $(FLASH_DIR)/atevio7500 && $(SUDOCMD) rm -rf ./tmp ./out
 	cd $(FLASH_DIR)/ufs912 && $(SUDOCMD) rm -rf ./tmp ./out
 	cd $(FLASH_DIR)/ufs913 && $(SUDOCMD) rm -rf ./tmp ./out
-#	cd $(FLASH_DIR)/ufc960 && $(SUDOCMD) rm -rf ./tmp ./out
 	cd $(FLASH_DIR)/tf7700 && $(SUDOCMD) rm -rf ./tmp ./out
 else
 	cd $(FLASH_DIR)/$(BOXTYPE) && rm -rf *.*

@@ -40,7 +40,6 @@ case $1 in
 		echo "    2)  UFS-912"
 		echo "    3)  UFS-913"
 		echo "    4)  UFS-922"
-		echo "    5)  UFC-960"
 		echo
 		echo "  Topfield"
 		echo "    6)  TF77X0 HDPVR"
@@ -122,7 +121,6 @@ case "$REPLY" in
 	 2) BOXARCH="sh4";BOXTYPE="ufs912";;
 	 3) BOXARCH="sh4";BOXTYPE="ufs913";;
 	 4) BOXARCH="sh4";BOXTYPE="ufs922";;
-	 5) BOXARCH="sh4";BOXTYPE="ufc960";;
 	 6) BOXARCH="sh4";BOXTYPE="tf7700";;
 	 7) BOXARCH="sh4";BOXTYPE="fortis_hdbox";;
 	 8) BOXARCH="sh4";BOXTYPE="octagon1008";;
