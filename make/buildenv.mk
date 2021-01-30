@@ -10,7 +10,7 @@ export LD_LIBRARY_PATH
 
 BASE_DIR             := $(shell pwd)
 
--include $(BASE_DIR)/$(BOXTYPE).config
+-include $(BASE_DIR)/config
 
 ARCHIVE               = $(HOME)/Archive
 BUILD_TMP             = $(BASE_DIR)/tufsbox/$(BOXTYPE)/build_tmp

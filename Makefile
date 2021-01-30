@@ -69,7 +69,7 @@ ifeq ($(MAINTAINER),)
 	@echo "##########################################################################"
 	@echo
 endif
-	@if ! test -e $(BASE_DIR)/$(BOXTYPE).config; then \
+	@if ! test -e $(BASE_DIR)/config; then \
 		echo;echo "If you want to create or modify the configuration, run './make.sh'"; \
 		echo; fi
 
@@ -226,3 +226,4 @@ PHONY += update
 .NOTPARALLEL:
 
 endif
+
