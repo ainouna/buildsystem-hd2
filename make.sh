@@ -72,10 +72,6 @@ case $1 in
 		echo "   27)  Spark"
 		echo "   28)  Spark7162"
 		echo
-		echo "  Atemio"
-		echo "   29)  AM520"
-		echo "   30)  AM530"
-		echo
 		echo "  Various sh4-based receivers"
 		echo "   31)  Edision Argus VIP1 v1 [ single tuner + 2 CI + 2 USB ]"
 		echo "   32)  SpiderBox HL-101"
@@ -147,8 +143,6 @@ case "$REPLY" in
 	26) BOXARCH="sh4";BOXTYPE="cuberevo_3000hd";;
 	27) BOXARCH="sh4";BOXTYPE="spark";;
 	28) BOXARCH="sh4";BOXTYPE="spark7162";;
-	29) BOXARCH="sh4";BOXTYPE="atemio520";;
-	30) BOXARCH="sh4";BOXTYPE="atemio530";;
 	31) BOXARCH="sh4";BOXTYPE="hl101";;
 	32) BOXARCH="sh4";BOXTYPE="hl101";;
 	33) BOXARCH="sh4";BOXTYPE="adb_box";;
@@ -187,7 +181,7 @@ if [ $BOXARCH == "sh4" ]; then
 #
 CURDIR=`pwd`
 echo -ne "\n    Checking the .elf files in $CURDIR/root/boot..."
-set='audio_7100 audio_7105 audio_7111 video_7100 video_7105 video_7109 video_7111'
+set='audio_7100 audio_7105 audio_7109 audio_7111 video_7100 video_7105 video_7109 video_7111'
 for i in $set;
 do
 	if [ ! -e $CURDIR/root/boot/$i.elf ]; then
