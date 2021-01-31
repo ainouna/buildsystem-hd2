@@ -92,6 +92,8 @@ case $1 in
 		echo "   43)  VU+ Duo4k"
 		echo "   44)  VU+ Ultimo4k"
 		echo "   45)  VU+ Uno4k"
+		echo "   46)  VU+ Uno4kse"
+		echo "   47)  VU+ Zero4k"
 		echo
 		echo "  AX Mutant"
 		echo "   50)  Mut@nt HD51"
@@ -160,6 +162,8 @@ case "$REPLY" in
 	43) BOXARCH="arm";BOXTYPE="vuduo4k";;
 	44) BOXARCH="arm";BOXTYPE="vuultimo4k";;
 	45) BOXARCH="arm";BOXTYPE="vuuno4k";;
+	46) BOXARCH="arm";BOXTYPE="vuuno4kse";;
+	47) BOXARCH="arm";BOXTYPE="vuzero4k";;
 	50) BOXARCH="arm";BOXTYPE="hd51";;
 	51) BOXARCH="arm";BOXTYPE="hd60";;
 	52) BOXARCH="arm";BOXTYPE="hd61";;

@@ -194,6 +194,32 @@ $(ARCHIVE)/$(DRIVER_SRC):
 endif
 
 #
+# vuuno4kse
+#
+ifeq ($(BOXTYPE), vuuno4kse)
+DRIVER_VER = 4.1.20
+DRIVER_DATE = 20190424
+DRIVER_REV = r0
+DRIVER_SRC = vuplus-dvb-proxy-vuuno4kse-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
+
+$(ARCHIVE)/$(DRIVER_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+endif
+
+#
+# vuzero4k
+#
+ifeq ($(BOXTYPE), vuzero4k)
+DRIVER_VER = 4.1.20
+DRIVER_DATE = 20190424
+DRIVER_REV = r0
+DRIVER_SRC = vuplus-dvb-proxy-vuzero4k-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
+
+$(ARCHIVE)/$(DRIVER_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+endif
+
+#
 # driver-clean
 #
 driver-clean:
@@ -302,6 +328,24 @@ ifeq ($(BOXTYPE), vuultimo4k)
 	$(TOUCH)
 endif
 ifeq ($(BOXTYPE), vuuno4k)
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(MAKE) platform_util
+	$(MAKE) libgles
+	$(MAKE) vmlinuz_initrd
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuuno4kse)
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(MAKE) platform_util
+	$(MAKE) libgles
+	$(MAKE) vmlinuz_initrd
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuzero4k)
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
@@ -792,4 +836,123 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	install -d $(TARGET_DIR)/boot
 	$(TOUCH)
 endif
+
+#
+# vuuno4kse
+#
+ifeq ($(BOXTYPE), vuuno4kse)
+#
+# platform util
+#
+UTIL_VER = 17.1
+UTIL_DATE = $(DRIVER_DATE)
+UTIL_REV = r0
+UTIL_SRC = platform-util-vuuno4kse-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
+
+$(ARCHIVE)/$(UTIL_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
+
+$(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(UTIL_SRC)
+	install -m 0755 $(BUILD_TMP)/platform-util-vuuno4kse/* $(TARGET_DIR)/usr/bin
+	$(REMOVE)/platform-util-vuuno4kse
+	$(TOUCH)
+
+#
+# libgles
+#
+GLES_VER = 17.1
+GLES_DATE = $(DRIVER_DATE)
+GLES_REV = r0
+GLES_SRC = libgles-vuuno4kse-$(GLES_VER)-$(GLES_DATE).$(GLES_REV).tar.gz
+
+$(ARCHIVE)/$(GLES_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(GLES_SRC)
+
+$(D)/libgles: $(D)/bootstrap $(ARCHIVE)/$(GLES_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(GLES_SRC)
+	install -m 0755 $(BUILD_TMP)/libgles-vuuno4kse/lib/* $(TARGET_LIB_DIR)
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so
+	cp -a $(BUILD_TMP)/libgles-vuuno4kse/include/* $(TARGET_INCLUDE_DIR)
+	$(REMOVE)/libgles-vuuno4kse
+	$(TOUCH)
+
+#
+# vmlinuz initrd
+#
+INITRD_DATE = 20170627
+INITRD_SRC = vmlinuz-initrd_vuuno4kse_$(INITRD_DATE).tar.gz
+
+$(ARCHIVE)/$(INITRD_SRC):
+	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
+
+$(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
+	$(START_BUILD)
+	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
+	install -d $(TARGET_DIR)/boot
+	$(TOUCH)
+endif
+
+#
+# vuzero4k
+#
+ifeq ($(BOXTYPE), vuzero4k)
+#
+# platform util
+#
+UTIL_VER = 17.1
+UTIL_DATE = $(DRIVER_DATE)
+UTIL_REV = r0
+UTIL_SRC = platform-util-vuzero4k-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
+
+$(ARCHIVE)/$(UTIL_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
+
+$(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(UTIL_SRC)
+	install -m 0755 $(BUILD_TMP)/platform-util-vuzero4k/* $(TARGET_DIR)/usr/bin
+	$(REMOVE)/platform-util-vuzero4k
+	$(TOUCH)
+
+#
+# libgles
+#
+GLES_VER = 17.1
+GLES_DATE = $(DRIVER_DATE)
+GLES_REV = r0
+GLES_SRC = libgles-vuzero4k-$(GLES_VER)-$(GLES_DATE).$(GLES_REV).tar.gz
+
+$(ARCHIVE)/$(GLES_SRC):
+	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(GLES_SRC)
+
+$(D)/libgles: $(D)/bootstrap $(ARCHIVE)/$(GLES_SRC)
+	$(START_BUILD)
+	$(UNTAR)/$(GLES_SRC)
+	install -m 0755 $(BUILD_TMP)/libgles-vuzero4k/lib/* $(TARGET_LIB_DIR)
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so
+	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so
+	cp -a $(BUILD_TMP)/libgles-vuzero4k/include/* $(TARGET_INCLUDE_DIR)
+	$(REMOVE)/libgles-vuzero4k
+	$(TOUCH)
+
+#
+# vmlinuz initrd
+#
+INITRD_DATE = 20170522
+INITRD_SRC = vmlinuz-initrd_vuzero4k_$(INITRD_DATE).tar.gz
+
+$(ARCHIVE)/$(INITRD_SRC):
+	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
+
+$(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
+	$(START_BUILD)
+	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
+	install -d $(TARGET_DIR)/boot
+	$(TOUCH)
+endif
+
 

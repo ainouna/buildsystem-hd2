@@ -343,6 +343,118 @@ KERNEL_PATCHES_ARM = \
 endif
 
 #
+# vuuno4kse
+#
+ifeq ($(BOXTYPE), vuuno4kse)
+KERNEL_VER             = 4.1.20-1.9
+KERNEL_SRC_VER         = 4.1-1.9
+KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = zImage
+
+#KERNEL_INITRD          = vmlinuz-initrd-7439b0
+
+KERNEL_PATCHES_ARM = \
+		arm/vuuno4kse/4_1_linux_dvb_adapter.patch \
+		arm/vuuno4kse/4_1_linux_dvb-core.patch \
+		arm/vuuno4kse/4_1_linux_4_1_45_dvbs2x.patch \
+		arm/vuuno4kse/4_1_dmx_source_dvr.patch \
+		arm/vuuno4kse/4_1_bcmsysport_4_1_45.patch \
+		arm/vuuno4kse/4_1_linux_usb_hub.patch \
+		arm/vuuno4kse/4_1_0001-regmap-add-regmap_write_bits.patch \
+		arm/vuuno4kse/4_1_0002-af9035-fix-device-order-in-ID-list.patch \
+		arm/vuuno4kse/4_1_0003-Add-support-for-dvb-usb-stick-Hauppauge-WinTV-soloHD.patch \
+		arm/vuuno4kse/4_1_0004-af9035-add-USB-ID-07ca-0337-AVerMedia-HD-Volar-A867.patch \
+		arm/vuuno4kse/4_1_0005-Add-support-for-EVOLVEO-XtraTV-stick.patch \
+		arm/vuuno4kse/4_1_0006-dib8000-Add-support-for-Mygica-Geniatech-S2870.patch \
+		arm/vuuno4kse/4_1_0007-dib0700-add-USB-ID-for-another-STK8096-PVR-ref-desig.patch \
+		arm/vuuno4kse/4_1_0008-add-Hama-Hybrid-DVB-T-Stick-support.patch \
+		arm/vuuno4kse/4_1_0009-Add-Terratec-H7-Revision-4-to-DVBSky-driver.patch \
+		arm/vuuno4kse/4_1_0010-media-Added-support-for-the-TerraTec-T1-DVB-T-USB-tu.patch \
+		arm/vuuno4kse/4_1_0011-media-tda18250-support-for-new-silicon-tuner.patch \
+		arm/vuuno4kse/4_1_0012-media-dib0700-add-support-for-Xbox-One-Digital-TV-Tu.patch \
+		arm/vuuno4kse/4_1_0013-mn88472-Fix-possible-leak-in-mn88472_init.patch \
+		arm/vuuno4kse/4_1_0014-staging-media-Remove-unneeded-parentheses.patch \
+		arm/vuuno4kse/4_1_0015-staging-media-mn88472-simplify-NULL-tests.patch \
+		arm/vuuno4kse/4_1_0016-mn88472-fix-typo.patch \
+		arm/vuuno4kse/4_1_0017-mn88472-finalize-driver.patch \
+		arm/vuuno4kse/4_1_0001-dvb-usb-fix-a867.patch \
+		arm/vuuno4kse/4_1_kernel-add-support-for-gcc6.patch \
+		arm/vuuno4kse/4_1_kernel-add-support-for-gcc7.patch \
+		arm/vuuno4kse/4_1_kernel-add-support-for-gcc8.patch \
+		arm/vuuno4kse/4_1_kernel-add-support-for-gcc9.patch \
+		arm/vuuno4kse/4_1_kernel-add-support-for-gcc10.patch \
+		arm/vuuno4kse/4_1_0001-Support-TBS-USB-drivers-for-4.1-kernel.patch \
+		arm/vuuno4kse/4_1_0001-TBS-fixes-for-4.1-kernel.patch \
+		arm/vuuno4kse/4_1_0001-STV-Add-PLS-support.patch \
+		arm/vuuno4kse/4_1_0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/vuuno4kse/4_1_blindscan2.patch \
+		arm/vuuno4kse/4_1_0001-stv090x-optimized-TS-sync-control.patch \
+		arm/vuuno4kse/4_1_0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		arm/vuuno4kse/4_1_0003-uaccess-dont-mark-register-as-const.patch \
+		arm/vuuno4kse/bcmgenet-recovery-fix.patch \
+		arm/vuuno4kse/linux_rpmb_not_alloc.patch
+endif
+
+#
+# vuzero4k
+#
+ifeq ($(BOXTYPE), vuzero4k)
+KERNEL_VER             = 4.1.20-1.9
+KERNEL_SRC_VER         = 4.1-1.9
+KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = $(BOXTYPE)_/defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = zImage
+
+#KERNEL_INITRD          = vmlinuz-initrd-7260a0
+
+KERNEL_PATCHES_ARM = \
+		arm/vuzero4k/4_1_linux_dvb_adapter.patch \
+		arm/vuzero4k/4_1_linux_dvb-core.patch \
+		arm/vuzero4k/4_1_linux_4_1_45_dvbs2x.patch \
+		arm/vuzero4k/4_1_dmx_source_dvr.patch \
+		arm/vuzero4k/4_1_bcmsysport_4_1_45.patch \
+		arm/vuzero4k/4_1_linux_usb_hub.patch \
+		arm/vuzero4k/4_1_0001-regmap-add-regmap_write_bits.patch \
+		arm/vuzero4k/4_1_0002-af9035-fix-device-order-in-ID-list.patch \
+		arm/vuzero4k/4_1_0003-Add-support-for-dvb-usb-stick-Hauppauge-WinTV-soloHD.patch \
+		arm/vuzero4k/4_1_0004-af9035-add-USB-ID-07ca-0337-AVerMedia-HD-Volar-A867.patch \
+		arm/vuzero4k/4_1_0005-Add-support-for-EVOLVEO-XtraTV-stick.patch \
+		arm/vuzero4k/4_1_0006-dib8000-Add-support-for-Mygica-Geniatech-S2870.patch \
+		arm/vuzero4k/4_1_0007-dib0700-add-USB-ID-for-another-STK8096-PVR-ref-desig.patch \
+		arm/vuzero4k/4_1_0008-add-Hama-Hybrid-DVB-T-Stick-support.patch \
+		arm/vuzero4k/4_1_0009-Add-Terratec-H7-Revision-4-to-DVBSky-driver.patch \
+		arm/vuzero4k/4_1_0010-media-Added-support-for-the-TerraTec-T1-DVB-T-USB-tu.patch \
+		arm/vuzero4k/4_1_0011-media-tda18250-support-for-new-silicon-tuner.patch \
+		arm/vuzero4k/4_1_0012-media-dib0700-add-support-for-Xbox-One-Digital-TV-Tu.patch \
+		arm/vuzero4k/4_1_0013-mn88472-Fix-possible-leak-in-mn88472_init.patch \
+		arm/vuzero4k/4_1_0014-staging-media-Remove-unneeded-parentheses.patch \
+		arm/vuzero4k/4_1_0015-staging-media-mn88472-simplify-NULL-tests.patch \
+		arm/vuzero4k/4_1_0016-mn88472-fix-typo.patch \
+		arm/vuzero4k/4_1_0017-mn88472-finalize-driver.patch \
+		arm/vuzero4k/4_1_0001-dvb-usb-fix-a867.patch \
+		arm/vuzero4k/4_1_kernel-add-support-for-gcc6.patch \
+		arm/vuzero4k/4_1_kernel-add-support-for-gcc7.patch \
+		arm/vuzero4k/4_1_kernel-add-support-for-gcc8.patch \
+		arm/vuzero4k/4_1_kernel-add-support-for-gcc9.patch \
+		arm/vuzero4k/4_1_kernel-add-support-for-gcc10.patch \
+		arm/vuzero4k/4_1_0001-Support-TBS-USB-drivers-for-4.1-kernel.patch \
+		arm/vuzero4k/4_1_0001-TBS-fixes-for-4.1-kernel.patch \
+		arm/vuzero4k/4_1_0001-STV-Add-PLS-support.patch \
+		arm/vuzero4k/4_1_0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/vuzero4k/4_1_blindscan2.patch \
+		arm/vuzero4k/4_1_0001-stv090x-optimized-TS-sync-control.patch \
+		arm/vuzero4k/4_1_0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		arm/vuzero4k/4_1_0003-uaccess-dont-mark-register-as-const.patch \
+		arm/vuzero4k/bcmgenet-recovery-fix.patch \
+		arm/vuzero4k/linux_rpmb_not_alloc.patch
+endif
+
+#
 # kernel
 #
 DEPMOD = $(HOST_DIR)/bin/depmod
@@ -441,6 +553,15 @@ ifeq ($(BOXTYPE), vuuno4k)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), vuuno4kse)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
+ifeq ($(BOXTYPE), vuzero4k)
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -533,6 +654,17 @@ ifeq ($(BOXTYPE), vuuno4k)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuuno4kse)
+	install -m 644 $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/vmlinux
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuzero4k)
 endif
 
 kernel-distclean:
