@@ -52,11 +52,7 @@ D                     = $(BASE_DIR)/tufsbox/$(BOXTYPE)/.deps
 # backwards compatibility
 DEPDIR                = $(D)
 
-ifneq ($(SUDOPASSWD),)
-SUDOCMD               = fakeroot
-else
 SUDOCMD               = echo $(SUDOPASSWD) | sudo -S
-endif
 
 MAINTAINER           ?= $(shell whoami)
 MAIN_ID               = $(shell echo -en "\x74\x68\x6f\x6d\x61\x73")
