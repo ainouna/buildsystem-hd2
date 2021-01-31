@@ -297,6 +297,51 @@ KERNEL_PATCHES_ARM = \
 		arm/vuultimo4k/linux_prevent_usb_dma_from_bmem.patch
 endif
 
+ifeq ($(BOXTYPE), vuuno4k)
+KERNEL_VER             = 3.14.28-1.12
+KERNEL_SRC_VER         = 3.14-1.12
+KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
+KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNELNAME             = zImage
+
+#KERNEL_INITRD          = vmlinuz-initrd-7439b0
+
+KERNEL_PATCHES_ARM = \
+		arm/vuuno4k/3_14_bcm_genet_disable_warn.patch \
+		arm/vuuno4k/3_14_linux_dvb-core.patch \
+		arm/vuuno4k/3_14_dvbs2x.patch \
+		arm/vuuno4k/3_14_dmx_source_dvr.patch \
+		arm/vuuno4k/3_14_rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		arm/vuuno4k/3_14_usb_core_hub_msleep.patch \
+		arm/vuuno4k/3_14_rtl8712_fix_build_error.patch \
+		arm/vuuno4k/3_14_kernel-add-support-for-gcc6.patch \
+		arm/vuuno4k/3_14_kernel-add-support-for-gcc7.patch \
+		arm/vuuno4k/3_14_kernel-add-support-for-gcc8.patch \
+		arm/vuuno4k/3_14_kernel-add-support-for-gcc9.patch \
+		arm/vuuno4k/3_14_kernel-add-support-for-gcc10.patch \
+		arm/vuuno4k/3_14_0001-Support-TBS-USB-drivers.patch \
+		arm/vuuno4k/3_14_0001-STV-Add-PLS-support.patch \
+		arm/vuuno4k/3_14_0001-STV-Add-SNR-Signal-report-parameters.patch \
+		arm/vuuno4k/3_14_0001-stv090x-optimized-TS-sync-control.patch \
+		arm/vuuno4k/3_14_blindscan2.patch \
+		arm/vuuno4k/3_14_genksyms_fix_typeof_handling.patch \
+		arm/vuuno4k/3_14_0001-tuners-tda18273-silicon-tuner-driver.patch \
+		arm/vuuno4k/3_14_01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		arm/vuuno4k/3_14_02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		arm/vuuno4k/3_14_0003-cxusb-Geniatech-T230-support.patch \
+		arm/vuuno4k/3_14_CONFIG_DVB_SP2.patch \
+		arm/vuuno4k/3_14_dvbsky.patch \
+		arm/vuuno4k/3_14_rtl2832u-2.patch \
+		arm/vuuno4k/3_14_0004-log2-give-up-on-gcc-constant-optimizations.patch \
+		arm/vuuno4k/3_14_0005-uaccess-dont-mark-register-as-const.patch \
+		arm/vuuno4k/3_14_0006-makefile-disable-warnings.patch \
+		arm/vuuno4k/3_14_linux_dvb_adapter.patch \
+		arm/vuuno4k/bcmsysport_3.14.28-1.12.patch \
+		arm/vuuno4k/linux_prevent_usb_dma_from_bmem.patch
+endif
+
 #
 # kernel
 #
@@ -389,6 +434,13 @@ ifeq ($(BOXTYPE), vuultimo4k)
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 endif
+ifeq ($(BOXTYPE), vuuno4k)
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+endif
 
 KERNEL = $(D)/kernel
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -465,6 +517,15 @@ ifeq ($(BOXTYPE), vuduo4k)
 	$(TOUCH)
 endif
 ifeq ($(BOXTYPE), vuultimo4k)
+	install -m 644 $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/vmlinux
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)
+	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+endif
+ifeq ($(BOXTYPE), vuuno4k)
 	install -m 644 $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/vmlinux
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-arm-$(KERNEL_VER)

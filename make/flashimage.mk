@@ -63,6 +63,9 @@ endif
 ifeq ($(BOXTYPE), vuultimo4k)
 	$(MAKE) flash-image-vuultimo4k-multi-rootfs
 endif
+ifeq ($(BOXTYPE), vuuno4k)
+	$(MAKE) flash-image-vuuno4k-multi-rootfs
+endif
 	$(TUXBOX_CUSTOMIZE)
 
 online-image: release
@@ -89,6 +92,9 @@ ifeq ($(BOXTYPE), vuduo4k)
 endif
 ifeq ($(BOXTYPE), vuultimo4k)
 	$(MAKE) flash-image-vuultimo4k-online
+endif
+ifeq ($(BOXTYPE), vuuno4k)
+	$(MAKE) flash-image-vuuno4k-online
 endif
 	$(TUXBOX_CUSTOMIZE)
 
@@ -987,5 +993,7 @@ flash-image-vuultimo4k-online:
 	rm -rf $(IMAGE_BUILD_DIR)
 endif
 
-
-
+#
+# vuuno4k
+ifeq ($(BOXTYPE), vuuno4k)
+endif

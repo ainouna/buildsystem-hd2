@@ -562,6 +562,17 @@ release-vuultimo4k:
 #	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7445d0 $(RELEASE_DIR)/boot/
 
 #
+# vuuno4k
+#
+release-vuuno4k:
+	install -m 0755 $(SKEL_ROOT)/release/halt_vuuno4k $(RELEASE_DIR)/etc/init.d/halt
+	cp -f $(SKEL_ROOT)/release/fstab_vuuno4k $(RELEASE_DIR)/etc/fstab
+	cp $(TARGET_DIR)/lib/modules/vuuno4k/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
+#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
+#	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+
+#
 # release-common
 #
 # the following target creates the common file base
