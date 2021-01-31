@@ -406,7 +406,7 @@ KERNEL_VER             = 4.1.20-1.9
 KERNEL_SRC_VER         = 4.1-1.9
 KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
-KERNEL_CONFIG          = $(BOXTYPE)_/defconfig
+KERNEL_CONFIG          = $(BOXTYPE)_defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNELNAME             = zImage
 
