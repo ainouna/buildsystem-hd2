@@ -79,7 +79,6 @@ case $1 in
 		echo "   34)  Vitamin HD5000"
 		echo "   35)  SagemCom 88 series"
 		echo "   36)  Ferguson Ariva @Link 200"
-		echo "   37)  Pace HDS-7241 (stm 217 only)"
 		echo
 		echo "  VU Plus"
 		echo "   40)  Vu+ Solo4K"
@@ -149,7 +148,6 @@ case "$REPLY" in
 	34) BOXARCH="sh4";BOXTYPE="vitamin_hd5000";;
 	35) BOXARCH="sh4";BOXTYPE="sagemcom88";;
 	36) BOXARCH="sh4";BOXTYPE="arivalink200";;
-	37) BOXARCH="sh4";BOXTYPE="pace7241";;
 	40) BOXARCH="arm";BOXTYPE="vusolo4k";;
 	41) BOXARCH="mips";BOXTYPE="vuduo";;
 	42) BOXARCH="mips";BOXTYPE="vuduo2";;
