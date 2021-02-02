@@ -15,20 +15,25 @@ $(TARGET_DIR)/lib/libc.so.6:
 #
 # crosstool-ng
 #
-#CROSSTOOL_NG_VER = 872341e3
-CROSSTOOL_NG_VER = 7bd6bb00
+CROSSTOOL_NG_VER = 872341e3
+#CROSSTOOL_NG_VER = 7bd6bb00
+#CROSSTOOL_NG_VER = 4e5bc436
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
 ifeq ($(BOXARCH), arm)
-#GCC_VER = linaro-6.3-2017.05
-GCC_VER = 6.5.0
+GCC_VER = linaro-6.3-2017.05
+#GCC_VER = 6.5.0
+#GCC_VER = 9.3.0
 endif
 ifeq ($(BOXARCH), mips)
-#GCC_VER = 4.9.4
-GCC_VER = 6.5.0
-CUSTOM_KERNEL_VER = $(KERNEL_VER)
+GCC_VER = 4.9.4
+#GCC_VER = 6.5.0
+#GCC_VER = 9.3.0
 endif
 
+ifeq ($(BOXARCH), mips)
+CUSTOM_KERNEL_VER = $(KERNEL_VER)
+endif
 ifeq ($(BOXARCH), arm)
 ifeq ($(BOXTYPE), hd51)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
@@ -67,6 +72,8 @@ ifeq ($(BOXTYPE), vuzero4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
 endif
+
+CROSSTOOL_NG_PATCH = ct-ng/crosstool-$(CROSSTOOL_NG_VER)-bash.patch
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)

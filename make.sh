@@ -73,12 +73,11 @@ case $1 in
 		echo "   28)  Spark7162"
 		echo
 		echo "  Various sh4-based receivers"
-		echo "   31)  Edision Argus VIP1 v1 [ single tuner + 2 CI + 2 USB ]"
-		echo "   32)  SpiderBox HL-101"
+		echo "   31)  Edision Argus VIP1 v1 [ single tuner + 2 CI + 2 USB ] / SpiderBox HL-101"
 		echo "   33)  B4Team ADB 5800S"
-		echo "   34)  Vitamin HD5000"
-		echo "   35)  SagemCom 88 series"
-		echo "   36)  Ferguson Ariva @Link 200"
+		echo "   34)  Vitamin HD5000 (only p209)"
+		echo "   35)  SagemCom 88 series (only p217)"
+		echo "   36)  Ferguson Ariva @Link 200 (only p217)"
 		echo
 		echo "  VU Plus"
 		echo "   40)  Vu+ Solo4K"
@@ -143,7 +142,6 @@ case "$REPLY" in
 	27) BOXARCH="sh4";BOXTYPE="spark";;
 	28) BOXARCH="sh4";BOXTYPE="spark7162";;
 	31) BOXARCH="sh4";BOXTYPE="hl101";;
-	32) BOXARCH="sh4";BOXTYPE="hl101";;
 	33) BOXARCH="sh4";BOXTYPE="adb_box";;
 	34) BOXARCH="sh4";BOXTYPE="vitamin_hd5000";;
 	35) BOXARCH="sh4";BOXTYPE="sagemcom88";;

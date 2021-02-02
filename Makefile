@@ -105,15 +105,15 @@ include make/driver-sh4.mk
 endif
 ifeq ($(BOXARCH), arm)
 include make/linux-kernel-arm.mk
-#include make/crosstool-arm.mk
 include make/driver-arm.mk
 endif
 ifeq ($(BOXARCH), mips)
 include make/linux-kernel-mipsel.mk
-#include make/crosstool-mipsel.mk
 include make/driver-mipsel.mk
 endif
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 include make/crosstool.mk
+endif
 include make/gstreamer.mk
 include make/root-etc.mk
 include make/python.mk
