@@ -371,9 +371,11 @@ $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
 #
 # util_linux
 #
-UTIL_LINUX_MAJOR = 2.26
-UTIL_LINUX_MINOR = 2
-UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR).$(UTIL_LINUX_MINOR)
+#UTIL_LINUX_MAJOR = 2.26
+#UTIL_LINUX_MINOR = .2
+UTIL_LINUX_MAJOR = 2.36
+UTIL_LINUX_MINOR = .1
+UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR)
 UTIL_LINUX_SOURCE = util-linux-$(UTIL_LINUX_VER).tar.xz
 
 $(ARCHIVE)/$(UTIL_LINUX_SOURCE):
@@ -911,7 +913,11 @@ AUTOFS_PATCH = autofs-$(AUTOFS_VER).patch
 $(ARCHIVE)/$(AUTOFS_SOURCE):
 	$(WGET) https://www.kernel.org/pub/linux/daemons/autofs/v4/$(AUTOFS_SOURCE)
 
-$(D)/autofs: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(AUTOFS_SOURCE)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+AUTOFS_LIBNSL = $(D)/libnsl
+endif
+
+$(D)/autofs: $(D)/bootstrap $(D)/e2fsprogs $(AUTOFS_LIBNSL) $(ARCHIVE)/$(AUTOFS_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/autofs-$(AUTOFS_VER)
 	$(UNTAR)/$(AUTOFS_SOURCE)
@@ -1890,3 +1896,5 @@ $(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SOURCE)
 	install -m 755 $(BUILD_TMP)/ofgwrite-git-$(OFGWRITE_VER)/ofgwrite $(TARGET_DIR)/usr/bin
 	$(REMOVE)/ofgwrite-git-$(OFGWRITE_VER)
 	$(TOUCH)
+
+

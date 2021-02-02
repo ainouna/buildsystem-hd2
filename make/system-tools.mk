@@ -18,7 +18,7 @@ SYSTEM_TOOLS += $(D)/udpxy
 SYSTEM_TOOLS += $(D)/dvbsnoop
 SYSTEM_TOOLS += $(D)/fbshot
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-SYSTEM_TOOLS += $(D)/ofgwrite
+#SYSTEM_TOOLS += $(D)/ofgwrite
 endif
 
 $(D)/system-tools: $(SYSTEM_TOOLS) $(TOOLS)

@@ -15,10 +15,22 @@ $(TARGET_DIR)/lib/libc.so.6:
 #
 # crosstool-ng
 #
-CROSSTOOL_NG_VER = 872341e3
+#CROSSTOOL_NG_VER = 872341e3
+CROSSTOOL_NG_VER = 7bd6bb00
 CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
-GCC_VER = linaro-6.3-2017.05
+ifeq ($(BOXARCH), arm)
+#GCC_VER = linaro-6.3-2017.05
+GCC_VER = 6.5.0
+else
+ifeq ($(BOXARCH), mips)
+#GCC_VER = 4.9.4
+GCC_VER = 6.5.0
+endif
+ifeq ($(BOXARCH), mips)
+CUSTOM_KERNEL_VER = $(KERNEL_VER)
+else
+ifeq ($(BOXARCH), arm)
 ifeq ($(BOXTYPE), hd51)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
 endif
@@ -54,6 +66,7 @@ CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
 ifeq ($(BOXTYPE), vuzero4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
+endif
 endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):

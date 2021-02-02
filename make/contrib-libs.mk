@@ -2674,3 +2674,28 @@ $(D)/harfbuzz: $(ARCHIVE)/$(HARFBUZZ_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/c
 	$(REMOVE)/harfbuzz-$(HARFBUZZ_VER)
 	$(TOUCH)
 
+#
+# libnsl
+#
+LIBNSL_VER    = 1.2.0
+LIBNSL_SOURCE = libnsl-$(LIBNSL_VER).tar.gz
+
+$(ARCHIVE)/$(LIBNSL_SOURCE):
+	$(WGET) https://github.com/thkukuk/libnsl/archive/v1.2.0/$(LIBNSL_SOURCE)
+
+$(D)/libnsl: $(D)/bootstrap $(ARCHIVE)/$(LIBNSL_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/libnsl-$(LIBNSL_VER)
+	$(UNTAR)/$(LIBNSL_SOURCE)
+	$(CHDIR)/libnsl-$(LIBNSL_VER); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(CROSS_DIR)/$(TARGET)/sys-root
+		cp -a $(CROSS_DIR)/$(TARGET)/sys-root/usr/lib/libnsl.so* $(TARGET_DIR)/usr/lib
+	$(REMOVE)/libnsl-$(LIBNSL_VER)
+	$(TOUCH)
+
+
+
