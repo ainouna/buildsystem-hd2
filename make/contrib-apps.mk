@@ -39,6 +39,8 @@ $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_C
 #
 MTD_UTILS_VER = 1.5.2
 MTD_UTILS_SOURCE = mtd-utils-$(MTD_UTILS_VER).tar.bz2
+MTD_UTILS_PATCH = host-mtd-utils-$(MTD_UTILS_VER).patch
+MTD_UTILS_PATCH += host-mtd-utils-$(MTD_UTILS_VER)-sysmacros.patch
 
 $(ARCHIVE)/$(MTD_UTILS_SOURCE):
 	$(WGET) ftp://ftp.infradead.org/pub/mtd-utils/$(MTD_UTILS_SOURCE)
@@ -48,6 +50,7 @@ $(D)/mtd_utils: $(D)/bootstrap $(D)/zlib $(D)/lzo $(D)/e2fsprogs $(ARCHIVE)/$(MT
 	$(REMOVE)/mtd-utils-$(MTD_UTILS_VER)
 	$(UNTAR)/$(MTD_UTILS_SOURCE)
 	$(CHDIR)/mtd-utils-$(MTD_UTILS_VER); \
+		$(call apply_patches, $(MTD_UTILS_PATCH)); \
 		$(BUILDENV) \
 		$(MAKE) PREFIX= CC=$(TARGET)-gcc LD=$(TARGET)-ld STRIP=$(TARGET)-strip WITHOUT_XATTR=1 DESTDIR=$(TARGET_DIR); \
 		cp -a $(BUILD_TMP)/mtd-utils-$(MTD_UTILS_VER)/mkfs.jffs2 $(TARGET_DIR)/usr/sbin
@@ -311,9 +314,18 @@ $(D)/portmap: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(PORTMAP_SOURCE) $(ARCHIVE)/po
 #
 # e2fsprogs
 #
-E2FSPROGS_VER = 1.44.4
+#E2FSPROGS_VER = 1.44.4
+#E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
+#E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
+E2FSPROGS_VER = 1.45.6
 E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
 E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
+
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+E2FSPROGS_ARGS = --enable-resizer
+else
+E2FSPROGS_ARGS = --disable-resizer
+endif
 
 $(ARCHIVE)/$(E2FSPROGS_SOURCE):
 	$(WGET) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)/$(E2FSPROGS_SOURCE)
