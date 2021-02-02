@@ -73,7 +73,9 @@ CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
 endif
 
-CROSSTOOL_NG_PATCH = ct-ng/crosstool-$(CROSSTOOL_NG_VER)-bash.patch
+ifeq ($(CROSSTOOL_NG_VER), 872341e3)
+CROSSTOOL_NG_PATCH = ct-ng/crosstool-872341e3-bash.patch
+endif
 
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
