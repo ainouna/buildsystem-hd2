@@ -2697,5 +2697,96 @@ $(D)/libnsl: $(D)/bootstrap $(ARCHIVE)/$(LIBNSL_SOURCE)
 	$(REMOVE)/libnsl-$(LIBNSL_VER)
 	$(TOUCH)
 
+#
+# libevent
+#
+LIBEVENT_VER = 2.0.21-stable
+LIBEVENT_SOURCE = libevent-$(LIBEVENT_VER).tar.gz
+
+$(ARCHIVE)/$(LIBEVENT_SOURCE):
+	$(WGET) https://github.com/downloads/libevent/libevent/$(LIBEVENT_SOURCE)
+
+$(D)/libevent: $(D)/bootstrap $(ARCHIVE)/$(LIBEVENT_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/libevent-$(LIBEVENT_VER)
+	$(UNTAR)/$(LIBEVENT_SOURCE)
+	$(CHDIR)/libevent-$(LIBEVENT_VER);\
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libevent.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libevent_openssl.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libevent_pthreads.pc
+	$(REWRITE_LIBTOOL)/libevent_core.la
+	$(REWRITE_LIBTOOL)/libevent_extra.la
+	$(REWRITE_LIBTOOL)/libevent.la
+	$(REWRITE_LIBTOOL)/libevent_openssl.la
+	$(REWRITE_LIBTOOL)/libevent_pthreads.la
+	$(REMOVE)/libevent-$(LIBEVENT_VER)
+	$(TOUCH)
+
+#
+# libnfsidmap
+#
+LIBNFSIDMAP_VER = 0.25
+LIBNFSIDMAP_SOURCE = libnfsidmap-$(LIBNFSIDMAP_VER).tar.gz
+
+$(ARCHIVE)/$(LIBNFSIDMAP_SOURCE):
+	$(WGET) http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/$(LIBNFSIDMAP_SOURCE)
+
+$(D)/libnfsidmap: $(D)/bootstrap $(ARCHIVE)/$(LIBNFSIDMAP_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/libnfsidmap-$(LIBNFSIDMAP_VER)
+	$(UNTAR)/$(LIBNFSIDMAP_SOURCE)
+	$(CHDIR)/libnfsidmap-$(LIBNFSIDMAP_VER);\
+		$(CONFIGURE) \
+		ac_cv_func_malloc_0_nonnull=yes \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnfsidmap.pc
+	$(REWRITE_LIBTOOL)/libnfsidmap.la
+	$(REMOVE)/libnfsidmap-$(LIBNFSIDMAP_VER)
+	$(TOUCH)
+
+#
+# libnl
+#
+LIBNL_VER = 3.2.25
+LIBNL_SOURCE = libnl-$(LIBNL_VER).tar.gz
+
+$(ARCHIVE)/$(LIBNL_SOURCE):
+	$(WGET) https://www.infradead.org/~tgr/libnl/files/$(LIBNL_SOURCE)
+
+$(D)/libnl: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(LIBNL_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/libnl-$(LIBNL_VER)
+	$(UNTAR)/$(LIBNL_SOURCE)
+	$(CHDIR)/libnl-$(LIBNL_VER); \
+		$(CONFIGURE) \
+			--target=$(TARGET) \
+			--prefix=/usr \
+			--bindir=/.remove \
+			--mandir=/.remove \
+			--infodir=/.remove \
+		make; \
+		make install DESTDIR=$(TARGET_DIR)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnl-3.0.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnl-cli-3.0.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnl-genl-3.0.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnl-nf-3.0.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libnl-route-3.0.pc
+	$(REWRITE_LIBTOOL)/libnl-3.la
+	$(REWRITE_LIBTOOL)/libnl-cli-3.la
+	$(REWRITE_LIBTOOL)/libnl-genl-3.la
+	$(REWRITE_LIBTOOL)/libnl-idiag-3.la
+	$(REWRITE_LIBTOOL)/libnl-nf-3.la
+	$(REWRITE_LIBTOOL)/libnl-route-3.la
+	$(REMOVE)/libnl-$(LIBNL_VER)
+	$(TOUCH)
+
 
 
