@@ -48,12 +48,6 @@ case $1 in
 		echo "    7)  FS9000 / FS9200 (formerly Fortis HDbox)"
 		echo "    8)  HS9510          (formerly Octagon SF1008P)"
 		echo "    9)  HS8200          (formerly Atevio AV7500)"
-		echo "    10)  HS7110"
-		echo "    11)  HS7119"
-		echo "    12)  HS7420"
-		echo "    13)  HS7429"
-		echo "    14)  HS7810A"
-		echo "    15)  HS7819"
 		echo
 		echo "  AB IPBox/cuberevo/Xsarius"
 		echo "   16)  55HD"
@@ -71,13 +65,6 @@ case $1 in
 		echo "  Fulan"
 		echo "   27)  Spark"
 		echo "   28)  Spark7162"
-		echo
-		echo "  Various sh4-based receivers"
-		echo "   31)  Edision Argus VIP1 v1 [ single tuner + 2 CI + 2 USB ] / SpiderBox HL-101"
-		echo "   33)  B4Team ADB 5800S"
-		echo "   34)  Vitamin HD5000 (only p209)"
-		echo "   35)  SagemCom 88 series (only p217)"
-		echo "   36)  Ferguson Ariva @Link 200 (only p217)"
 		echo
 		echo "  VU Plus"
 		echo "   40)  Vu+ Solo4K"
@@ -122,12 +109,6 @@ case "$REPLY" in
 	 7) BOXARCH="sh4";BOXTYPE="fortis_hdbox";;
 	 8) BOXARCH="sh4";BOXTYPE="octagon1008";;
 	 9) BOXARCH="sh4";BOXTYPE="atevio7500";;
-	10) BOXARCH="sh4";BOXTYPE="hs7110";;
-	11) BOXARCH="sh4";BOXTYPE="hs7119";;
-	12) BOXARCH="sh4";BOXTYPE="hs7420";;
-	13) BOXARCH="sh4";BOXTYPE="hs7429";;
-	14) BOXARCH="sh4";BOXTYPE="hs7810a";;
-	15) BOXARCH="sh4";BOXTYPE="hs7819";;
 	16) BOXARCH="sh4";BOXTYPE="ipbox55";;
 	17) BOXARCH="sh4";BOXTYPE="ipbox99";;
 	18) BOXARCH="sh4";BOXTYPE="ipbox9900";;
@@ -141,11 +122,6 @@ case "$REPLY" in
 	26) BOXARCH="sh4";BOXTYPE="cuberevo_3000hd";;
 	27) BOXARCH="sh4";BOXTYPE="spark";;
 	28) BOXARCH="sh4";BOXTYPE="spark7162";;
-	31) BOXARCH="sh4";BOXTYPE="hl101";;
-	33) BOXARCH="sh4";BOXTYPE="adb_box";;
-	34) BOXARCH="sh4";BOXTYPE="vitamin_hd5000";;
-	35) BOXARCH="sh4";BOXTYPE="sagemcom88";;
-	36) BOXARCH="sh4";BOXTYPE="arivalink200";;
 	40) BOXARCH="arm";BOXTYPE="vusolo4k";;
 	41) BOXARCH="mips";BOXTYPE="vuduo";;
 	42) BOXARCH="mips";BOXTYPE="vuduo2";;
