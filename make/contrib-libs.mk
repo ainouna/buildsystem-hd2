@@ -125,9 +125,37 @@ $(D)/libffi: $(D)/bootstrap $(ARCHIVE)/$(LIBFFI_SOURCE)
 #
 # host_libglib2_genmarshal
 #
+#LIBGLIB2_VER_MAJOR = 2
+#LIBGLIB2_VER_MINOR = 54
+#LIBGLIB2_VER_MICRO = 0
+#LIBGLIB2_VER = $(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR).$(LIBGLIB2_VER_MICRO)
+#LIBGLIB2_SOURCE = glib-$(LIBGLIB2_VER).tar.xz
+#
+#$(ARCHIVE)/$(LIBGLIB2_SOURCE):
+#	$(WGET) https://ftp.gnome.org/pub/gnome/sources/glib/$(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR)/$(LIBGLIB2_SOURCE)
+#
+#$(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBGLIB2_SOURCE)
+#	$(START_BUILD)
+#	$(REMOVE)/glib-$(LIBGLIB2_VER)
+#	$(UNTAR)/$(LIBGLIB2_SOURCE)
+#	$(CHDIR)/glib-$(LIBGLIB2_VER); \
+#		export PKG_CONFIG=/usr/bin/pkg-config; \
+#		export PKG_CONFIG_PATH=$(HOST_DIR)/lib/pkgconfig; \
+#		./configure $(SILENT_OPT) \
+#			--prefix=`pwd`/out \
+#			--enable-static=yes \
+#			--enable-shared=no \
+#			--disable-fam \
+#			--disable-libmount \
+#			--with-pcre=internal \
+#		; \
+#		$(MAKE) install; \
+#		cp -a out/bin/glib-* $(HOST_DIR)/bin
+#	$(REMOVE)/glib-$(LIBGLIB2_VER)
+#	$(TOUCH)
 LIBGLIB2_VER_MAJOR = 2
-LIBGLIB2_VER_MINOR = 54
-LIBGLIB2_VER_MICRO = 0
+LIBGLIB2_VER_MINOR = 57
+LIBGLIB2_VER_MICRO = 1
 LIBGLIB2_VER = $(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR).$(LIBGLIB2_VER_MICRO)
 LIBGLIB2_SOURCE = glib-$(LIBGLIB2_VER).tar.xz
 
@@ -148,6 +176,7 @@ $(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBG
 			--disable-fam \
 			--disable-libmount \
 			--with-pcre=internal \
+			--disable-compile-warnings \
 		; \
 		$(MAKE) install; \
 		cp -a out/bin/glib-* $(HOST_DIR)/bin
