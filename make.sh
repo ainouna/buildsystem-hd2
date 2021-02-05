@@ -32,7 +32,7 @@ fi
 # cpu arch / boxtype
 #
 case $1 in
-	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9]) REPLY=$1;;
+	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9] | 7[0-9] | 8[0-9] | 9[0-9]) REPLY=$1;;
 	*)
 		echo "Target receivers:"
 		echo "  Kathrein"
@@ -51,15 +51,12 @@ case $1 in
 		echo
 		echo "  AB IPBox/cuberevo/Xsarius"
 		echo "   16)  55HD"
-		echo "   17)  99HD"
 		echo "   18)  9900HD"
 		echo "   19)  9000HD / id."
 		echo "   20)  900HD / mini"
 		echo "   21)  910HD / mini2"
 		echo "   22)  91HD / 250HD"
-		echo "   23)  9500HD / 7000HD"
 		echo "   24)  2000HD"
-		echo "   25)  mini_fta / 200HD"
 		echo "   26)  3000HD / Xsarius Alpha"
 		echo
 		echo "  Fulan"
@@ -110,15 +107,12 @@ case "$REPLY" in
 	 8) BOXARCH="sh4";BOXTYPE="octagon1008";;
 	 9) BOXARCH="sh4";BOXTYPE="atevio7500";;
 	16) BOXARCH="sh4";BOXTYPE="ipbox55";;
-	17) BOXARCH="sh4";BOXTYPE="ipbox99";;
 	18) BOXARCH="sh4";BOXTYPE="ipbox9900";;
 	19) BOXARCH="sh4";BOXTYPE="cuberevo";;
 	20) BOXARCH="sh4";BOXTYPE="cuberevo_mini";;
 	21) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";;
 	22) BOXARCH="sh4";BOXTYPE="cuberevo_250hd";;
-	23) BOXARCH="sh4";BOXTYPE="cuberevo_9500hd";;
 	24) BOXARCH="sh4";BOXTYPE="cuberevo_2000hd";;
-	25) BOXARCH="sh4";BOXTYPE="cuberevo_mini_fta";;
 	26) BOXARCH="sh4";BOXTYPE="cuberevo_3000hd";;
 	27) BOXARCH="sh4";BOXTYPE="spark";;
 	28) BOXARCH="sh4";BOXTYPE="spark7162";;
