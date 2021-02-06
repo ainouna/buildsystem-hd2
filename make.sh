@@ -229,7 +229,7 @@ case $5 in
 	[1-2]) REPLY=$5;;
 	*)	echo -e "\nMedia Framework:"
 		echo "   1) libeplayer3"
-		echo -e "   \033[01;32m2) gstreamer\033[00m"
+		echo -e "   \033[01;32m2) gstreamer (recommended for mips and arm boxes)\033[00m"
 		read -p "Select media framework (1-2)? ";;
 esac
 
