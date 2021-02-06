@@ -652,12 +652,31 @@ $(D)/zlib: $(D)/bootstrap $(ARCHIVE)/$(ZLIB_SOURCE)
 #
 # bzip2
 #
-BZIP2_VER = 1.0.6
+#BZIP2_VER = 1.0.6
+#BZIP2_SOURCE = bzip2-$(BZIP2_VER).tar.gz
+#BZIP2_Patch = bzip2-$(BZIP2_VER).patch
+
+#$(ARCHIVE)/$(BZIP2_SOURCE):
+#	$(WGET) http://www.bzip.org/$(BZIP2_VER)/$(BZIP2_SOURCE)
+
+#$(D)/bzip2: $(D)/bootstrap $(ARCHIVE)/$(BZIP2_SOURCE)
+#	$(START_BUILD)
+#	$(REMOVE)/bzip2-$(BZIP2_VER)
+#	$(UNTAR)/$(BZIP2_SOURCE)
+#	$(CHDIR)/bzip2-$(BZIP2_VER); \
+#		$(call apply_patches, $(BZIP2_Patch)); \
+#		mv Makefile-libbz2_so Makefile; \
+#		$(MAKE) all CC=$(TARGET)-gcc AR=$(TARGET)-ar RANLIB=$(TARGET)-ranlib; \
+#		$(MAKE) install PREFIX=$(TARGET_DIR)/usr
+#	cd $(TARGET_DIR) && rm -f usr/bin/bzip2
+#	$(REMOVE)/bzip2-$(BZIP2_VER)
+#	$(TOUCH)
+BZIP2_VER = 1.0.8
 BZIP2_SOURCE = bzip2-$(BZIP2_VER).tar.gz
 BZIP2_Patch = bzip2-$(BZIP2_VER).patch
 
 $(ARCHIVE)/$(BZIP2_SOURCE):
-	$(WGET) http://www.bzip.org/$(BZIP2_VER)/$(BZIP2_SOURCE)
+	$(WGET) https://sourceware.org/pub/bzip2/$(BZIP2_SOURCE)
 
 $(D)/bzip2: $(D)/bootstrap $(ARCHIVE)/$(BZIP2_SOURCE)
 	$(START_BUILD)
@@ -668,7 +687,9 @@ $(D)/bzip2: $(D)/bootstrap $(ARCHIVE)/$(BZIP2_SOURCE)
 		mv Makefile-libbz2_so Makefile; \
 		$(MAKE) all CC=$(TARGET)-gcc AR=$(TARGET)-ar RANLIB=$(TARGET)-ranlib; \
 		$(MAKE) install PREFIX=$(TARGET_DIR)/usr
+ifneq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k hd51 h7 vuduo vuduo4k vuduo4kse vuuno4kse vuzero4k vuultimo4k vuuno4k vusolo4k))
 	cd $(TARGET_DIR) && rm -f usr/bin/bzip2
+endif
 	$(REMOVE)/bzip2-$(BZIP2_VER)
 	$(TOUCH)
 
