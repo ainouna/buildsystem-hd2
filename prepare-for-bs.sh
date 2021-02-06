@@ -115,7 +115,9 @@ PACKAGES="\
 	${UBUNTU:+libmount-dev}                                                                                       \
 	${UBUNTU:+mtools}                                                                                             \
 	${UBUNTU:+u-boot-tools}                                                                                       \
-	${UBUNTU:+simg2img}                                                                              \
+	${UBUNTU:+simg2img}                                                                                           \
+    ${UBUNTU:+lua5.2}                                                                                             \
+    ${UBUNTU:+python-dev}                                                                                         \
 ";
 
 if [ "$UBUNTU" == 1 ]; then
