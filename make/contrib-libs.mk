@@ -125,34 +125,6 @@ $(D)/libffi: $(D)/bootstrap $(ARCHIVE)/$(LIBFFI_SOURCE)
 #
 # host_libglib2_genmarshal
 #
-#LIBGLIB2_VER_MAJOR = 2
-#LIBGLIB2_VER_MINOR = 54
-#LIBGLIB2_VER_MICRO = 0
-#LIBGLIB2_VER = $(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR).$(LIBGLIB2_VER_MICRO)
-#LIBGLIB2_SOURCE = glib-$(LIBGLIB2_VER).tar.xz
-#
-#$(ARCHIVE)/$(LIBGLIB2_SOURCE):
-#	$(WGET) https://ftp.gnome.org/pub/gnome/sources/glib/$(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR)/$(LIBGLIB2_SOURCE)
-#
-#$(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBGLIB2_SOURCE)
-#	$(START_BUILD)
-#	$(REMOVE)/glib-$(LIBGLIB2_VER)
-#	$(UNTAR)/$(LIBGLIB2_SOURCE)
-#	$(CHDIR)/glib-$(LIBGLIB2_VER); \
-#		export PKG_CONFIG=/usr/bin/pkg-config; \
-#		export PKG_CONFIG_PATH=$(HOST_DIR)/lib/pkgconfig; \
-#		./configure $(SILENT_OPT) \
-#			--prefix=`pwd`/out \
-#			--enable-static=yes \
-#			--enable-shared=no \
-#			--disable-fam \
-#			--disable-libmount \
-#			--with-pcre=internal \
-#		; \
-#		$(MAKE) install; \
-#		cp -a out/bin/glib-* $(HOST_DIR)/bin
-#	$(REMOVE)/glib-$(LIBGLIB2_VER)
-#	$(TOUCH)
 LIBGLIB2_VER_MAJOR = 2
 LIBGLIB2_VER_MINOR = 57
 LIBGLIB2_VER_MICRO = 1
@@ -186,7 +158,8 @@ $(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBG
 #
 # libglib2
 #
-LIBGLIB2_PATCH = libglib2-$(LIBGLIB2_VER)-disable-tests.patch
+LIBGLIB2_PATCH  = libglib2-$(LIBGLIB2_VER)-disable-tests.patch
+LIBGLIB2_PATCH += libglib2-$(LIBGLIB2_VER)-fix-gio-linking.patch
 
 $(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libffi $(ARCHIVE)/$(LIBGLIB2_SOURCE)
 	$(START_BUILD)
@@ -200,7 +173,9 @@ $(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libff
 		echo "ac_cv_func_posix_getgrgid_r=yes" >> config.cache; \
 		echo "glib_cv_stack_grows=no" >> config.cache; \
 		echo "glib_cv_uscore=no" >> config.cache; \
+		echo "ac_cv_path_GLIB_GENMARSHAL=$(HOST_DIR)/bin/glib-genmarshal" >> config.cache; \
 		$(call apply_patches, $(LIBGLIB2_PATCH)); \
+		autoreconf -fi $(SILENT_OPT); \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--enable-static \
@@ -652,25 +627,6 @@ $(D)/zlib: $(D)/bootstrap $(ARCHIVE)/$(ZLIB_SOURCE)
 #
 # bzip2
 #
-#BZIP2_VER = 1.0.6
-#BZIP2_SOURCE = bzip2-$(BZIP2_VER).tar.gz
-#BZIP2_Patch = bzip2-$(BZIP2_VER).patch
-
-#$(ARCHIVE)/$(BZIP2_SOURCE):
-#	$(WGET) http://www.bzip.org/$(BZIP2_VER)/$(BZIP2_SOURCE)
-
-#$(D)/bzip2: $(D)/bootstrap $(ARCHIVE)/$(BZIP2_SOURCE)
-#	$(START_BUILD)
-#	$(REMOVE)/bzip2-$(BZIP2_VER)
-#	$(UNTAR)/$(BZIP2_SOURCE)
-#	$(CHDIR)/bzip2-$(BZIP2_VER); \
-#		$(call apply_patches, $(BZIP2_Patch)); \
-#		mv Makefile-libbz2_so Makefile; \
-#		$(MAKE) all CC=$(TARGET)-gcc AR=$(TARGET)-ar RANLIB=$(TARGET)-ranlib; \
-#		$(MAKE) install PREFIX=$(TARGET_DIR)/usr
-#	cd $(TARGET_DIR) && rm -f usr/bin/bzip2
-#	$(REMOVE)/bzip2-$(BZIP2_VER)
-#	$(TOUCH)
 BZIP2_VER = 1.0.8
 BZIP2_SOURCE = bzip2-$(BZIP2_VER).tar.gz
 BZIP2_Patch = bzip2-$(BZIP2_VER).patch
