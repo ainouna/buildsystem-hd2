@@ -62,6 +62,9 @@ endif
 N_CONFIG_OPTS  = $(LOCAL_NEUTRINO_BUILD_OPTIONS)
 N_CONFIG_OPTS += --with-boxtype=$(BOXTYPE)
 
+# MEDIAFW
+MEDIAFW ?= gstreamer
+
 ifeq ($(MEDIAFW), gstreamer)
 NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
 N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
@@ -70,6 +73,9 @@ N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
 N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
 NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
 endif
+
+# INTERFACE
+INTERFACE ?= lua
 
 ifeq ($(INTERFACE), python)
 NHD2_OPTS += --enable-python
@@ -82,13 +88,22 @@ NHD2_OPTS += --enable-lua
 NHD2_OPTS += --enable-python
 endif
 
+# CICAM
+CICAM ?= ci-cam
+
 ifeq ($(CICAM), ci-cam)
 NHD2_OPTS += --enable-ci
 endif
 
+# SCART
+SCART ?= scart
+
 ifeq ($(SCART), scart)
 NHD2_OPTS += --enable-scart
 endif
+
+# LCD 
+LCD ?= vfd
 
 ifeq ($(LCD), lcd)
 NHD2_OPTS += --enable-lcd
@@ -98,9 +113,15 @@ ifeq ($(LCD), 4-digits)
 NHD2_OPTS += --enable-4digits
 endif
 
+# FKEYS
+FKEY ?=
+
 ifeq ($(FKEYS), fkeys)
 NHD2_OPTS += --enable-functionkeys
 endif
+
+# TESTING
+TESTING ?=
 
 ifeq ($(TESTING), testing)
 NHD2_OPTS += --enable-testing

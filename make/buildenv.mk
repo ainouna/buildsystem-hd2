@@ -10,7 +10,128 @@ export LD_LIBRARY_PATH
 
 BASE_DIR             := $(shell pwd)
 
+# BOXTYPE | BOXARCH and other params
 -include $(BASE_DIR)/config
+
+BOXTYPE ?= hd51
+BOXARCH ?= arm
+
+#
+ifeq ($(BOXTYPE), ufs910)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), ufs912)
+BOXARCH = sh4
+endif 
+ifeq ($(BOXTYPE), ufs913)
+BOXARCH = sh4
+endif 
+ifeq ($(BOXTYPE), ufs922)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), tf7700)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), fortis_hdbox)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), octagon1008)
+BOXARCH = sh4
+endif 
+ifeq ($(BOXTYPE), atevio7500)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), ipbox55)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), cuberevo)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), cuberevo_mini)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), cuberevo_mini2)
+BOXARCH = sh4
+endif 
+ifeq ($(BOXTYPE), cuberevo_250hd)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), cuberevo_2000hd)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), cuberevo_3000hd)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), spark)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), spark7162)
+BOXARCH = sh4
+endif
+ifeq ($(BOXTYPE), vusolo4k)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), vuduo)
+BOXARCH = mips
+endif 
+ifeq ($(BOXTYPE), vuduo2)
+BOXARCH = mips
+endif
+ifeq ($(BOXTYPE), vuduo4k)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), vuultimo4k)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), vuuno4k)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), vuuno4kse)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), vuzero4k)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), hd51)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), hd60)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), hd61)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), osnino)
+BOXARCH = mips
+endif
+ifeq ($(BOXTYPE), osninoplus)
+BOXARCH = mips
+endif
+ifeq ($(BOXTYPE), osninopro)
+BOXARCH = mips
+endif
+ifeq ($(BOXTYPE), osmio4k)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), osmio4kplus)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), osmini4k)
+BOXARCH = arm
+endif
+ifeq ($(BOXTYPE), gb800se)
+BOXARCH = mips
+endif
+ifeq ($(BOXTYPE), bre2ze4k)
+BOXARCH = arm
+endif 
+ifeq ($(BOXTYPE), h7)
+BOXARCH = arm
+endif                        
+
+ifeq ($(BOXARCH), sh4)
+KERNEL_STM ?= p0217
+endif
 
 # for local extensions
 -include $(BASE_DIR)/config.local
