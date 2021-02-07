@@ -1,6 +1,6 @@
 # buildsystem-ddt
 
-git clone https://github.com/buildsystem-ddt.git
+git clone https://github.com/mohousch/buildsystem-ddt.git
 
 cd buildsystem-ddt
 
