@@ -12,9 +12,10 @@ BASE_DIR             := $(shell pwd)
 
 -include $(BASE_DIR)/config
 
+# for local extensions
+-include $(BASE_DIR)/config.local
+
 ARCHIVE               = $(HOME)/Archive
-BUILD_TMP             = $(BASE_DIR)/tufsbox/$(BOXTYPE)/build_tmp
-SOURCE_DIR            = $(BASE_DIR)/tufsbox/$(BOXTYPE)/build_source
 APPS_DIR              = $(BASE_DIR)/apps
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
@@ -23,9 +24,6 @@ CUSTOM_DIR            = $(BASE_DIR)/custom
 PATCHES               = $(BASE_DIR)/Patches
 SCRIPTS_DIR           = $(BASE_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
-
-# for local extensions
--include $(BASE_DIR)/config.local
 
 # default platform...
 MAKEFLAGS            += --no-print-directory
@@ -43,6 +41,8 @@ GIT_NAME_HOSTAPPS    ?= mohousch
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
 
+BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
+SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
