@@ -495,7 +495,7 @@ flash-image-$(BOXTYPE):
 	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
 	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
 	ubinize -o $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/rootfs.bin -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(VUDUO_PREFIX)/ubinize.cfg
-	rm -f $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/root.ubi
+	rm -f $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/rootfs.ubi
 	rm -f $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/ubinize.cfg
 	echo $(BOXTYPE)_usb_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_DIR)/$(OSNINO_PREFIX)/imageversion
 	cd $(IMAGE_BUILD_DIR)/ && \
@@ -508,8 +508,6 @@ endif
 # osmio4k | osmio4kplus | osmini4k
 #
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
-IMAGE_BUILD_DIR = $(BUILD_TMP)/image-build
-
 IMAGE_NAME = emmc
 IMAGE_LINK = $(IMAGE_NAME).ext4
 
