@@ -22,10 +22,10 @@ BOXARCH = sh4
 endif
 ifeq ($(BOXTYPE), ufs912)
 BOXARCH = sh4
-endif 
+endif
 ifeq ($(BOXTYPE), ufs913)
 BOXARCH = sh4
-endif 
+endif
 ifeq ($(BOXTYPE), ufs922)
 BOXARCH = sh4
 endif
@@ -37,7 +37,7 @@ BOXARCH = sh4
 endif
 ifeq ($(BOXTYPE), octagon1008)
 BOXARCH = sh4
-endif 
+endif
 ifeq ($(BOXTYPE), atevio7500)
 BOXARCH = sh4
 endif
@@ -52,7 +52,7 @@ BOXARCH = sh4
 endif
 ifeq ($(BOXTYPE), cuberevo_mini2)
 BOXARCH = sh4
-endif 
+endif
 ifeq ($(BOXTYPE), cuberevo_250hd)
 BOXARCH = sh4
 endif
@@ -70,16 +70,16 @@ BOXARCH = sh4
 endif
 ifeq ($(BOXTYPE), vusolo4k)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), vuduo)
 BOXARCH = mips
-endif 
+endif
 ifeq ($(BOXTYPE), vuduo2)
 BOXARCH = mips
 endif
 ifeq ($(BOXTYPE), vuduo4k)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), vuultimo4k)
 BOXARCH = arm
 endif
@@ -94,7 +94,7 @@ BOXARCH = arm
 endif
 ifeq ($(BOXTYPE), hd51)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), hd60)
 BOXARCH = arm
 endif
@@ -112,10 +112,10 @@ BOXARCH = mips
 endif
 ifeq ($(BOXTYPE), osmio4k)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), osmio4kplus)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), osmini4k)
 BOXARCH = arm
 endif
@@ -124,10 +124,10 @@ BOXARCH = mips
 endif
 ifeq ($(BOXTYPE), bre2ze4k)
 BOXARCH = arm
-endif 
+endif
 ifeq ($(BOXTYPE), h7)
 BOXARCH = arm
-endif                        
+endif                     
 
 ifeq ($(BOXARCH), sh4)
 KERNEL_STM ?= p0217
