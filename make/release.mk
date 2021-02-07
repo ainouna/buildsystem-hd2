@@ -250,7 +250,7 @@ release-tf7700:
 release-hd51:
 	install -m 0755 $(SKEL_ROOT)/release/halt_hd51 $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
 # Mutant HD60
@@ -265,7 +265,7 @@ release-hd60:
 release-vusolo4k:
 	install -m 0755 $(SKEL_ROOT)/release/halt_vusolo4k $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7366c0 $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7366c0 $(RELEASE_DIR)/boot/
 
 #
 # vuduo
@@ -311,7 +311,7 @@ release-bre2ze4k:
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
 	cp -f $(SKEL_ROOT)/release/fstab_bre2ze4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
 # h7
@@ -321,7 +321,7 @@ release-h7:
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
 	cp -f $(SKEL_ROOT)/release/fstab_h7 $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
 # hd61
@@ -339,7 +339,7 @@ release-vuduo2:
 	install -m 0755 $(SKEL_ROOT)/release/halt_vuduo2 $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/release/fstab_vuduo2 $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(RELEASE_DIR)/boot/
 
 #
 # vuduo4k
@@ -351,7 +351,7 @@ release-vuduo4k:
 	cp -f $(SKEL_ROOT)/release/fstab_vuduo4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7278b1 $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7278b1 $(RELEASE_DIR)/boot/
 
 #
 # vuultimo
@@ -361,7 +361,7 @@ release-vuultimo4k:
 	cp -f $(SKEL_ROOT)/release/fstab_vuultimo4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7445d0 $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7445d0 $(RELEASE_DIR)/boot/
 
 #
 # vuuno4k
@@ -371,8 +371,7 @@ release-vuuno4k:
 	cp -f $(SKEL_ROOT)/release/fstab_vuuno4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
-#	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
 
 #
 # vuuno4kse
@@ -382,8 +381,7 @@ release-vuuno4kse:
 	cp -f $(SKEL_ROOT)/release/fstab_vuuno4kse $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
-#	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
 
 #
 # vuzero4k
@@ -393,8 +391,7 @@ release-vuzero4k:
 	cp -f $(SKEL_ROOT)/release/fstab_vuzero4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
-#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7260a0 $(RELEASE_DIR)/boot/
-#	cp $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
+	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7260a0 $(RELEASE_DIR)/boot/
 
 #
 # release-common
@@ -457,9 +454,9 @@ release-common: $(RELEASE_DEPS)
 	cp -a $(TARGET_DIR)/sbin/* $(RELEASE_DIR)/sbin/
 	cp -a $(TARGET_DIR)/usr/sbin/* $(RELEASE_DIR)/usr/sbin/
 	ln -sf /.version $(RELEASE_DIR)/var/etc/.version
-ifeq ($(BOXARCH), sh4)
+#ifeq ($(BOXARCH), sh4)
 	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/
-endif
+#endif
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 	cp -dp $(SKEL_ROOT)/sbin/MAKEDEV $(RELEASE_DIR)/sbin/
 	ln -sf ../sbin/MAKEDEV $(RELEASE_DIR)/dev/MAKEDEV
