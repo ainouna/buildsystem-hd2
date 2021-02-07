@@ -62,6 +62,9 @@ ifeq ($(BOXTYPE), vuduo2)
 endif
 	$(TOUCH)
 
+#
+# vuduo2
+#
 ifeq ($(BOXTYPE), vuduo2)
 #
 # platform util

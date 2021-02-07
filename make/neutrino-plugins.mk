@@ -1,8 +1,4 @@
 #
-# Makefile to build NEUTRINO-PLUGINS
-#
-
-#
 # neutrinohd2 plugins
 #
 NEUTRINO_HD2_PLUGINS_PATCHES =

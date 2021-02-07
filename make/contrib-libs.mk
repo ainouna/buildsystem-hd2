@@ -786,7 +786,7 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SOURCE)
 endif
 
 #
-# jpeg
+# libjpeg
 #
 JPEG_VER = 8d
 JPEG_SOURCE = jpegsrc.v$(JPEG_VER).tar.gz
@@ -795,7 +795,7 @@ JPEG_PATCH = jpeg-$(JPEG_VER).patch
 $(ARCHIVE)/$(JPEG_SOURCE):
 	$(WGET) http://www.ijg.org/files/$(JPEG_SOURCE)
 
-$(D)/jpeg: $(D)/bootstrap $(ARCHIVE)/$(JPEG_SOURCE)
+$(D)/libjpeg: $(D)/bootstrap $(ARCHIVE)/$(JPEG_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/jpeg-$(JPEG_VER)
 	$(UNTAR)/$(JPEG_SOURCE)
@@ -811,17 +811,6 @@ $(D)/jpeg: $(D)/bootstrap $(ARCHIVE)/$(JPEG_SOURCE)
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cjpeg djpeg jpegtran rdjpgcom wrjpgcom)
 	$(REMOVE)/jpeg-$(JPEG_VER)
 	$(TOUCH)
-
-#
-# libjpg
-#
-#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910 ufs922 ipbox55 ipbox99 ipbox9900 cuberevo_250hd #cuberevo_2000hd))
-$(D)/libjpeg: $(D)/jpeg
-	@touch $@
-#else
-#$(D)/libjpeg: $(D)/libjpeg_turbo2
-#	@touch $@
-#endif
 
 #
 # libjpeg_turbo2

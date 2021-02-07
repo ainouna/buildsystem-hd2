@@ -314,9 +314,6 @@ $(D)/portmap: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(PORTMAP_SOURCE) $(ARCHIVE)/po
 #
 # e2fsprogs
 #
-#E2FSPROGS_VER = 1.44.4
-#E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
-#E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
 E2FSPROGS_VER = 1.45.6
 E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
 E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
@@ -383,8 +380,6 @@ $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
 #
 # util_linux
 #
-#UTIL_LINUX_MAJOR = 2.26
-#UTIL_LINUX_MINOR = .2
 UTIL_LINUX_MAJOR = 2.36
 UTIL_LINUX_MINOR = .1
 UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR)
@@ -1362,7 +1357,6 @@ SAMBA_PATCH = \
 	320-debug_level_checks.patch \
 	330-librpc_default_print.patch \
 	samba-3.6.25.patch
-
 
 $(ARCHIVE)/$(SAMBA_SOURCE):
 	$(WGET) https://ftp.samba.org/pub/samba/stable/$(SAMBA_SOURCE)

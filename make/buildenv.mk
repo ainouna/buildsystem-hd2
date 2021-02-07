@@ -19,6 +19,10 @@ APPS_DIR              = $(BASE_DIR)/apps
 DRIVER_DIR            = $(BASE_DIR)/driver
 FLASH_DIR             = $(BASE_DIR)/flash
 HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
+CUSTOM_DIR            = $(BASE_DIR)/custom
+PATCHES               = $(BASE_DIR)/Patches
+SCRIPTS_DIR           = $(BASE_DIR)/scripts
+SKEL_ROOT             = $(BASE_DIR)/root
 
 # for local extensions
 -include $(BASE_DIR)/config.local
@@ -38,17 +42,13 @@ GIT_NAME_FLASH       ?= mohousch
 GIT_NAME_HOSTAPPS    ?= mohousch
 
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
+
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
 HOST_DIR              = $(TUFSBOX_DIR)/host
 RELEASE_DIR           = $(TUFSBOX_DIR)/release
-
-CUSTOM_DIR            = $(BASE_DIR)/custom
-PATCHES               = $(BASE_DIR)/Patches
-SCRIPTS_DIR           = $(BASE_DIR)/scripts
-SKEL_ROOT             = $(BASE_DIR)/root
-D                     = $(BASE_DIR)/tufsbox/$(BOXTYPE)/.deps
+D                     = $(TUFSBOX_DIR)/.deps
 # backwards compatibility
 DEPDIR                = $(D)
 
@@ -423,4 +423,6 @@ ifeq ($(BOXTYPE), pace7241)
 KERNEL_PATCHES_24  = $(PACE7241_PATCHES_24)
 DRIVER_PLATFORM   += PACE7241=pace7241
 endif
+
+
 

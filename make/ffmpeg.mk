@@ -1,7 +1,6 @@
 #
 # ffmpeg
 #
-################################################################################
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 FFM = 1
 else ifeq ($(BOXTYPE), $(filter $(BOXTYPE), $(LOCAL_FFMPEG_BOXTYPE_LIST)))

@@ -71,3 +71,5 @@ distclean: depsclean
 
 %-clean:
 	( cd $(D) && find . -name $(subst -clean,,$@) -delete )
+
+
