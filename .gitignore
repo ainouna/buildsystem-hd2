@@ -12,7 +12,6 @@ root/boot/*
 tufsbox/
 .deps/
 config*
-config.local
 Makefile.local
 *~
 /hostapps/
