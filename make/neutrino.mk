@@ -166,7 +166,7 @@ $(D)/neutrinohd2.config.status:
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CPPFLAGS="$(N_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"
-#	@touch $@
+	@touch $@
 
 $(D)/neutrinohd2.do_compile: $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \

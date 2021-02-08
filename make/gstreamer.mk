@@ -149,6 +149,8 @@ $(D)/gst_plugins_good: $(D)/bootstrap $(D)/libpng $(D)/libjpeg $(D)/gstreamer $(
 		$(call apply_patches, $(GST_PLUGINS_GOOD_PATCH)); \
 		./autogen.sh --noconfigure $(SILENT_OPT); \
 		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
 			--prefix=/usr \
 			--datarootdir=/.remove \
 			--enable-silent-rules \
