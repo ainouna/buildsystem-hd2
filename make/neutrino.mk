@@ -157,6 +157,7 @@ $(D)/neutrinohd2.config.status:
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--enable-silent-rules \
+			--enable-maintainer-mode \
 			--with-boxtype=$(BOXTYPE) \
 			--with-datadir=/usr/share/tuxbox \
 			--with-configdir=/var/tuxbox/config \

@@ -18,8 +18,6 @@ $(D)/neutrinohd2-plugins.config.status: $(D)/bootstrap neutrino
 		./configure $(SILENT_OPT) \
 			--host=$(TARGET) \
 			--build=$(BUILD) \
-			--prefix= \
-			--with-target=cdk \
 			--with-boxtype=$(BOXTYPE) \
 			--with-plugindir=/var/tuxbox/plugins \
 			--with-datadir=/usr/share/tuxbox \
