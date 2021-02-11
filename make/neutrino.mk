@@ -186,13 +186,13 @@ neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	make neutrinohd2-plugins.build
 	$(TUXBOX_CUSTOMIZE)
 
-neutrino-clean: neutrino-cdkroot-clean
+neutrino-clean:
 	rm -f $(D)/neutrino
 	rm -f $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \
 		$(MAKE) clean
 
-neutrino-distclean: neutrino-cdkroot-clean
+neutrino-distclean:
 	rm -f $(D)/neutrino*
 	rm -f $(D)/neutrino-plugins*
 
