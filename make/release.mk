@@ -431,7 +431,7 @@ release-common: $(RELEASE_DEPS)
 	ln -sf /hdd $(RELEASE_DIR)/media/hdd
 	install -d $(RELEASE_DIR)/mnt/{hdd,nfs,usb}
 	install -d $(RELEASE_DIR)/mnt/mnt{0..7}
-	install -d $(RELEASE_DIR)/usr/{bin,lib,sbin,share}
+	install -d $(RELEASE_DIR)/usr/{bin,lib,sbin,share,include}
 	install -d $(RELEASE_DIR)/usr/local/{bin,sbin}
 	install -d $(RELEASE_DIR)/usr/share/{tuxbox,udhcpc,zoneinfo,lua,fonts}
 	install -d $(RELEASE_DIR)/usr/share/tuxbox/neutrino
@@ -454,9 +454,7 @@ release-common: $(RELEASE_DEPS)
 	cp -a $(TARGET_DIR)/sbin/* $(RELEASE_DIR)/sbin/
 	cp -a $(TARGET_DIR)/usr/sbin/* $(RELEASE_DIR)/usr/sbin/
 	ln -sf /.version $(RELEASE_DIR)/var/etc/.version
-#ifeq ($(BOXARCH), sh4)
 	cp $(TARGET_DIR)/boot/$(KERNELNAME) $(RELEASE_DIR)/boot/
-#endif
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 	cp -dp $(SKEL_ROOT)/sbin/MAKEDEV $(RELEASE_DIR)/sbin/
 	ln -sf ../sbin/MAKEDEV $(RELEASE_DIR)/dev/MAKEDEV
@@ -746,7 +744,8 @@ ifeq ($(INTERFACE), lua-python)
 endif
 
 # delete python
-#ifeq ($(INTERFACE), python) 
+ifeq ($(INTERFACE), python)
+	cp -R $(TARGET_DIR)/usr/include/python2.7 $(RELEASE_DIR)/usr/include/ 
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,distutils,lib-old,lib-tk,plat-linux3,test}
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/email/test
@@ -782,9 +781,10 @@ endif
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/web/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/words/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VERSION).egg-info
-#endif
+endif
 
-#ifeq ($(INTERFACE), lua-python) 
+ifeq ($(INTERFACE), lua-python)
+	cp -R $(TARGET_DIR)/usr/include/python2.7 $(RELEASE_DIR)/usr/include/  
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,distutils,lib-old,lib-tk,plat-linux3,test}
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/email/test
@@ -820,7 +820,7 @@ endif
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/web/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/words/test
 #	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VERSION).egg-info
-#endif
+endif
 
 release-base: release-common release-$(BOXTYPE)
 	
