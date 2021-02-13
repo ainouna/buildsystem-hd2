@@ -46,7 +46,9 @@ BASE_FILES_ADAPTED_ETC_FILES = \
 	shells \
 	shells.conf \
 	host.conf \
-	nsswitch.conf
+	nsswitch.conf \
+	inetd.conf \
+	irexec.keys
 
 BASE_PASSWD_ADAPTED_ETC_FILES = \
 	passwd \
@@ -56,7 +58,9 @@ NETBASE_ADAPTED_ETC_FILES = \
 	protocols \
 	services \
 	network/interfaces \
-	network/options
+	network/options \
+	network/post-wlan0.sh \
+	network/pre-wlan0.sh
 
 INITSCRIPTS_ADAPTED_ETC_FILES = \
 	vdstandby.cfg \
@@ -89,3 +93,5 @@ define adapted-etc-files
 		[ "$${i%%/*}" = "init.d" ] && chmod 755 $(TARGET_DIR)/etc/$$i || true; \
 	done
 endef
+
+
