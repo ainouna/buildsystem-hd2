@@ -591,12 +591,8 @@ LIRC = $(D)/lirc
 $(ARCHIVE)/$(LIRC_SOURCE):
 	$(WGET) https://sourceforge.net/projects/lirc/files/LIRC/$(LIRC_VER)/$(LIRC_SOURCE)
 
-ifeq ($(IMAGE), $(filter $(IMAGE), neutrino neutrino-wlandriver))
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162))
 LIRC_OPTS = -D__KERNEL_STRICT_NAMES -DUINPUT_NEUTRINO_HACK -DSPARK -I$(DRIVER_DIR)/frontcontroller/aotom_spark
-else
-LIRC_OPTS = -D__KERNEL_STRICT_NAMES
-endif
 else
 LIRC_OPTS = -D__KERNEL_STRICT_NAMES
 endif
