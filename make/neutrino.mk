@@ -47,7 +47,7 @@ N_CPPFLAGS     = -I$(TARGET_DIR)/usr/include
 N_CPPFLAGS    += -ffunction-sections -fdata-sections
 
 ifeq ($(BOXARCH), arm)
-N_CPPFLAGS    += -I$(CROSS_BASE)/$(TARGET)/sys-root/usr/include
+N_CPPFLAGS    += -I$(CROSS_DIR)/$(TARGET)/sys-root/usr/include
 endif
 
 ifeq ($(BOXARCH), sh4)

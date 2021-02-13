@@ -343,11 +343,11 @@ OPENSSL_PATCH += openssl-$(OPENSSL_VER)-disable_doc_tests.patch
 OPENSSL_PATCH += openssl-$(OPENSSL_VER)-fix-parallel-building.patch
 OPENSSL_PATCH += openssl-$(OPENSSL_VER)-compat_versioned_symbols-1.patch
 
-ifeq ($(BOXARCH), sh4)
+#ifeq ($(BOXARCH), sh4)
 OPENSSL_SED_PATCH = sed -i 's|MAKEDEPPROG=makedepend|MAKEDEPPROG=$(CROSS_DIR)/bin/$$(CC) -M|' Makefile
-else
-OPENSSL_SED_PATCH = sed -i 's|MAKEDEPPROG=makedepend|MAKEDEPPROG=$(CROSS_BASE)/bin/$$(CC) -M|' Makefile
-endif
+#else
+#OPENSSL_SED_PATCH = sed -i 's|MAKEDEPPROG=makedepend|MAKEDEPPROG=$(CROSS_BASE)/bin/$$(CC) -M|' Makefile
+#endif
 
 $(ARCHIVE)/$(OPENSSL_SOURCE):
 	$(WGET) https://www.openssl.org/source/$(OPENSSL_SOURCE)
