@@ -18,9 +18,6 @@ distclean: depsclean
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) driver-clean
 	@-rm -rf $(TUFSBOX_DIR)
-	@-rm -rf $(BUILD_TMP)
-	@-rm -rf $(SOURCE_DIR)
-	@-rm -rf $(CROSS_DIR)
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 %-clean:
