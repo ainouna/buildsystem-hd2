@@ -180,13 +180,6 @@ neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	touch $(D)/$(notdir $@)
 	$(TUXBOX_CUSTOMIZE)
 
-neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
-	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
-	make $(TARGET_DIR)/.version
-	touch $(D)/$(notdir $@)
-	make neutrinohd2-plugins.build
-	$(TUXBOX_CUSTOMIZE)
-
 neutrino-clean:
 	rm -f $(D)/neutrino
 	rm -f $(D)/neutrinohd2.config.status

@@ -39,6 +39,13 @@ $(D)/neutrinohd2-plugins.build: neutrinohd2-plugins.do_prepare neutrinohd2-plugi
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2-plugins install DESTDIR=$(TARGET_DIR) top_srcdir=$(SOURCE_DIR)/neutrinohd2
 	$(TOUCH)
 
+neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
+	make $(TARGET_DIR)/.version
+	touch $(D)/$(notdir $@)
+	make neutrinohd2-plugins.build
+	$(TUXBOX_CUSTOMIZE)
+
 neutrino-plugins-clean:
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 	$(MAKE) clean
