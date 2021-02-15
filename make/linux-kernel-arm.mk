@@ -27,34 +27,34 @@
 #
 # hd60
 #
-ifeq ($(BOXTYPE), hd60)
-KERNEL_VER             = 4.4.35
-KERNEL_DATE            = 20180301
-KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = hd60_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_DTB_VER         = hi3798mv200.dtb
-KERNELNAME             = uImage
+#ifeq ($(BOXTYPE), hd60)
+#KERNEL_VER             = 4.4.35
+#KERNEL_DATE            = 20180301
+#KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/gfutures
+#KERNEL_CONFIG          = hd60_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+#KERNEL_DTB_VER         = hi3798mv200.dtb
+#KERNELNAME             = uImage
 
-KERNEL_PATCHES_ARM     = \
-		arm/hd60/0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		arm/hd60/0003-dont-mark-register-as-const.patch \
-		arm/hd60/0001-remote.patch \
-		arm/hd60/HauppaugeWinTV-dualHD.patch \
-		arm/hd60/dib7000-linux_4.4.179.patch \
-		arm/hd60/dvb-usb-linux_4.4.179.patch \
-		arm/hd60/wifi-linux_4.4.183.patch \
-		arm/hd60/move-default-dialect-to-SMB3.patch \
-		arm/hd60/0004-linux-fix-buffer-size-warning-error.patch \
-		arm/hd60/modules_mark__inittest__exittest_as__maybe_unused.patch \
-		arm/hd60/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
-		arm/hd60/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
-		arm/hd60/0005-xbox-one-tuner-4.4.patch \
-		arm/hd60/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
-		arm/hd60/0007-dvb-mn88472-staging.patch \
-		arm/hd60/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
-endif
+#KERNEL_PATCHES_ARM     = \
+#		arm/hd60/0002-log2-give-up-on-gcc-constant-optimizations.patch \
+#		arm/hd60/0003-dont-mark-register-as-const.patch \
+#		arm/hd60/0001-remote.patch \
+#		arm/hd60/HauppaugeWinTV-dualHD.patch \
+#		arm/hd60/dib7000-linux_4.4.179.patch \
+#		arm/hd60/dvb-usb-linux_4.4.179.patch \
+#		arm/hd60/wifi-linux_4.4.183.patch \
+#		arm/hd60/move-default-dialect-to-SMB3.patch \
+#		arm/hd60/0004-linux-fix-buffer-size-warning-error.patch \
+#		arm/hd60/modules_mark__inittest__exittest_as__maybe_unused.patch \
+#		arm/hd60/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
+#		arm/hd60/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
+#		arm/hd60/0005-xbox-one-tuner-4.4.patch \
+#		arm/hd60/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
+#		arm/hd60/0007-dvb-mn88472-staging.patch \
+#		arm/hd60/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
+#endif
 
 #
 # vusolo4k
@@ -168,34 +168,34 @@ endif
 #
 # hd61
 #
-ifeq ($(BOXTYPE), hd61)
-KERNEL_VER             = 4.4.35
-KERNEL_DATE            = 20181228
-KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_DTB_VER         = hi3798mv200.dtb
-KERNELNAME             = uImage
+#ifeq ($(BOXTYPE), hd61)
+#KERNEL_VER             = 4.4.35
+#KERNEL_DATE            = 20181228
+#KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/gfutures
+#KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+#KERNEL_DTB_VER         = hi3798mv200.dtb
+#KERNELNAME             = uImage
 
-KERNEL_PATCHES_ARM = \
-		arm/hd61/0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		arm/hd61/0003-dont-mark-register-as-const.patch \
-		arm/hd61/0001-remote.patch \
-		arm/hd61/HauppaugeWinTV-dualHD.patch \
-		arm/hd61/dib7000-linux_4.4.179.patch \
-		arm/hd61/dvb-usb-linux_4.4.179.patch \
-		arm/hd61/wifi-linux_4.4.183.patch \
-		arm/hd61/move-default-dialect-to-SMB3.patch \
-		arm/hd61/0004-linux-fix-buffer-size-warning-error.patch \
-		arm/hd61/modules_mark__inittest__exittest_as__maybe_unused.patch \
-		arm/hd61/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
-		arm/hd61/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
-		arm/hd61/0005-xbox-one-tuner-4.4.patch \
-		arm/hd61/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
-		arm/hd61/0007-dvb-mn88472-staging.patch \
-		arm/hd61/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
-endif
+#KERNEL_PATCHES_ARM = \
+#		arm/hd61/0002-log2-give-up-on-gcc-constant-optimizations.patch \
+#		arm/hd61/0003-dont-mark-register-as-const.patch \
+#		arm/hd61/0001-remote.patch \
+#		arm/hd61/HauppaugeWinTV-dualHD.patch \
+#		arm/hd61/dib7000-linux_4.4.179.patch \
+#		arm/hd61/dvb-usb-linux_4.4.179.patch \
+#		arm/hd61/wifi-linux_4.4.183.patch \
+#		arm/hd61/move-default-dialect-to-SMB3.patch \
+#		arm/hd61/0004-linux-fix-buffer-size-warning-error.patch \
+#		arm/hd61/modules_mark__inittest__exittest_as__maybe_unused.patch \
+#		arm/hd61/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
+#		arm/hd61/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
+#		arm/hd61/0005-xbox-one-tuner-4.4.patch \
+#		arm/hd61/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
+#		arm/hd61/0007-dvb-mn88472-staging.patch \
+#		arm/hd61/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
+#endif
 
 #
 # vuduo4k
