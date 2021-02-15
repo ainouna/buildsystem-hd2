@@ -247,10 +247,10 @@ release-tf7700:
 #
 # Mutant HD51
 #
-release-hd51:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_hd51 $(RELEASE_DIR)/etc/init.d/halt
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+#release-hd51:
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_hd51 $(RELEASE_DIR)/etc/init.d/halt
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
 
 #
 # Mutant HD60
@@ -270,28 +270,28 @@ release-vusolo4k:
 #
 # vuduo
 #
-release-vuduo:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuduo $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_vuduo $(RELEASE_DIR)/etc/fstab
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#release-vuduo:
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuduo $(RELEASE_DIR)/etc/init.d/halt
+#	cp -f $(SKEL_ROOT)/etc/fstab_vuduo $(RELEASE_DIR)/etc/fstab
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 
 #
 # gb800se
 #
-release-gb800se:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_gb800se $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_gb800se $(RELEASE_DIR)/etc/fstab
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#release-gb800se:
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_gb800se $(RELEASE_DIR)/etc/init.d/halt
+#	cp -f $(SKEL_ROOT)/etc/fstab_gb800se $(RELEASE_DIR)/etc/fstab
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 
 #
 # osnino
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
-release-$(BOXTYPE):
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-endif
+#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osnino osninoplus osninopro))
+#release-$(BOXTYPE):
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
+#	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#endif
 
 #
 # osmio4k | osmio4kplus | osmini4k

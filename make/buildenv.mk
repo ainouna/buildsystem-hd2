@@ -10,11 +10,39 @@ export LD_LIBRARY_PATH
 
 BASE_DIR             := $(shell pwd)
 
-# BOXTYPE | BOXARCH and other params
+ARCHIVE               = $(HOME)/Archive
+APPS_DIR              = $(BASE_DIR)/apps
+DRIVER_DIR            = $(BASE_DIR)/driver
+FLASH_DIR             = $(BASE_DIR)/flash
+HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
+CUSTOM_DIR            = $(BASE_DIR)/custom
+PATCHES               = $(BASE_DIR)/Patches
+SCRIPTS_DIR           = $(BASE_DIR)/scripts
+SKEL_ROOT             = $(BASE_DIR)/root
+
+# BOXTYPE
 -include $(BASE_DIR)/config
 
-BOXTYPE ?= hd51
-BOXARCH ?= arm
+#
+TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
+
+BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
+SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
+TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
+BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
+CROSS_DIR             = $(TUFSBOX_DIR)/cross
+HOST_DIR              = $(TUFSBOX_DIR)/host
+RELEASE_DIR           = $(TUFSBOX_DIR)/release
+D                     = $(TUFSBOX_DIR)/.deps
+
+IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
+
+# 
+-include $(BASE_DIR)/machine/$(BOXTYPE).config
+
+#
+#BOXTYPE ?= hd51
+#BOXARCH ?= arm
 
 #
 ifeq ($(BOXTYPE), ufs910)
@@ -119,9 +147,9 @@ endif
 ifeq ($(BOXTYPE), osmini4k)
 BOXARCH = arm
 endif
-ifeq ($(BOXTYPE), gb800se)
-BOXARCH = mips
-endif
+#ifeq ($(BOXTYPE), gb800se)
+#BOXARCH = mips
+#endif
 ifeq ($(BOXTYPE), bre2ze4k)
 BOXARCH = arm
 endif
@@ -136,15 +164,15 @@ endif
 # for local extensions
 -include $(BASE_DIR)/config.local
 
-ARCHIVE               = $(HOME)/Archive
-APPS_DIR              = $(BASE_DIR)/apps
-DRIVER_DIR            = $(BASE_DIR)/driver
-FLASH_DIR             = $(BASE_DIR)/flash
-HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
-CUSTOM_DIR            = $(BASE_DIR)/custom
-PATCHES               = $(BASE_DIR)/Patches
-SCRIPTS_DIR           = $(BASE_DIR)/scripts
-SKEL_ROOT             = $(BASE_DIR)/root
+#ARCHIVE               = $(HOME)/Archive
+#APPS_DIR              = $(BASE_DIR)/apps
+#DRIVER_DIR            = $(BASE_DIR)/driver
+#FLASH_DIR             = $(BASE_DIR)/flash
+#HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
+#CUSTOM_DIR            = $(BASE_DIR)/custom
+#PATCHES               = $(BASE_DIR)/Patches
+#SCRIPTS_DIR           = $(BASE_DIR)/scripts
+#SKEL_ROOT             = $(BASE_DIR)/root
 
 # default platform...
 MAKEFLAGS            += --no-print-directory
@@ -160,16 +188,17 @@ GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= mohousch
 GIT_NAME_HOSTAPPS    ?= mohousch
 
-TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
+#TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
 
-BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
-SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
-TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
-BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
-CROSS_DIR             = $(TUFSBOX_DIR)/cross
-HOST_DIR              = $(TUFSBOX_DIR)/host
-RELEASE_DIR           = $(TUFSBOX_DIR)/release
-D                     = $(TUFSBOX_DIR)/.deps
+#BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
+#SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
+#TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
+#BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
+#CROSS_DIR             = $(TUFSBOX_DIR)/cross
+#HOST_DIR              = $(TUFSBOX_DIR)/host
+#RELEASE_DIR           = $(TUFSBOX_DIR)/release
+#D                     = $(TUFSBOX_DIR)/.deps
+
 # backwards compatibility
 DEPDIR                = $(D)
 

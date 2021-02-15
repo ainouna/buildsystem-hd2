@@ -1,28 +1,28 @@
 #
 # hd51
 #
-ifeq ($(BOXTYPE), hd51)
-KERNEL_VER             = 4.10.12
-KERNEL_DATE            = 20180424
-KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = hd51_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
-KERNELNAME             = zImage
+#ifeq ($(BOXTYPE), hd51)
+#KERNEL_VER             = 4.10.12
+#KERNEL_DATE            = 20180424
+#KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/gfutures
+#KERNEL_CONFIG          = hd51_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+#KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+#KERNELNAME             = zImage
 
-KERNEL_PATCHES_ARM     = \
-		arm/hd51/TBS-fixes-for-4.10-kernel.patch \
-		arm/hd51/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		arm/hd51/0001-TBS-fixes-for-4.6-kernel.patch \
-		arm/hd51/0001-STV-Add-PLS-support.patch \
-		arm/hd51/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/hd51/blindscan2.patch \
-		arm/hd51/0001-stv090x-optimized-TS-sync-control.patch \
-		arm/hd51/reserve_dvb_adapter_0.patch \
-		arm/hd51/blacklist_mmc0.patch \
-		arm/hd51/export_pmpoweroffprepare.patch
-endif
+#KERNEL_PATCHES_ARM     = \
+#		arm/hd51/TBS-fixes-for-4.10-kernel.patch \
+#		arm/hd51/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+#		arm/hd51/0001-TBS-fixes-for-4.6-kernel.patch \
+#		arm/hd51/0001-STV-Add-PLS-support.patch \
+#		arm/hd51/0001-STV-Add-SNR-Signal-report-parameters.patch \
+#		arm/hd51/blindscan2.patch \
+#		arm/hd51/0001-stv090x-optimized-TS-sync-control.patch \
+#		arm/hd51/reserve_dvb_adapter_0.patch \
+#		arm/hd51/blacklist_mmc0.patch \
+#		arm/hd51/export_pmpoweroffprepare.patch
+#endif
 
 #
 # hd60

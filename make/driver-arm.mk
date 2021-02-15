@@ -1,14 +1,14 @@
 #
 # hd51
 #
-ifeq ($(BOXTYPE), hd51)
-DRIVER_VER = 4.10.12
-DRIVER_DATE = 20180424
-DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+#ifeq ($(BOXTYPE), hd51)
+#DRIVER_VER = 4.10.12
+#DRIVER_DATE = 20180424
+#DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
-$(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
-endif
+#$(ARCHIVE)/$(DRIVER_SRC):
+#	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+#endif
 
 #
 # hd60

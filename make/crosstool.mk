@@ -31,9 +31,11 @@ GCC_VER = 4.9.4
 #GCC_VER = 9.3.0
 endif
 
-ifeq ($(BOXARCH), mips)
-CUSTOM_KERNEL_VER = $(KERNEL_VER)
-endif
+CUSTOM_KERNEL_VER ?= $(KERNEL_VER)
+
+#ifeq ($(BOXARCH), mips)
+#CUSTOM_KERNEL_VER = $(KERNEL_VER)
+#endif
 ifeq ($(BOXARCH), arm)
 ifeq ($(BOXTYPE), hd51)
 CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
