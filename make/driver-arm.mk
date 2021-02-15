@@ -77,48 +77,48 @@ endif
 #
 # bre3ze4k
 #
-ifeq ($(BOXTYPE), bre2ze4k)
-DRIVER_VER = 4.10.12
-DRIVER_DATE = 20191120
-DRIVER_SRC = bre2ze4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+#ifeq ($(BOXTYPE), bre2ze4k)
+#DRIVER_VER = 4.10.12
+#DRIVER_DATE = 20191120
+#DRIVER_SRC = bre2ze4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
-LIBGLES_DATE = 20191101
-LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
+#LIBGLES_DATE = 20191101
+#LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
 
-LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
+#LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
 
-$(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+#$(ARCHIVE)/$(DRIVER_SRC):
+#	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
 
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_SRC)
+#$(ARCHIVE)/$(LIBGLES_SRC):
+#	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_SRC)
 
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
-endif
+#$(ARCHIVE)/$(LIBGLES_HEADERS):
+#	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
+#endif
 
 #
 # h7
 #
-ifeq ($(BOXTYPE), h7)
-DRIVER_VER = 4.10.12
-DRIVER_DATE = 20191123
-DRIVER_SRC = h7-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+#ifeq ($(BOXTYPE), h7)
+#DRIVER_VER = 4.10.12
+#DRIVER_DATE = 20191123
+#DRIVER_SRC = h7-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
-LIBGLES_DATE = 20191110
-LIBGLES_SRC = h7-v3ddriver-$(LIBGLES_DATE).zip
+#LIBGLES_DATE = 20191110
+#LIBGLES_SRC = h7-v3ddriver-$(LIBGLES_DATE).zip
 
-LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
+#LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
 
-$(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/zgemma/$(DRIVER_SRC)
+#$(ARCHIVE)/$(DRIVER_SRC):
+#	$(WGET) http://source.mynonpublic.com/zgemma/$(DRIVER_SRC)
 
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://source.mynonpublic.com/zgemma/$(LIBGLES_SRC)
+#$(ARCHIVE)/$(LIBGLES_SRC):
+#	$(WGET) http://source.mynonpublic.com/zgemma/$(LIBGLES_SRC)
 
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
-endif
+#$(ARCHIVE)/$(LIBGLES_HEADERS):
+#	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
+#endif
 
 #
 # hd61
@@ -535,52 +535,52 @@ endif
 #
 # bre2ze4k
 #
-ifeq ($(BOXTYPE), bre2ze4k)
-$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	install -d $(TARGET_LIB_DIR)
-	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
-	#patchelf --set-soname libv3ddriver.so $(TARGET_LIB_DIR)/libv3ddriver.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
-	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
-	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
-	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
-	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
-	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
-	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
-	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
+#ifeq ($(BOXTYPE), bre2ze4k)
+#$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
+#	install -d $(TARGET_LIB_DIR)
+#	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
+#	#patchelf --set-soname libv3ddriver.so $(TARGET_LIB_DIR)/libv3ddriver.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
+#	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
+#	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
+#	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
+#	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
+#	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
+#	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
+#	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
-	install -d $(TARGET_INCLUDE_DIR)
-	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
-endif
+#$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
+#	install -d $(TARGET_INCLUDE_DIR)
+#	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
+#endif
 
 #
 # h7
 #
-ifeq ($(BOXTYPE), h7)
-$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	install -d $(TARGET_LIB_DIR)
-	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
+#ifeq ($(BOXTYPE), h7)
+#$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
+#	install -d $(TARGET_LIB_DIR)
+#	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
 	#patchelf --set-soname libv3ddriver.so $(TARGET_LIB_DIR)/libv3ddriver.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
-	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
-	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
-	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
-	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
-	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
-	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
-	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
+#	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
+#	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
+#	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
+#	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
+#	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
+#	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
+#	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
+#	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
-	install -d $(TARGET_INCLUDE_DIR)
-	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
-endif
+#$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
+#	install -d $(TARGET_INCLUDE_DIR)
+#	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
+#endif
 
 #
 # hd61

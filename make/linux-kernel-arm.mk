@@ -110,60 +110,60 @@ endif
 #
 # bre2ze4k
 #
-ifeq ($(BOXTYPE), bre2ze4k)
-KERNEL_VER             = 4.10.12
-KERNEL_DATE            = 20180424
-KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
-KERNELNAME             = zImage
+#ifeq ($(BOXTYPE), bre2ze4k)
+#KERNEL_VER             = 4.10.12
+#KERNEL_DATE            = 20180424
+#KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/gfutures
+#KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+#KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+#KERNELNAME             = zImage
 
-KERNEL_PATCHES_ARM     = \
-		arm/bre2ze4k/TBS-fixes-for-4.10-kernel.patch \
-		arm/bre2ze4k/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		arm/bre2ze4k/0001-TBS-fixes-for-4.6-kernel.patch \
-		arm/bre2ze4k/0001-STV-Add-PLS-support.patch \
-		arm/bre2ze4k/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/bre2ze4k/blindscan2.patch \
-		arm/bre2ze4k/0001-stv090x-optimized-TS-sync-control.patch \
-		arm/bre2ze4k/reserve_dvb_adapter_0.patch \
-		arm/bre2ze4k/blacklist_mmc0.patch \
-		arm/bre2ze4k/export_pmpoweroffprepare.patch \
-		arm/bre2ze4k/t230c2.patch \
-		arm/bre2ze4k/add-more-devices-rtl8xxxu.patch \
-		arm/bre2ze4k/dvbs2x.patch
-endif
+#KERNEL_PATCHES_ARM     = \
+#		arm/bre2ze4k/TBS-fixes-for-4.10-kernel.patch \
+#		arm/bre2ze4k/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+#		arm/bre2ze4k/0001-TBS-fixes-for-4.6-kernel.patch \
+#		arm/bre2ze4k/0001-STV-Add-PLS-support.patch \
+#		arm/bre2ze4k/0001-STV-Add-SNR-Signal-report-parameters.patch \
+#		arm/bre2ze4k/blindscan2.patch \
+#		arm/bre2ze4k/0001-stv090x-optimized-TS-sync-control.patch \
+#		arm/bre2ze4k/reserve_dvb_adapter_0.patch \
+#		arm/bre2ze4k/blacklist_mmc0.patch \
+#		arm/bre2ze4k/export_pmpoweroffprepare.patch \
+#		arm/bre2ze4k/t230c2.patch \
+#		arm/bre2ze4k/add-more-devices-rtl8xxxu.patch \
+#		arm/bre2ze4k/dvbs2x.patch
+#endif
 
 #
 # h7
 #
-ifeq ($(BOXTYPE), h7)
-KERNEL_VER             = 4.10.12
-KERNEL_DATE            = 20180424
-KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
-KERNELNAME             = zImage
+#ifeq ($(BOXTYPE), h7)
+#KERNEL_VER             = 4.10.12
+#KERNEL_DATE            = 20180424
+#KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/gfutures
+#KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+#KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
+#KERNELNAME             = zImage
 
-KERNEL_PATCHES_ARM = \
-		arm/h7/TBS-fixes-for-4.10-kernel.patch \
-		arm/h7/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		arm/h7/0001-TBS-fixes-for-4.6-kernel.patch \
-		arm/h7/0001-STV-Add-PLS-support.patch \
-		arm/h7/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/h7/blindscan2.patch \
-		arm/h7/0001-stv090x-optimized-TS-sync-control.patch \
-		arm/h7/reserve_dvb_adapter_0.patch \
-		arm/h7/blacklist_mmc0.patch \
-		arm/h7/export_pmpoweroffprepare.patch \
-		arm/h7/t230c2.patch \
-		arm/h7/add-more-devices-rtl8xxxu.patch \
-		arm/h7/dvbs2x.patch
-endif
+#KERNEL_PATCHES_ARM = \
+#		arm/h7/TBS-fixes-for-4.10-kernel.patch \
+#		arm/h7/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+#		arm/h7/0001-TBS-fixes-for-4.6-kernel.patch \
+#		arm/h7/0001-STV-Add-PLS-support.patch \
+#		arm/h7/0001-STV-Add-SNR-Signal-report-parameters.patch \
+#		arm/h7/blindscan2.patch \
+#		arm/h7/0001-stv090x-optimized-TS-sync-control.patch \
+#		arm/h7/reserve_dvb_adapter_0.patch \
+#		arm/h7/blacklist_mmc0.patch \
+#		arm/h7/export_pmpoweroffprepare.patch \
+#		arm/h7/t230c2.patch \
+#		arm/h7/add-more-devices-rtl8xxxu.patch \
+#		arm/h7/dvbs2x.patch
+#endif
 
 #
 # hd61
