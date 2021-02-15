@@ -21,15 +21,11 @@ if [ "$1" == -h ] || [ "$1" == --help ]; then
 	echo "Parameter 4: Media Framework (1-2)"
 	echo "Parameter 5: WLAN Support (1-2)"
 	echo "Parameter 6: Neutrino Plugin Interfaces (lua/python) (1-4)"
-	echo "Parameter 7: CI-Cam Interface (1-2)"
-	echo "Parameter 8: Scart Interface (1-2)"
-	echo "Parameter 9: VFD/LCD Interface (1-4)"
-	echo "Parameter 10: Function Keys (1-2)"
 	exit
 fi
 
 #
-# cpu arch / boxtype
+# boxtype
 #
 case $1 in
 	[1-9] | 1[0-9] | 2[0-9] | 3[0-9] | 4[0-9] | 5[0-9] | 6[0-9] | 7[0-9] | 8[0-9] | 9[0-9]) REPLY=$1;;
@@ -138,7 +134,7 @@ case "$REPLY" in
 	90) BOXARCH="arm";BOXTYPE="h7";;
 	 *) BOXARCH="mips";BOXTYPE="gb800se";;
 esac
-#echo "BOXARCH=$BOXARCH" > config
+
 echo "BOXTYPE=$BOXTYPE" > config
 
 if [ $BOXARCH == "sh4" ]; then
