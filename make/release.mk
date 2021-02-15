@@ -296,12 +296,12 @@ release-vusolo4k:
 #
 # osmio4k | osmio4kplus | osmini4k
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
-release-$(BOXTYPE):
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-endif
+#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+#release-$(BOXTYPE):
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
+#	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#endif
 
 #
 # bre2ze4k
@@ -335,11 +335,11 @@ release-hd61:
 #
 # vuduo2
 #
-release-vuduo2:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuduo2 $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_vuduo2 $(RELEASE_DIR)/etc/fstab
-	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
-	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(RELEASE_DIR)/boot/
+#release-vuduo2:
+#	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuduo2 $(RELEASE_DIR)/etc/init.d/halt
+#	cp -f $(SKEL_ROOT)/etc/fstab_vuduo2 $(RELEASE_DIR)/etc/fstab
+#	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+#	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(RELEASE_DIR)/boot/
 
 #
 # vuduo4k

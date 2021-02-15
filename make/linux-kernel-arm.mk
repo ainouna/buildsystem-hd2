@@ -93,19 +93,19 @@ endif
 #
 # osmio4k | osmio4kplus | osmini4k
 #
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
-KERNEL_VER             = 5.9.0
-KERNEL_SRC_VER         = 5.9
-KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
-KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
-KERNELNAME             = zImage
+#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
+#KERNEL_VER             = 5.9.0
+#KERNEL_SRC_VER         = 5.9
+#KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
+#KERNEL_URL             = http://source.mynonpublic.com/edision
+#KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+#KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
+#KERNELNAME             = zImage
 
-KERNEL_PATCHES_ARM     = \
-		arm/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
-		arm/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
-endif
+#KERNEL_PATCHES_ARM     = \
+#		arm/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+#		arm/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+#endif
 
 #
 # bre2ze4k

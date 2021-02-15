@@ -29,15 +29,15 @@
 #endif
 
 # vuduo2
-ifeq ($(BOXTYPE), vuduo2)
-DRIVER_VER = 3.13.5
-DRIVER_DATE = 20190429
-DRIVER_REV = r0
-DRIVER_SRC = vuplus-dvb-proxy-vuduo2-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
+#ifeq ($(BOXTYPE), vuduo2)
+#DRIVER_VER = 3.13.5
+#DRIVER_DATE = 20190429
+#DRIVER_REV = r0
+#DRIVER_SRC = vuplus-dvb-proxy-vuduo2-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
 
-$(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
-endif
+#$(ARCHIVE)/$(DRIVER_SRC):
+#	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+#endif
 
 driver-clean:
 	rm -f $(D)/driver $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*
@@ -65,40 +65,40 @@ endif
 #
 # vuduo2
 #
-ifeq ($(BOXTYPE), vuduo2)
+#ifeq ($(BOXTYPE), vuduo2)
 #
 # platform util
 #
-UTIL_VER = 15.1
-UTIL_DATE = $(DRIVER_DATE)
-UTIL_REV = r0
-UTIL_SRC = platform-util-vuduo2-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
+#UTIL_VER = 15.1
+#UTIL_DATE = $(DRIVER_DATE)
+#UTIL_REV = r0
+#UTIL_SRC = platform-util-vuduo2-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
 
-$(ARCHIVE)/$(UTIL_SRC):
-	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
+#$(ARCHIVE)/$(UTIL_SRC):
+#	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
 
-$(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
-	$(START_BUILD)
-	$(UNTAR)/$(UTIL_SRC)
-	install -m 0755 $(BUILD_TMP)/platform-util-vuduo2/* $(TARGET_DIR)/usr/bin
-	$(REMOVE)/platform-util-$(KERNEL_TYPE)
-	$(TOUCH)
+#$(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
+#	$(START_BUILD)
+#	$(UNTAR)/$(UTIL_SRC)
+#	install -m 0755 $(BUILD_TMP)/platform-util-vuduo2/* $(TARGET_DIR)/usr/bin
+#	$(REMOVE)/platform-util-$(KERNEL_TYPE)
+#	$(TOUCH)
 
 #
 # vmlinuz initrd
 #
-INITRD_DATE = 20130220
-INITRD_SRC = vmlinuz-initrd_vuduo2_$(INITRD_DATE).tar.gz
+#INITRD_DATE = 20130220
+#INITRD_SRC = vmlinuz-initrd_vuduo2_$(INITRD_DATE).tar.gz
 
-$(ARCHIVE)/$(INITRD_SRC):
-	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
+#$(ARCHIVE)/$(INITRD_SRC):
+#	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
 
-$(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
-	$(START_BUILD)
-	install -d $(TARGET_DIR)/boot
-	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
+#$(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
+#	$(START_BUILD)
+#	install -d $(TARGET_DIR)/boot
+#	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
 #	mv $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(TARGET_DIR)/boot/initrd_cfe_auto.bin
-	$(TOUCH)
-endif
+#	$(TOUCH)
+#endif
 
 
