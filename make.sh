@@ -259,98 +259,22 @@ esac
 echo "INTERFACE=$INTERFACE" >> config
 
 #
-# CI-Cam Interface
-#
-#case $7 in
-#	[1-2]) REPLY=$7;;
-#	*)	echo -e "\nci-cam interface?:"
-#		echo -e "   \033[01;32m1) ci-cam\033[00m"
-#		echo "   2)  none"
-#		read -p "Select with ci-cam Interface or not (1-2)? ";;
-#esac
-
-#case "$REPLY" in
-#	1) CICAM="ci-cam";;
-#	2) CICAM=" ";;
-#	*) CICAM="ci-cam";;
-#esac
-#echo "CICAM=$CICAM" >> config
-
-#
-# Scart Interface
-#
-#case $8 in
-#	[1-2]) REPLY=$8;;
-#	*)	echo -e "\nScart interface?:"
-#		echo -e "   \033[01;32m1) scart\033[00m"
-#		echo "   2)  none"
-#		read -p "Select with Scart Interface or not (1-2)? ";;
-#esac
-
-#case "$REPLY" in
-#	1) SCART="scart";;
-#	2) SCART=" ";;
-#	*) SCART="scart";;
-#esac
-#echo "SCART=$SCART" >> config
-
-#
-# VFD/LCD Interface
-#
-#case $9 in
-#	[1-4]) REPLY=$9;;
-#	*)	echo -e "\nLCD Support?:"
-#		echo "   1)  lcd"
-#		echo "   2)  vfd"
-#		echo -e "   \033[01;32m3) 4 digits\033[00m"
-#		echo "   4)  none"
-#		read -p "Select with LCD Support or not (1-4)? ";;
-#esac
-
-#case "$REPLY" in
-#	1) LCD="lcd";;
-#	2) LCD="vfd";;
-#	3) LCD="4-digits";;
-#	4) LCD=" ";;
-#	*) LCD="4-digits";;
-#esac
-#echo "LCD=$LCD" >> config
-
-#
-# Function Keys
-#
-#case $10 in
-#	[1-2]) REPLY=$10;;
-#	*)	echo -e "\nFunctions Keys Support?:"
-#		echo "   1)  fkeys"
-#		echo -e "   \033[01;32m2) none\033[00m"
-#		read -p "Select with Functions Keys or not (1-2)? ";;
-#esac
-
-#case "$REPLY" in
-#	1) FKEYS="fkeys";;
-#	2) FKEYS=" ";;
-#	*) FKEYS=" ";;
-#esac
-#echo "FKEYS=$FKEYS" >> config
-
-#
 # testing
 #
-#case $11 in
-#	[1-2]) REPLY=$11;;
-#	*)	echo -e "\nTesting Support?:"
-#		echo "   1)  testing"
-#		echo -e "   \033[01;32m2) none\033[00m"
-#		read -p "Select with Tesing or not (1-2)? ";;
-#esac
-#
-#case "$REPLY" in
-#	1) TESTING="testing";;
-#	2) TESTING=" ";;
-#	*) TESTING=" ";;
-#esac
-#echo "TESTING=$TESTING" >> config
+case $7 in
+	[1-2]) REPLY=$7;;
+	*)	echo -e "\nTesting Support?:"
+		echo "   1)  testing"
+		echo -e "   \033[01;32m2) none\033[00m"
+		read -p "Select with Tesing or not (1-2)? ";;
+esac
+
+case "$REPLY" in
+	1) TESTING="testing";;
+	2) TESTING=" ";;
+	*) TESTING=" ";;
+esac
+echo "TESTING=$TESTING" >> config
 
 #
 #

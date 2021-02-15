@@ -41,10 +41,6 @@ IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
 -include $(BASE_DIR)/machine/$(BOXTYPE).config
 
 #
-#BOXTYPE ?= hd51
-#BOXARCH ?= arm
-
-#
 #ifeq ($(BOXTYPE), ufs910)
 #BOXARCH = sh4
 #endif
@@ -102,9 +98,9 @@ endif
 #ifeq ($(BOXTYPE), vuduo)
 #BOXARCH = mips
 #endif
-ifeq ($(BOXTYPE), vuduo2)
-BOXARCH = mips
-endif
+#ifeq ($(BOXTYPE), vuduo2)
+#BOXARCH = mips
+#endif
 ifeq ($(BOXTYPE), vuduo4k)
 BOXARCH = arm
 endif
@@ -138,15 +134,15 @@ endif
 #ifeq ($(BOXTYPE), osninopro)
 #BOXARCH = mips
 #endif
-ifeq ($(BOXTYPE), osmio4k)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), osmio4kplus)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), osmini4k)
-BOXARCH = arm
-endif
+#ifeq ($(BOXTYPE), osmio4k)
+#BOXARCH = arm
+#endif
+#ifeq ($(BOXTYPE), osmio4kplus)
+#BOXARCH = arm
+#endif
+#ifeq ($(BOXTYPE), osmini4k)
+#BOXARCH = arm
+#endif
 #ifeq ($(BOXTYPE), gb800se)
 #BOXARCH = mips
 #endif
@@ -157,22 +153,8 @@ ifeq ($(BOXTYPE), h7)
 BOXARCH = arm
 endif                     
 
-#ifeq ($(BOXARCH), sh4)
-#KERNEL_STM ?= p0217
-#endif
-
 # for local extensions
 -include $(BASE_DIR)/config.local
-
-#ARCHIVE               = $(HOME)/Archive
-#APPS_DIR              = $(BASE_DIR)/apps
-#DRIVER_DIR            = $(BASE_DIR)/driver
-#FLASH_DIR             = $(BASE_DIR)/flash
-#HOSTAPPS_DIR          = $(BASE_DIR)/hostapps
-#CUSTOM_DIR            = $(BASE_DIR)/custom
-#PATCHES               = $(BASE_DIR)/Patches
-#SCRIPTS_DIR           = $(BASE_DIR)/scripts
-#SKEL_ROOT             = $(BASE_DIR)/root
 
 # default platform...
 MAKEFLAGS            += --no-print-directory
@@ -187,17 +169,6 @@ GIT_NAME_DRIVER      ?= Duckbox-Developers
 GIT_NAME_APPS        ?= Duckbox-Developers
 GIT_NAME_FLASH       ?= mohousch
 GIT_NAME_HOSTAPPS    ?= mohousch
-
-#TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
-
-#BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
-#SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
-#TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
-#BOOT_DIR              = $(TUFSBOX_DIR)/cdkroot-tftpboot
-#CROSS_DIR             = $(TUFSBOX_DIR)/cross
-#HOST_DIR              = $(TUFSBOX_DIR)/host
-#RELEASE_DIR           = $(TUFSBOX_DIR)/release
-#D                     = $(TUFSBOX_DIR)/.deps
 
 # backwards compatibility
 DEPDIR                = $(D)
@@ -433,146 +404,6 @@ endif
 #
 DRIVER_PLATFORM   := $(WLANDRIVER)
 
-#
-#ifeq ($(BOXTYPE), ufs910)
-#KERNEL_PATCHES_24  = $(UFS910_PATCHES_24)
-#DRIVER_PLATFORM   += UFS910=ufs910
-#endif
-#ifeq ($(BOXTYPE), ufs912)
-#KERNEL_PATCHES_24  = $(UFS912_PATCHES_24)
-#DRIVER_PLATFORM   += UFS912=ufs912
-#endif
-#ifeq ($(BOXTYPE), ufs913)
-#KERNEL_PATCHES_24  = $(UFS913_PATCHES_24)
-#DRIVER_PLATFORM   += UFS913=ufs913
-#endif
-#ifeq ($(BOXTYPE), ufs922)
-#KERNEL_PATCHES_24  = $(UFS922_PATCHES_24)
-#DRIVER_PLATFORM   += UFS922=ufs922
-#endif
-#ifeq ($(BOXTYPE), tf7700)
-#KERNEL_PATCHES_24  = $(TF7700_PATCHES_24)
-#DRIVER_PLATFORM   += TF7700=tf7700
-#endif
-#ifeq ($(BOXTYPE), hl101)
-#KERNEL_PATCHES_24  = $(HL101_PATCHES_24)
-#DRIVER_PLATFORM   += HL101=hl101
-#endif
-#ifeq ($(BOXTYPE), spark)
-#KERNEL_PATCHES_24  = $(SPARK_PATCHES_24)
-#DRIVER_PLATFORM   += SPARK=spark
-#endif
-#ifeq ($(BOXTYPE), spark7162)
-#KERNEL_PATCHES_24  = $(SPARK7162_PATCHES_24)
-#DRIVER_PLATFORM   += SPARK7162=spark7162
-#endif
-#ifeq ($(BOXTYPE), fortis_hdbox)
-#KERNEL_PATCHES_24  = $(FORTIS_HDBOX_PATCHES_24)
-#DRIVER_PLATFORM   += FORTIS_HDBOX=fortis_hdbox
-#endif
-#ifeq ($(BOXTYPE), hs7110)
-#KERNEL_PATCHES_24  = $(HS7110_PATCHES_24)
-#DRIVER_PLATFORM   += HS7110=hs7110
-#endif
-#ifeq ($(BOXTYPE), hs7119)
-#KERNEL_PATCHES_24  = $(HS7119_PATCHES_24)
-#DRIVER_PLATFORM   += HS7119=hs7119
-#endif
-#ifeq ($(BOXTYPE), hs7420)
-#KERNEL_PATCHES_24  = $(HS7420_PATCHES_24)
-#DRIVER_PLATFORM   += HS7420=hs7420
-#endif
-#ifeq ($(BOXTYPE), hs7429)
-#KERNEL_PATCHES_24  = $(HS7429_PATCHES_24)
-#DRIVER_PLATFORM   += HS7429=hs7429
-#endif
-#ifeq ($(BOXTYPE), hs7810a)
-#KERNEL_PATCHES_24  = $(HS7810A_PATCHES_24)
-#DRIVER_PLATFORM   += HS7810A=hs7810a
-#endif
-#ifeq ($(BOXTYPE), hs7819)
-#KERNEL_PATCHES_24  = $(HS7819_PATCHES_24)
-#DRIVER_PLATFORM   += HS7819=hs7819
-#endif
-#ifeq ($(BOXTYPE), atemio520)
-#KERNEL_PATCHES_24  = $(ATEMIO520_PATCHES_24)
-#DRIVER_PLATFORM   += ATEMIO520=atemio520
-#endif
-#ifeq ($(BOXTYPE), atemio530)
-#KERNEL_PATCHES_24  = $(ATEMIO530_PATCHES_24)
-#DRIVER_PLATFORM   += ATEMIO530=atemio530
-#endif
-#ifeq ($(BOXTYPE), atevio7500)
-#KERNEL_PATCHES_24  = $(ATEVIO7500_PATCHES_24)
-#DRIVER_PLATFORM   += ATEVIO7500=atevio7500
-#endif
-#ifeq ($(BOXTYPE), octagon1008)
-#KERNEL_PATCHES_24  = $(OCTAGON1008_PATCHES_24)
-#DRIVER_PLATFORM   += OCTAGON1008=octagon1008
-#endif
-#ifeq ($(BOXTYPE), adb_box)
-#KERNEL_PATCHES_24  = $(ADB_BOX_PATCHES_24)
-#DRIVER_PLATFORM   += ADB_BOX=adb_box
-#endif
-#ifeq ($(BOXTYPE), ipbox55)
-#KERNEL_PATCHES_24  = $(IPBOX55_PATCHES_24)
-#DRIVER_PLATFORM   += IPBOX55=ipbox55
-#endif
-#ifeq ($(BOXTYPE), ipbox99)
-#KERNEL_PATCHES_24  = $(IPBOX99_PATCHES_24)
-#endif
-#ifeq ($(BOXTYPE), ipbox9900)
-#KERNEL_PATCHES_24  = $(IPBOX9900_PATCHES_24)
-#DRIVER_PLATFORM   += IPBOX9900=ipbox9900
-#endif
-#ifeq ($(BOXTYPE), cuberevo)
-#KERNEL_PATCHES_24  = $(CUBEREVO_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO=cuberevo
-#endif
-#ifeq ($(BOXTYPE), cuberevo_mini)
-#KERNEL_PATCHES_24  = $(CUBEREVO_MINI_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_MINI=cuberevo_mini
-#endif
-#ifeq ($(BOXTYPE), cuberevo_mini2)
-#KERNEL_PATCHES_24  = $(CUBEREVO_MINI2_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_MINI2=cuberevo_mini2
-#endif
-#ifeq ($(BOXTYPE), cuberevo_mini_fta)
-#KERNEL_PATCHES_24  = $(CUBEREVO_MINI_FTA_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_MINI_FTA=cuberevo_mini_fta
-#endif
-#ifeq ($(BOXTYPE), cuberevo_250hd)
-#KERNEL_PATCHES_24  = $(CUBEREVO_250HD_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_250HD=cuberevo_250hd
-#endif
-#ifeq ($(BOXTYPE), cuberevo_2000hd)
-#KERNEL_PATCHES_24  = $(CUBEREVO_2000HD_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_2000HD=cuberevo_2000hd
-#endif
-#ifeq ($(BOXTYPE), cuberevo_3000hd)
-#KERNEL_PATCHES_24  = $(CUBEREVO_3000HD_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_3000HD=cuberevo_3000hd
-#endif
-#ifeq ($(BOXTYPE), cuberevo_9500hd)
-#KERNEL_PATCHES_24  = $(CUBEREVO_9500HD_PATCHES_24)
-#DRIVER_PLATFORM   += CUBEREVO_9500HD=cuberevo_9500hd
-#endif
-#ifeq ($(BOXTYPE), vitamin_hd5000)
-#KERNEL_PATCHES_24  = $(VITAMIN_HD5000_PATCHES_24)
-#DRIVER_PLATFORM   += VITAMIN_HD5000=vitamin_hd5000
-#endif
-#ifeq ($(BOXTYPE), sagemcom88)
-#KERNEL_PATCHES_24  = $(SAGEMCOM88_PATCHES_24)
-#DRIVER_PLATFORM   += SAGEMCOM88=sagemcom88
-#endif
-#ifeq ($(BOXTYPE), arivalink200)
-#KERNEL_PATCHES_24  = $(ARIVALINK200_PATCHES_24)
-#DRIVER_PLATFORM   += ARIVALINK200=arivalink200
-#endif
-#ifeq ($(BOXTYPE), pace7241)
-#KERNEL_PATCHES_24  = $(PACE7241_PATCHES_24)
-#DRIVER_PLATFORM   += PACE7241=pace7241
-#endif
 
 
 
