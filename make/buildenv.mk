@@ -21,7 +21,7 @@ SCRIPTS_DIR           = $(BASE_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
 
 # BOXTYPE
-BOXTYPE ?= gb800se
+BOXTYPE ?= cuberevo_mini2
 
 -include $(BASE_DIR)/config
 

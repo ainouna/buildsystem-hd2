@@ -44,6 +44,7 @@ printenv:
 	@echo "GCC_VER          : $(GCC_VER)"
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
+	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
 	@echo "WLAN             : $(WLAN)"
 	@echo "INTERFACE        : $(INTERFACE)"
