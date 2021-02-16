@@ -63,6 +63,46 @@ KERNEL_PATCHES_MIPSEL = \
 		mips/vuduo2/mm-Move-__vma_address-to-internal.h-to-be-inlined-in-huge_memory.c.patch \
 		mips/vuduo2/compile-with-gcc9.patch
 
+#DEPMOD = $(HOST_DIR)/bin/depmod
+#KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
+
+$(ARCHIVE)/$(KERNEL_SRC):
+	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
+
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+	$(START_BUILD)
+	rm -rf $(KERNEL_DIR)
+	$(UNTAR)/$(KERNEL_SRC)
+	set -e; cd $(KERNEL_DIR); \
+		for i in $(KERNEL_PATCHES); do \
+			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
+			$(PATCH)/$$i; \
+		done
+	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
+	@echo "Using kernel debug"
+	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
+	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
+endif
+	@touch $@
+
+$(D)/kernel.do_compile: $(D)/kernel.do_prepare
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+
+KERNEL = $(D)/kernel
+$(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
+	install -m 644 $(KERNEL_DIR)/$(KERNELNAME) $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+
 #
 # driver
 #
@@ -73,6 +113,15 @@ DRIVER_SRC = vuplus-dvb-proxy-vuduo2-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+
+driver: $(D)/driver
+$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(MAKE) platform_util
+	$(MAKE) vmlinuz_initrd
+	$(TOUCH)
 
 #
 # platform util
@@ -105,7 +154,6 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/boot
 	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
-#	mv $(TARGET_DIR)/boot/vmlinuz-initrd-7425b0 $(TARGET_DIR)/boot/initrd_cfe_auto.bin
 	$(TOUCH)
 
 #

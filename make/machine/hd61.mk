@@ -1,7 +1,7 @@
 BOXARCH = arm
 OPTIMIZATIONS ?= size
 WLAN ?= 
-MEDIAFW ?= gstreamer
+MEDIAFW ?= buildinplayer
 INTERFACE ?=lua-python
 CICAM = ci-cam
 SCART = scart

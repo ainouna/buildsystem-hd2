@@ -58,6 +58,46 @@ KERNEL_PATCHES_MIPSEL  = \
     		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
     		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
 
+#DEPMOD = $(HOST_DIR)/bin/depmod
+#KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
+
+$(ARCHIVE)/$(KERNEL_SRC):
+	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
+
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+	$(START_BUILD)
+	rm -rf $(KERNEL_DIR)
+	$(UNTARGZ)/$(KERNEL_SRC)
+	set -e; cd $(KERNEL_DIR); \
+		for i in $(KERNEL_PATCHES); do \
+			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
+			$(PATCH)/$$i; \
+		done
+	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
+	@echo "Using kernel debug"
+	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
+	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
+endif
+	@touch $@
+
+$(D)/kernel.do_compile: $(D)/kernel.do_prepare
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+
+KERNEL = $(D)/kernel
+$(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
+	install -m 644 $(KERNEL_DIR)/$(KERNELNAME) $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+
 #
 # driver
 #
@@ -68,11 +108,12 @@ DRIVER_SRC = gigablue-drivers-$(DRIVER_VER)-BCM7325-$(DRIVER_DATE).zip
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://source.mynonpublic.com/gigablue/drivers/$(DRIVER_SRC)
 
-#$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
-#	$(START_BUILD)
-#	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	$(TOUCH)
+driver: $(D)/driver
+$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(TOUCH)
 
 #
 # release

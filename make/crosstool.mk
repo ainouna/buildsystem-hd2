@@ -33,31 +33,10 @@ endif
 
 CUSTOM_KERNEL_VER ?= $(KERNEL_VER)
 
-#ifeq ($(BOXARCH), mips)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)
-#endif
 ifeq ($(BOXARCH), arm)
-#ifeq ($(BOXTYPE), hd51)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
-#endif
-#ifeq ($(BOXTYPE), hd60)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)-$(KERNEL_DATE)-arm
-#endif
 ifeq ($(BOXTYPE), vusolo4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
-#ifeq ($(BOXTYPE), $(filter $(BOXTYPE), osmio4k osmio4kplus osmini4k))
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)
-#endif
-#ifeq ($(BOXTYPE), bre2ze4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
-#endif
-#ifeq ($(BOXTYPE), h7)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)-arm
-#endif
-#ifeq ($(BOXTYPE), hd61)
-#CUSTOM_KERNEL_VER = $(KERNEL_VER)-$(KERNEL_DATE)-arm
-#endif
 ifeq ($(BOXTYPE), vuduo4k)
 CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
 endif
