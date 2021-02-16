@@ -38,7 +38,7 @@ D                     = $(TUFSBOX_DIR)/.deps
 IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
 
 # 
--include $(BASE_DIR)/machine/$(BOXTYPE).config
+-include $(BASE_DIR)/make/machine/$(BOXTYPE).mk
 
 #
 ifeq ($(BOXTYPE), vusolo4k)
@@ -57,13 +57,6 @@ ifeq ($(BOXTYPE), vuuno4kse)
 BOXARCH = arm
 endif 
 ifeq ($(BOXTYPE), vuzero4k)
-BOXARCH = arm
-endif
-
-ifeq ($(BOXTYPE), hd60)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), hd61)
 BOXARCH = arm
 endif
 
