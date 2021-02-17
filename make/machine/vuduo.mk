@@ -61,6 +61,46 @@ KERNEL_PATCHES_MIPSEL  = \
 		mips/vuduo/CONFIG_DVB_SP2.patch \
 		mips/vuduo/dvbsky-t330.patch
 
+KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
+
+$(ARCHIVE)/$(KERNEL_SRC):
+	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
+
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+	$(START_BUILD)
+	rm -rf $(KERNEL_DIR)
+	$(UNTAR)/$(KERNEL_SRC)
+	set -e; cd $(KERNEL_DIR); \
+		for i in $(KERNEL_PATCHES); do \
+			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
+			$(PATCH)/$$i; \
+		done
+	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
+	@echo "Using kernel debug"
+	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
+	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
+endif
+	@touch $@
+
+$(D)/kernel.do_compile: $(D)/kernel.do_prepare
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- $(KERNELNAME) modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+
+KERNEL = $(D)/kernel
+$(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
+	install -m 644 $(KERNEL_DIR)/$(KERNELNAME) $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+
+
 #
 # driver
 #
@@ -71,11 +111,11 @@ DRIVER_SRC = vuplus-dvb-modules-bm750-$(DRIVER_VER)-$(DRIVER_DATE).tar.gz
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(WGET) http://archive.vuplus.com/download/drivers/$(DRIVER_SRC)
 
-#$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
-#	$(START_BUILD)
-#	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	$(TOUCH)
+$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(TOUCH)
 
 #
 # release

@@ -63,8 +63,7 @@ KERNEL_PATCHES_MIPSEL = \
 		mips/vuduo2/mm-Move-__vma_address-to-internal.h-to-be-inlined-in-huge_memory.c.patch \
 		mips/vuduo2/compile-with-gcc9.patch
 
-#DEPMOD = $(HOST_DIR)/bin/depmod
-#KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
+KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
