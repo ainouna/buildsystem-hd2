@@ -1,15 +1,26 @@
 #
-# driver
+#
+#
+DRIVER_PLATFORM   += $(WLANDRIVER)
+
+#
+# driver-clean
 #
 driver-clean:
 	$(MAKE) -C $(DRIVER_DIR) ARCH=sh KERNEL_LOCATION=$(KERNEL_DIR) distclean
 	rm -f $(D)/driver
 
+#
+# driver-symlink
+#
 driver-symlink:
 	cp $(DRIVER_DIR)/stgfb/stmfb/linux/drivers/video/stmfb.h $(TARGET_DIR)/usr/include/linux
 	cp $(DRIVER_DIR)/player2/linux/include/linux/dvb/stm_ioctls.h $(TARGET_DIR)/usr/include/linux/dvb
 	touch $(D)/$(notdir $@)
 
+#
+# driver
+#
 driver: $(D)/driver
 $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)

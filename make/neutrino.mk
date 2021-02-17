@@ -65,10 +65,6 @@ N_CONFIG_OPTS += --with-boxtype=$(BOXTYPE)
 # MEDIAFW
 MEDIAFW ?= gstreamer
 
-ifeq ($(BOXARCH), sh4)
-MEDIAFW = buildinplayer
-endif
-
 ifeq ($(MEDIAFW), gstreamer)
 NEUTRINO_DEPS  += $(D)/gst_plugins_dvbmediasink
 N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)

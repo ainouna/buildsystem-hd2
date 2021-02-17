@@ -1,11 +1,5 @@
 
 #
-# kernel
-#
-DEPMOD = $(HOST_DIR)/bin/depmod
-KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
-
-#
 # kernel-distclean
 #
 kernel-distclean:

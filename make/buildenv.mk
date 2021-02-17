@@ -21,8 +21,6 @@ SCRIPTS_DIR           = $(BASE_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
 
 # BOXTYPE
-BOXTYPE ?= cuberevo_mini2
-
 -include $(BASE_DIR)/config
 
 #
@@ -40,38 +38,8 @@ D                     = $(TUFSBOX_DIR)/.deps
 #
 IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
 
-#
-# wlan driver
-#
-WLAN ?= wlandriver
-ifeq ($(WLAN), wlandriver)
-WLANDRIVER         = WLANDRIVER=wlandriver
-endif
-
-DRIVER_PLATFORM   := $(WLANDRIVER) # dont move this must be set bevor $BOXTYPE.mk
-
 # 
 -include $(BASE_DIR)/make/machine/$(BOXTYPE).mk
-
-#
-ifeq ($(BOXTYPE), vusolo4k)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), vuduo4k)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), vuultimo4k)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), vuuno4k)
-BOXARCH = arm
-endif
-ifeq ($(BOXTYPE), vuuno4kse)
-BOXARCH = arm
-endif 
-ifeq ($(BOXTYPE), vuzero4k)
-BOXARCH = arm
-endif
 
 # for local extensions
 -include $(BASE_DIR)/config.local
@@ -313,6 +281,17 @@ MAKE_OPTS := \
 	LN_S="ln -s" \
 	ARCH=sh \
 	CROSS_COMPILE=$(TARGET)-
+
+#
+#
+#
+WLAN ?= wlandriver
+ifeq ($(WLAN), wlandriver)
+WLANDRIVER         = WLANDRIVER=wlandriver
+endif
+
+DEPMOD = $(HOST_DIR)/bin/depmod
+
 
 
 

@@ -1,8 +1,6 @@
 BOXARCH = mips
-OPTIMIZATIONS ?= size
-WLAN ?= 
-MEDIAFW ?= gstreamer
-INTERFACE ?=lua-python
+MEDIAFW = gstreamer
+INTERFACE = lua
 CICAM = ci-cam
 SCART = scart
 LCD = 4-digits
@@ -58,8 +56,7 @@ KERNEL_PATCHES_MIPSEL  = \
     		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
     		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
 
-#DEPMOD = $(HOST_DIR)/bin/depmod
-#KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
+KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
