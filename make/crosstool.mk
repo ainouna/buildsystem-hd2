@@ -33,27 +33,6 @@ endif
 
 CUSTOM_KERNEL_VER ?= $(KERNEL_VER)
 
-#ifeq ($(BOXARCH), arm)
-#ifeq ($(BOXTYPE), vusolo4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#ifeq ($(BOXTYPE), vuduo4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#ifeq ($(BOXTYPE), vuultimo4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#ifeq ($(BOXTYPE), vuuno4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#ifeq ($(BOXTYPE), vuuno4kse)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#ifeq ($(BOXTYPE), vuzero4k)
-#CUSTOM_KERNEL_VER = $(KERNEL_SRC_VER)
-#endif
-#endif
-
 ifeq ($(CROSSTOOL_NG_VER), 872341e3)
 CROSSTOOL_NG_PATCH = ct-ng/crosstool-872341e3-bash.patch
 endif
