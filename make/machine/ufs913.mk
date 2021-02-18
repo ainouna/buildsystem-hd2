@@ -182,7 +182,7 @@ $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 # release
 #
 release-ufs913:
-	install -m 0755 $(SKEL_ROOT)/etc/init./halt_ufs912 $(RELEASE_DIR)/etc/init.d/halt
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_ufs913 $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontcontroller/micom/micom.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/multituner/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(RELEASE_DIR)/lib/modules/

@@ -102,11 +102,11 @@ include make/ffmpeg.mk
 ifeq ($(BOXARCH), sh4)
 include make/crosstool-sh4.mk
 endif
-include make/linux-kernel.mk
-include make/driver.mk
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 include make/crosstool.mk
 endif
+include make/linux-kernel.mk
+include make/driver.mk
 include make/gstreamer.mk
 include make/root-etc.mk
 include make/python.mk

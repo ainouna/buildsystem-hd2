@@ -1,5 +1,5 @@
 #
-# tools
+# tools-clean
 #
 tools-clean:
 	rm -f $(D)/tools-*
@@ -36,6 +36,9 @@ ifneq ($(wildcard $(APPS_DIR)/tools/own-tools),)
 	-$(MAKE) -C $(APPS_DIR)/tools/own-tools clean
 endif
 
+#
+# tools-distclean
+#
 tools-distclean:
 	rm -f $(D)/tools-*
 	-$(MAKE) -C $(APPS_DIR)/tools/aio-grab-$(BOXARCH) distclean

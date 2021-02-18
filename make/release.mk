@@ -1,7 +1,6 @@
 #
 # release-common
 #
-# the following target creates the common file base
 RELEASE_DEPS = $(KERNEL) 
 RELEASE_DEPS += $(D)/driver 
 RELEASE_DEPS += $(D)/system-tools 
@@ -297,8 +296,7 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 endif
 
 #
-# The main target depends on the model.
-# IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
+# release-neutrino
 #
 release-neutrino: neutrino neutrino-plugins
 #
@@ -434,9 +432,14 @@ ifeq ($(INTERFACE), lua-python)
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VERSION).egg-info
 endif
 
+#
+# release-base
+#
 release-base: release-common release-$(BOXTYPE)
 	
-
+#
+# release
+#
 $(D)/release: release-base release-neutrino
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@

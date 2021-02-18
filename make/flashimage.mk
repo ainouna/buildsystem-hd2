@@ -1,7 +1,6 @@
 #
 # flashimage
 #
-
 flashimage: release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), fortis_hdbox octagon1008 ufs910 ufs922 ipbox55 ipbox9900 cuberevo cuberevo_mini cuberevo_mini2 cuberevo_250hd cuberevo_2000hd cuberevo_3000hd))
 	$(MAKE) flash-image-$(BOXTYPE)
@@ -74,6 +73,9 @@ ifeq ($(BOXTYPE), vuzero4k)
 endif
 	$(TUXBOX_CUSTOMIZE)
 
+#
+# online-image
+#
 online-image: release
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd51))
 	$(MAKE) flash-image-hd51-online
@@ -110,6 +112,9 @@ ifeq ($(BOXTYPE), vuzero4k)
 endif
 	$(TUXBOX_CUSTOMIZE)
 
+#
+# flash-clean
+#
 flash-clean:
 ifeq ($(BOXARCH), sh4)
 	cd $(FLASH_DIR)/nor_flash && $(SUDOCMD) rm -rf ./tmp ./out

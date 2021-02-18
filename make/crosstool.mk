@@ -1,10 +1,15 @@
-# makefile to build crosstools
+# 
+# crosstool-renew
+#
 crosstool-renew:
 	ccache -cCz
 	make distclean
 	rm -rf $(CROSS_DIR)
 	make crosstool
 
+#
+# libc
+#
 $(TARGET_DIR)/lib/libc.so.6:
 	if test -e $(CROSS_DIR)/$(TARGET)/sys-root/lib; then \
 		cp -a $(CROSS_DIR)/$(TARGET)/sys-root/lib/*so* $(TARGET_DIR)/lib; \
@@ -82,10 +87,16 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
 endif
 
+#
+# crosstool-backup
+#
 crosstool-backup:
 	cd $(CROSS_DIR); \
 	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz *
 
+#
+# crosstoll-restore
+#
 crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
 	rm -rf $(CROSS_DIR) ; \
 	if [ ! -e $(CROSS_DIR) ]; then \
@@ -93,11 +104,14 @@ crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(
 	fi;
 	tar xzvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz -C $(CROSS_DIR)
 
+#
+# crossmenuconfig
+#
 crossmenuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
 	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
 	set -e; unset CONFIG_SITE; cd $(BUILD_TMP)/crosstool-ng-git-$(CROSSTOOL_NG_VER); \
-		cp -a $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER).config .config; \
+		cp -a $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-gcc-$(GCC_VER)-$(BOXARCH).config .config; \
 		test -f ./configure || ./bootstrap && \
 		./configure --enable-local; \
 		MAKELEVEL=0 make; \

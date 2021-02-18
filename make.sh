@@ -222,17 +222,19 @@ echo "WLAN=$WLAN" >> config
 # Media Framework
 #
 case $5 in
-	[1-2]) REPLY=$5;;
+	[1-3]) REPLY=$5;;
 	*)	echo -e "\nMedia Framework:"
 		echo "   1) libeplayer3"
-		echo -e "   \033[01;32m2) gstreamer (recommended for mips and arm boxes)\033[00m"
-		read -p "Select media framework (1-2)? ";;
+		echo "   2) gstreamer (recommended for mips and arm boxes)"
+		echo -e "   \033[01;32m3) default\033[00m"
+		read -p "Select media framework (1-3)? ";;
 esac
 
 case "$REPLY" in
 	1) MEDIAFW="buildinplayer";;
 	2) MEDIAFW="gstreamer";;
-	*) MEDIAFW="gstreamer";;
+	3) MEDIAFW=" ";;
+	*) MEDIAFW=" ";;
 esac
 echo "MEDIAFW=$MEDIAFW" >> config
 

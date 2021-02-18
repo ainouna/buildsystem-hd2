@@ -1,3 +1,6 @@
+#
+# toolcheck
+#
 TOOLCHECK  = find-git find-svn find-gzip find-bzip2 find-patch find-gawk
 TOOLCHECK += find-makeinfo find-automake find-gcc find-libtool
 TOOLCHECK += find-yacc find-flex find-tic find-pkg-config find-help2man
@@ -387,3 +390,5 @@ $(D)/ccache: directories
 
 # hack to make sure they are always copied
 PHONY += ccache
+
+
