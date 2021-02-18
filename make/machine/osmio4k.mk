@@ -165,7 +165,7 @@ $(D)/wlan-qcom-firmware: $(D)/bootstrap $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE)
 #
 # release
 #
-release-$(BOXTYPE):
+release-osmio4k:
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
 	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
@@ -200,7 +200,7 @@ ROOTFS4_PARTITION_OFFSET = $(shell expr $(KERNEL4_PARTITION_OFFSET) + $(KERNEL_P
 
 SWAP_PARTITION_OFFSET = $(shell expr $(ROOTFS4_PARTITION_OFFSET) + $(ROOTFS_PARTITION_SIZE))
 
-flash-image-$(BOXTYPE)-multi-disk:
+flash-image-osmio4k-multi-disk:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	# Create a sparse image block
@@ -241,7 +241,7 @@ flash-image-$(BOXTYPE)-multi-disk:
 	dd if=$(IMAGE_BUILD_DIR)/$(IMAGE_LINK) of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024 + $(BOOT_PARTITION_SIZE) \* 1024 + $(KERNEL_PARTITION_SIZE) \* 1024)
 	mv $(EMMC_IMAGE) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 
-flash-image-$(BOXTYPE)-multi-rootfs:
+flash-image-osmio4k-multi-rootfs:
 	# Create final USB-image
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	mkdir -p $(FLASH_DIR)/$(BOXTYPE)

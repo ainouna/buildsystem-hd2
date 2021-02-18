@@ -1,3 +1,6 @@
+#
+# generel
+#
 BOXARCH = arm
 OPTIMIZATIONS ?= size
 WLAN ?= 
