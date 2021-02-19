@@ -168,7 +168,6 @@ $(ARCHIVE)/$(INITRD_SRC):
 $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	$(START_BUILD)
 	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
-	install -d $(TARGET_DIR)/boot
 	$(TOUCH)
 
 #

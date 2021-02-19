@@ -58,7 +58,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 	if [ ! -e $(CROSS_DIR) ]; then \
 		mkdir -p $(CROSS_DIR); \
 	fi;
-	$(REMOVE)/crosstool-ng-$(CROSSTOOL_NG_VER)
+	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
 	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
 	unset CONFIG_SITE LIBRARY_PATH LD_LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE; \
 	$(CHDIR)/crosstool-ng-git-$(CROSSTOOL_NG_VER); \
@@ -95,7 +95,7 @@ crosstool-backup:
 	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz *
 
 #
-# crosstoll-restore
+# crosstool-restore
 #
 crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
 	rm -rf $(CROSS_DIR) ; \

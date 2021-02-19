@@ -226,7 +226,7 @@ case $5 in
 	*)	echo -e "\nMedia Framework:"
 		echo "   1) libeplayer3"
 		echo "   2) gstreamer (recommended for mips and arm boxes)"
-		echo -e "   \033[01;32m3) default\033[00m"
+		echo -e "   \033[01;32m3) skip\033[00m"
 		read -p "Select media framework (1-3)? ";;
 esac
 

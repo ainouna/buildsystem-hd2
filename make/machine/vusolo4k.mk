@@ -2,7 +2,7 @@ BOXARCH = arm
 OPTIMIZATIONS ?= size
 WLAN ?= 
 MEDIAFW ?= gstreamer
-INTERFACE ?=lua-python
+INTERFACE ?=lua
 CICAM = ci-cam
 SCART = scart
 LCD = 4-digits
@@ -154,7 +154,6 @@ $(ARCHIVE)/$(INITRD_SRC):
 $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	$(START_BUILD)
 	tar -xf $(ARCHIVE)/$(INITRD_SRC) -C $(TARGET_DIR)/boot
-	install -d 
 
 #
 # release
@@ -163,7 +162,6 @@ release-vusolo4k:
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vusolo4k $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7366c0 $(RELEASE_DIR)/boot/
-
 
 #
 # flashimage
