@@ -219,48 +219,6 @@ esac
 echo "WLAN=$WLAN" >> config
 
 #
-# Media Framework
-#
-case $5 in
-	[1-3]) REPLY=$5;;
-	*)	echo -e "\nMedia Framework:"
-		echo "   1) libeplayer3"
-		echo "   2) gstreamer (recommended for mips and arm boxes)"
-		echo -e "   \033[01;32m3) skip\033[00m"
-		read -p "Select media framework (1-3)? ";;
-esac
-
-case "$REPLY" in
-	1) MEDIAFW="buildinplayer";;
-	2) MEDIAFW="gstreamer";;
-	3) MEDIAFW=" ";;
-	*) MEDIAFW=" ";;
-esac
-echo "MEDIAFW=$MEDIAFW" >> config
-
-#
-# Plugins Interface (lua/python)
-#
-case $6 in
-	[1-4]) REPLY=$6;;
-	*)	echo -e "\nWhich neutrino interface do you want to build?:"
-		echo -e "   \033[01;32m1) lua\033[00m"
-		echo "   2)  python (experimental)"
-		echo "   3)  lua and python (experimental)"
-		echo "   4)  none"
-		read -p "Select Interface to build (1-4)? ";;
-esac
-
-case "$REPLY" in
-	1) INTERFACE="lua";;
-	2) INTERFACE="python";;
-	3) INTERFACE="lua-python";;
-	4) INTERFACE=" ";;
-	*) INTERFACE="lua";;
-esac
-echo "INTERFACE=$INTERFACE" >> config
-
-#
 # testing
 #
 case $7 in
