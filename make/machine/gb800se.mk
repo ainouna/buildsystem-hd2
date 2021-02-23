@@ -1,6 +1,6 @@
 BOXARCH = mips
-MEDIAFW = gstreamer
-INTERFACE = lua
+MEDIAFW ?= gstreamer
+INTERFACE ?= lua
 CICAM = ci-cam
 SCART = scart
 LCD = 4-digits
