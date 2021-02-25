@@ -200,7 +200,6 @@ case "$REPLY" in
 	5) ;;
 	*) ;;
 esac
-#echo "OPTIMIZATIONS=$OPTIMIZATIONS" >> config
 
 #
 # WLAN Support
