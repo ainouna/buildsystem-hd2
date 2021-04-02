@@ -47,10 +47,10 @@ neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(TUXBOX_CUSTOMIZE)
 
 neutrino-plugins-clean:
+	rm -f $(D)/neutrino-plugins
+	rm -f $(D)/neutrinohd2-plugins.config.status
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 	$(MAKE) clean
-	rm -f $(D)/neutrinohd2-plugins.build
-	rm -f $(D)/neutrinohd2-plugins.config.status
 
 neutrino-plugins-distclean:
 	rm -f $(D)/neutrinohd2-plugins.build
