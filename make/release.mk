@@ -298,7 +298,7 @@ endif
 #
 # release-neutrino
 #
-release-neutrino: neutrino neutrino-plugins
+release-neutrino: $(D)/neutrino $(D)/neutrino-plugins
 #
 # neutrino
 #

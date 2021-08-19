@@ -170,7 +170,7 @@ $(D)/neutrinohd2.do_compile: $(D)/neutrinohd2.config.status
 		$(MAKE) all
 	@touch $@
 
-neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
+$(D)/neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
@@ -178,7 +178,6 @@ neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 
 neutrino-clean:
 	rm -f $(D)/neutrino
-	rm -f $(D)/neutrinohd2.config.status
 	cd $(SOURCE_DIR)/neutrinohd2; \
 		$(MAKE) clean
 

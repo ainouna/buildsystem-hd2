@@ -39,7 +39,7 @@ $(D)/neutrinohd2-plugins.build: neutrinohd2-plugins.do_prepare neutrinohd2-plugi
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2-plugins install DESTDIR=$(TARGET_DIR) top_srcdir=$(SOURCE_DIR)/neutrinohd2
 	$(TOUCH)
 
-neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
+$(D)/neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
@@ -48,7 +48,6 @@ neutrino-plugins: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 
 neutrino-plugins-clean:
 	rm -f $(D)/neutrino-plugins
-	rm -f $(D)/neutrinohd2-plugins.config.status
 	cd $(SOURCE_DIR)/neutrinohd2-plugins; \
 	$(MAKE) clean
 
