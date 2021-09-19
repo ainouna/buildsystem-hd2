@@ -113,8 +113,6 @@ done
 echo 100 > /proc/stb/fp/oled_brightness
 oled -tc "Booting...TC-NMP"
 
-/bin/initfb $(sed -n 's/osd_resolution=//p' /var/tuxbox/config/neutrino.conf)
-
 echo "setup network"
 read hstname < /etc/hostname
 if [ "$hstname" == "$model" ]; then
