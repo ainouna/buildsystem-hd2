@@ -204,7 +204,7 @@ everything: $(shell sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' make/*.mk)
 
 # print all present targets...
 print-targets:
-	@sed -n 's/^\$$.D.\/\(.*\):.*/\1/p; s/^\([a-z].*\):\( \|$$\).*/\1/p;' \
+	@sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' \
 		`ls -1 make/*.mk|grep -v make/buildenv.mk|grep -v make/release.mk` | \
 		sort -u | fold -s -w 65
 

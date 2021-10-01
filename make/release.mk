@@ -441,21 +441,15 @@ release-base: release-common release-$(BOXTYPE)
 # release
 #
 $(D)/release: release-base release-neutrino
-	$(TUXBOX_CUSTOMIZE)
-	@touch $@
-
-#
-# nicht die feine Art, aber funktioniert ;)
-#
 	cp -dpfr $(RELEASE_DIR)/etc $(RELEASE_DIR)/var
 	rm -fr $(RELEASE_DIR)/etc
 	ln -sf /var/etc $(RELEASE_DIR)
-#	ln -s /tmp $(RELEASE_DIR)/lib/init
-	ln -s /tmp $(RELEASE_DIR)/var/lib/urandom
 	ln -s /tmp $(RELEASE_DIR)/var/lock
 	ln -s /tmp $(RELEASE_DIR)/var/log
 	ln -s /tmp $(RELEASE_DIR)/var/run
 	ln -s /tmp $(RELEASE_DIR)/var/tmp
+	$(TUXBOX_CUSTOMIZE)
+	@touch $@
 
 #
 # linux-strip all
