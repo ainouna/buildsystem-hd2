@@ -1,4 +1,6 @@
 BOXARCH = mips
+OPTIMIZATIONS ?= size
+WLAN ?= 
 MEDIAFW ?= gstreamer
 INTERFACE ?= lua
 CICAM = ci-cam
