@@ -85,7 +85,7 @@ help:
 	@echo " make crosstool			- build cross toolchain"
 	@echo ""
 	@echo "show all build-targets:"
-	@echo " make print-targets		- print out all available targets"
+	@echo " make print-targets		- show all available targets"
 	@echo ""
 	@echo "later, you might find these useful:"
 	@echo " make update			- update the build system, apps, driver and flash"
@@ -101,6 +101,9 @@ help:
 	@echo "cleantargets:"
 	@echo " make clean			- clears everything except toolchain."
 	@echo " make distclean			- clears the whole construction."
+	@echo ""
+	@echo "show all supported boards:"
+	@echo " make print-boards		- show all supported boards"
 	@echo
 
 # define package versions first...
@@ -207,6 +210,10 @@ print-targets:
 	@sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' \
 		`ls -1 make/*.mk|grep -v make/buildenv.mk|grep -v make/release.mk` | \
 		sort -u | fold -s -w 65
+		
+# print all supported boards ...
+print-boards:
+	@ls make/machine | sed 's/.mk//g'
 
 # for local extensions, e.g. special plugins or similar...
 # put them into $(BASE_DIR)/local since that is ignored in .gitignore
