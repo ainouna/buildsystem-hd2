@@ -1,8 +1,8 @@
-# buildsystem-ddt
+# buildsystem-nhd2
 
-git clone https://github.com/mohousch/buildsystem-ddt.git
+git clone https://github.com/mohousch/buildsystem-nhd2.git
 
-cd buildsystem-ddt
+cd buildsystem-nhd2
 
 **for first use**
 
