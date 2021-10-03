@@ -178,10 +178,11 @@ $(D)/neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
 
 neutrino-clean:
 	rm -f $(D)/neutrino
-	cd $(SOURCE_DIR)/neutrinohd2; \
-		$(MAKE) clean
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 clean
 
 neutrino-distclean:
+	-$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 distclean
+	rm -f $(SOURCE_DIR)/neutrinohd2/config.status
 	rm -f $(D)/neutrino*
 	rm -f $(D)/neutrino-plugins*
 
