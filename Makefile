@@ -213,7 +213,8 @@ print-targets:
 		
 # print all supported boards ...
 print-boards:
-	@ls make/machine | sed 's/.mk//g'
+#	@ls make/machine | sed 's/.mk//g'
+	@ls machine | sed 's/.mk//g' 
 
 # for local extensions, e.g. special plugins or similar...
 # put them into $(BASE_DIR)/local since that is ignored in .gitignore

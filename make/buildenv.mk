@@ -27,6 +27,7 @@ BOXTYPE ?= gb800se
 #
 TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
 
+#
 BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp
 SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
@@ -40,7 +41,7 @@ D                     = $(TUFSBOX_DIR)/.deps
 IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
 
 # 
--include $(BASE_DIR)/make/machine/$(BOXTYPE).mk
+-include $(BASE_DIR)/machine/$(BOXTYPE)/$(BOXTYPE).mk
 
 # for local extensions
 -include $(BASE_DIR)/config.local

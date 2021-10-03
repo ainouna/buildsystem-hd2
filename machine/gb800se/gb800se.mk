@@ -15,64 +15,64 @@ KERNEL_VER             = 3.9.6
 KERNEL_DATE            = 20140904
 KERNEL_SRC             = gigablue-linux-$(KERNEL_VER)-$(KERNEL_DATE).tgz
 KERNEL_URL             = http://source.mynonpublic.com/gigablue/linux
-KERNEL_CONFIG          = gb800se_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNELNAME             = vmlinux
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)
 
 KERNEL_PATCHES_MIPSEL  = \
-		mips/gb800se/nor-maps-gb800solo.patch \
-       		mips/gb800se/add-dmx-source-timecode.patch \
-    		mips/gb800se/af9015-output-full-range-SNR.patch \
-    		mips/gb800se/af9033-output-full-range-SNR.patch \
-    		mips/gb800se/as102-adjust-signal-strength-report.patch \
-    		mips/gb800se/as102-scale-MER-to-full-range.patch \
-    		mips/gb800se/cinergy_s2_usb_r2.patch \
-    		mips/gb800se/cxd2820r-output-full-range-SNR.patch \
-    		mips/gb800se/dvb-usb-dib0700-disable-sleep.patch \
-    		mips/gb800se/dvb_usb_disable_rc_polling.patch \
-    		mips/gb800se/it913x-switch-off-PID-filter-by-default.patch \
-    		mips/gb800se/tda18271-advertise-supported-delsys.patch \
-    		mips/gb800se/fix-dvb-siano-sms-order.patch \
-    		mips/gb800se/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
-    		mips/gb800se/nfs-max-rwsize-8k.patch \
-    		mips/gb800se/0001-rt2800usb-add-support-for-rt55xx.patch \
-    		mips/gb800se/linux-sata_bcm.patch \
-    		mips/gb800se/brcmnand.patch \
-    		mips/gb800se/fix_fuse_for_linux_mips_3-9.patch \
-    		mips/gb800se/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		mips/gb800se/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
-    		mips/gb800se/rtl8712-fix-warnings.patch \
-    		mips/gb800se/rtl8187se-fix-warnings.patch \
-    		mips/gb800se/kernel-add-support-for-gcc-5.patch \
-    		mips/gb800se/kernel-add-support-for-gcc6.patch \
-    		mips/gb800se/kernel-add-support-for-gcc7.patch \
-    		mips/gb800se/kernel-add-support-for-gcc8.patch \
-    		mips/gb800se/kernel-add-support-for-gcc9.patch \
-		mips/gb800se/0001-Support-TBS-USB-drivers-3.9.patch \
-    		mips/gb800se/0001-STV-Add-PLS-support.patch \
-    		mips/gb800se/0001-STV-Add-SNR-Signal-report-parameters.patch \
-    		mips/gb800se/0001-stv090x-optimized-TS-sync-control.patch \
-    		mips/gb800se/blindscan2.patch \
-    		mips/gb800se/genksyms_fix_typeof_handling.patch \
-    		mips/gb800se/0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
-    		mips/gb800se/0003-log2-give-up-on-gcc-constant-optimizations.patch
+		nor-maps-gb800solo.patch \
+       	add-dmx-source-timecode.patch \
+    		af9015-output-full-range-SNR.patch \
+    		af9033-output-full-range-SNR.patch \
+    		as102-adjust-signal-strength-report.patch \
+    		as102-scale-MER-to-full-range.patch \
+    		cinergy_s2_usb_r2.patch \
+    		cxd2820r-output-full-range-SNR.patch \
+    		dvb-usb-dib0700-disable-sleep.patch \
+    		dvb_usb_disable_rc_polling.patch \
+    		it913x-switch-off-PID-filter-by-default.patch \
+    		tda18271-advertise-supported-delsys.patch \
+    		fix-dvb-siano-sms-order.patch \
+    		mxl5007t-add-no_probe-and-no_reset-parameters.patch \
+    		nfs-max-rwsize-8k.patch \
+    		0001-rt2800usb-add-support-for-rt55xx.patch \
+    		linux-sata_bcm.patch \
+    		brcmnand.patch \
+    		fix_fuse_for_linux_mips_3-9.patch \
+    		rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		linux-3.9-gcc-4.9.3-build-error-fixed.patch \
+    		rtl8712-fix-warnings.patch \
+    		rtl8187se-fix-warnings.patch \
+    		kernel-add-support-for-gcc-5.patch \
+    		kernel-add-support-for-gcc6.patch \
+    		kernel-add-support-for-gcc7.patch \
+    		kernel-add-support-for-gcc8.patch \
+    		kernel-add-support-for-gcc9.patch \
+		0001-Support-TBS-USB-drivers-3.9.patch \
+    		0001-STV-Add-PLS-support.patch \
+    		0001-STV-Add-SNR-Signal-report-parameters.patch \
+    		0001-stv090x-optimized-TS-sync-control.patch \
+    		blindscan2.patch \
+    		genksyms_fix_typeof_handling.patch \
+    		0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
+    		0003-log2-give-up-on-gcc-constant-optimizations.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTARGZ)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -118,9 +118,10 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # release
 #
 release-gb800se:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_gb800se $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_gb800se $(RELEASE_DIR)/etc/fstab
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage

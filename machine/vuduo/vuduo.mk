@@ -14,68 +14,68 @@ FKEYS =
 KERNEL_VER             = 3.9.6
 KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
-KERNEL_CONFIG          = vuduo_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNELNAME             = vmlinux
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)
 
 KERNEL_PATCHES_MIPSEL  = \
-		mips/vuduo/add-dmx-source-timecode.patch \
-		mips/vuduo/af9015-output-full-range-SNR.patch \
-		mips/vuduo/af9033-output-full-range-SNR.patch \
-		mips/vuduo/as102-adjust-signal-strength-report.patch \
-		mips/vuduo/as102-scale-MER-to-full-range.patch \
-		mips/vuduo/cinergy_s2_usb_r2.patch \
-		mips/vuduo/cxd2820r-output-full-range-SNR.patch \
-		mips/vuduo/dvb-usb-dib0700-disable-sleep.patch \
-		mips/vuduo/dvb_usb_disable_rc_polling.patch \
-		mips/vuduo/it913x-switch-off-PID-filter-by-default.patch \
-		mips/vuduo/tda18271-advertise-supported-delsys.patch \
-		mips/vuduo/fix-dvb-siano-sms-order.patch \
-		mips/vuduo/mxl5007t-add-no_probe-and-no_reset-parameters.patch \
-		mips/vuduo/nfs-max-rwsize-8k.patch \
-		mips/vuduo/0001-rt2800usb-add-support-for-rt55xx.patch \
-		mips/vuduo/linux-sata_bcm.patch \
-		mips/vuduo/fix_fuse_for_linux_mips_3-9.patch \
-		mips/vuduo/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		mips/vuduo/linux-3.9-gcc-4.9.3-build-error-fixed.patch \
-		mips/vuduo/kernel-add-support-for-gcc5.patch \
-		mips/vuduo/kernel-add-support-for-gcc6.patch \
-		mips/vuduo/kernel-add-support-for-gcc7.patch \
-		mips/vuduo/kernel-add-support-for-gcc8.patch \
-		mips/vuduo/kernel-add-support-for-gcc9.patch \
-		mips/vuduo/gcc9_backport.patch \
-		mips/vuduo/rtl8712-fix-warnings.patch \
-		mips/vuduo/rtl8187se-fix-warnings.patch \
-		mips/vuduo/0001-Support-TBS-USB-drivers-3.9.patch \
-		mips/vuduo/0001-STV-Add-PLS-support.patch \
-		mips/vuduo/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		mips/vuduo/0001-stv090x-optimized-TS-sync-control.patch \
-		mips/vuduo/blindscan2.patch \
-		mips/vuduo/genksyms_fix_typeof_handling.patch \
-		mips/vuduo/0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		mips/vuduo/0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
-		mips/vuduo/test.patch \
-		mips/vuduo/01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
-		mips/vuduo/02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
-		mips/vuduo/CONFIG_DVB_SP2.patch \
-		mips/vuduo/dvbsky-t330.patch
+		add-dmx-source-timecode.patch \
+		af9015-output-full-range-SNR.patch \
+		af9033-output-full-range-SNR.patch \
+		as102-adjust-signal-strength-report.patch \
+		as102-scale-MER-to-full-range.patch \
+		cinergy_s2_usb_r2.patch \
+		cxd2820r-output-full-range-SNR.patch \
+		dvb-usb-dib0700-disable-sleep.patch \
+		dvb_usb_disable_rc_polling.patch \
+		it913x-switch-off-PID-filter-by-default.patch \
+		tda18271-advertise-supported-delsys.patch \
+		fix-dvb-siano-sms-order.patch \
+		mxl5007t-add-no_probe-and-no_reset-parameters.patch \
+		nfs-max-rwsize-8k.patch \
+		0001-rt2800usb-add-support-for-rt55xx.patch \
+		linux-sata_bcm.patch \
+		fix_fuse_for_linux_mips_3-9.patch \
+		rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		linux-3.9-gcc-4.9.3-build-error-fixed.patch \
+		kernel-add-support-for-gcc5.patch \
+		kernel-add-support-for-gcc6.patch \
+		kernel-add-support-for-gcc7.patch \
+		kernel-add-support-for-gcc8.patch \
+		kernel-add-support-for-gcc9.patch \
+		gcc9_backport.patch \
+		rtl8712-fix-warnings.patch \
+		rtl8187se-fix-warnings.patch \
+		0001-Support-TBS-USB-drivers-3.9.patch \
+		0001-STV-Add-PLS-support.patch \
+		0001-STV-Add-SNR-Signal-report-parameters.patch \
+		0001-stv090x-optimized-TS-sync-control.patch \
+		blindscan2.patch \
+		genksyms_fix_typeof_handling.patch \
+		0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
+		test.patch \
+		01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		CONFIG_DVB_SP2.patch \
+		dvbsky-t330.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -121,9 +121,10 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # release
 #
 release-vuduo:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuduo $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_vuduo $(RELEASE_DIR)/etc/fstab
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage
