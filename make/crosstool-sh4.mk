@@ -55,8 +55,7 @@ $(ARCHIVE)/stlinux24-sh4-libstdc++-dev-$(LIBGCC_VER).sh4.rpm
 	touch $(D)/$(notdir $@)
 
 CROSSTOOL = crosstool
-crosstool: $(D)/directories driver-symlink \
-crosstool-rpminstall
+crosstool: $(D)/directories driver-symlink crosstool-rpminstall
 	@touch $(D)/$(notdir $@)
 
 $(TARGET_DIR)/lib/libc.so.6:

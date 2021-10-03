@@ -45,13 +45,14 @@ endif
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
-ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
+#ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
 crosstool:
 	make MAKEFLAGS=--no-print-directory crosstool-ng
 	if [ ! -e $(CROSSTOOL_NG_BACKUP) ]; then \
 		make crosstool-backup; \
 	fi;
+	@touch $(D)/$(notdir $@)
 
 crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
 	make $(BUILD_TMP)
@@ -85,7 +86,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 	test -e $(CROSS_DIR)/$(TARGET)/lib || ln -sf sys-root/lib $(CROSS_DIR)/$(TARGET)/
 	rm -f $(CROSS_DIR)/$(TARGET)/sys-root/lib/libstdc++.so.6.0.20-gdb.py
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
-endif
+#endif
 
 #
 # crosstool-backup
