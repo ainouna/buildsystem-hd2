@@ -236,15 +236,17 @@ $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 # release
 #
 release-tf7700:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_tf7700 $(RELEASE_DIR)/etc/init.d/halt
+	$(MAKE) tfinstaller
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontcontroller/tffp/tffp.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(RELEASE_DIR)/lib/modules/
 	cp $(SKEL_ROOT)/boot/video_7109.elf $(RELEASE_DIR)/lib/firmware/video.elf
 	cp $(SKEL_ROOT)/boot/audio_7100.elf $(RELEASE_DIR)/lib/firmware/audio.elf
 	cp $(SKEL_ROOT)/lib/firmware/dvb-fe-cx24116.fw $(RELEASE_DIR)/lib/firmware/
-	cp -f $(SKEL_ROOT)/etc/fstab_tf7700 $(RELEASE_DIR)/etc/fstab
-	$(MAKE) tfinstaller
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
+	install -m 0644 $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/init.d/
+	cp $(BASE_DIR)/machine/$(BOXTYPE)/files/fw_env.config $(RELEASE_DIR)/etc/
 
 
 #

@@ -185,7 +185,6 @@ $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 # release
 #
 release-spark:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_spark $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontcontroller/aotom_spark/aotom.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/lnb/lnb.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/*.ko $(RELEASE_DIR)/lib/modules/
@@ -194,7 +193,10 @@ release-spark:
 	cp $(SKEL_ROOT)/boot/audio_7111.elf $(RELEASE_DIR)/lib/firmware/audio.elf
 	cp $(SKEL_ROOT)/lib/firmware/component_7111_mb618.fw $(RELEASE_DIR)/lib/firmware/component.fw
 	rm -f $(RELEASE_DIR)/bin/vdstandby
-	cp -dp $(SKEL_ROOT)/etc/lircd_spark.conf $(RELEASE_DIR)/etc/lircd.conf
+	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd.conf $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
+	cp $(BASE_DIR)/machine/$(BOXTYPE)/files/fw_env.config $(RELEASE_DIR)/etc/
 
 
 #

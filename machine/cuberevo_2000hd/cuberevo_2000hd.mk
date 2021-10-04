@@ -183,8 +183,6 @@ $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 # release
 #
 release-cuberevo_2000hd:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_cuberevo $(RELEASE_DIR)/etc/init.d/halt
-	install -m 0777 $(SKEL_ROOT)/etc/init.d/reboot_cuberevo $(RELEASE_DIR)/etc/init.d/reboot
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontcontroller/ipbox/micom.ko $(RELEASE_DIR)/lib/modules/
 	cp $(SKEL_ROOT)/boot/video_7109.elf $(RELEASE_DIR)/lib/firmware/video.elf
@@ -193,6 +191,10 @@ release-cuberevo_2000hd:
 	cp $(SKEL_ROOT)/lib/firmware/dvb-fe-stv6306.fw $(RELEASE_DIR)/lib/firmware/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/multituner/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/media/dvb/frontends/dvb-pll.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	install -m 0777 $(BASE_DIR)/machine/$(BOXTYPE)/files/reboot $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
+	cp $(BASE_DIR)/machine/$(BOXTYPE)/files/fw_env.config $(RELEASE_DIR)/etc/
 
 
 #
