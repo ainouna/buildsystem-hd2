@@ -15,30 +15,30 @@ KERNEL_VER             = 5.9.0
 KERNEL_SRC_VER         = 5.9
 KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
 KERNELNAME             = zImage
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)
 
 KERNEL_PATCHES_ARM     = \
-		arm/osmio4k/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
-		arm/osmio4k/0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+		0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+		0002-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -166,9 +166,10 @@ $(D)/wlan-qcom-firmware: $(D)/bootstrap $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE)
 # release
 #
 release-osmio4k:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage

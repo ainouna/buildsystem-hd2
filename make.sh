@@ -290,6 +290,8 @@ make printenv
 #
 echo "Your next step could be:"
 echo "  make flashimage"
+echo " "
+echo " "
 echo "for more details:"
 echo "  make help"
 echo "to check your build enviroment:"

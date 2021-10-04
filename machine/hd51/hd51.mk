@@ -15,39 +15,39 @@ KERNEL_VER             = 4.10.12
 KERNEL_DATE            = 20180424
 KERNEL_SRC             = linux-$(KERNEL_VER)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = hd51_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_DTB_VER         = bcm7445-bcm97445svmb.dtb
 KERNELNAME             = zImage
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)-arm
 
 KERNEL_PATCHES_ARM     = \
-		arm/hd51/TBS-fixes-for-4.10-kernel.patch \
-		arm/hd51/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		arm/hd51/0001-TBS-fixes-for-4.6-kernel.patch \
-		arm/hd51/0001-STV-Add-PLS-support.patch \
-		arm/hd51/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/hd51/blindscan2.patch \
-		arm/hd51/0001-stv090x-optimized-TS-sync-control.patch \
-		arm/hd51/reserve_dvb_adapter_0.patch \
-		arm/hd51/blacklist_mmc0.patch \
-		arm/hd51/export_pmpoweroffprepare.patch
+		TBS-fixes-for-4.10-kernel.patch \
+		0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		0001-TBS-fixes-for-4.6-kernel.patch \
+		0001-STV-Add-PLS-support.patch \
+		0001-STV-Add-SNR-Signal-report-parameters.patch \
+		blindscan2.patch \
+		0001-stv090x-optimized-TS-sync-control.patch \
+		reserve_dvb_adapter_0.patch \
+		blacklist_mmc0.patch \
+		export_pmpoweroffprepare.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -96,9 +96,10 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # release
 #
 release-hd51:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_hd51 $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/boot/zImage.dtb $(RELEASE_DIR)/boot/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage

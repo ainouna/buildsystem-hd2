@@ -14,37 +14,37 @@ FKEYS =
 KERNEL_VER             = 4.8.17
 KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
 KERNEL_URL             = http://source.mynonpublic.com/edision
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNELNAME             = vmlinux
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)
 
 KERNEL_PATCHES_MIPSEL  = \
-		mips/osnino/0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
-		mips/osnino/0001-TBS-fixes-for-4.6-kernel.patch \
-		mips/osnino/0001-STV-Add-PLS-support.patch \
-		mips/osnino/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		mips/osnino/blindscan2.patch \
-		mips/osnino/0001-stv090x-optimized-TS-sync-control.patch \
-		mips/osnino/0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		mips/osnino/0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
-		mips/osnino/move-default-dialect-to-SMB3.patch
+		0001-Support-TBS-USB-drivers-for-4.6-kernel.patch \
+		0001-TBS-fixes-for-4.6-kernel.patch \
+		0001-STV-Add-PLS-support.patch \
+		0001-STV-Add-SNR-Signal-report-parameters.patch \
+		blindscan2.patch \
+		0001-stv090x-optimized-TS-sync-control.patch \
+		0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		0003-cp1emu-do-not-use-bools-for-arithmetic.patch \
+		move-default-dialect-to-SMB3.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_MIPSEL)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -90,9 +90,10 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # release
 #
 release-osninoplus:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_$(BOXTYPE) $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_$(BOXTYPE) $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage

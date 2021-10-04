@@ -15,7 +15,7 @@ KERNEL_VER             = 4.4.35
 KERNEL_DATE            = 20181228
 KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_DTB_VER         = hi3798mv200.dtb
 KERNELNAME             = uImage
@@ -23,38 +23,38 @@ KERNELNAME             = uImage
 CUSTOM_KERNEL_VER      = $(KERNEL_VER)-$(KERNEL_DATE)-arm
 
 KERNEL_PATCHES_ARM = \
-		arm/hd61/0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		arm/hd61/0003-dont-mark-register-as-const.patch \
-		arm/hd61/0001-remote.patch \
-		arm/hd61/HauppaugeWinTV-dualHD.patch \
-		arm/hd61/dib7000-linux_4.4.179.patch \
-		arm/hd61/dvb-usb-linux_4.4.179.patch \
-		arm/hd61/wifi-linux_4.4.183.patch \
-		arm/hd61/move-default-dialect-to-SMB3.patch \
-		arm/hd61/0004-linux-fix-buffer-size-warning-error.patch \
-		arm/hd61/modules_mark__inittest__exittest_as__maybe_unused.patch \
-		arm/hd61/includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
-		arm/hd61/Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
-		arm/hd61/0005-xbox-one-tuner-4.4.patch \
-		arm/hd61/0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
-		arm/hd61/0007-dvb-mn88472-staging.patch \
-		arm/hd61/mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
+		0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		0003-dont-mark-register-as-const.patch \
+		0001-remote.patch \
+		HauppaugeWinTV-dualHD.patch \
+		dib7000-linux_4.4.179.patch \
+		dvb-usb-linux_4.4.179.patch \
+		wifi-linux_4.4.183.patch \
+		move-default-dialect-to-SMB3.patch \
+		0004-linux-fix-buffer-size-warning-error.patch \
+		modules_mark__inittest__exittest_as__maybe_unused.patch \
+		includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
+		Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
+		0005-xbox-one-tuner-4.4.patch \
+		0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
+		0007-dvb-mn88472-staging.patch \
+		mn88472_reset_stream_ID_reg_if_no_PLP_given.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -212,10 +212,11 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 # release
 #
 release-hd61:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_hd61 $(RELEASE_DIR)/etc/init.d/halt
-	install -m 0755 $(SKEL_ROOT)/bin/showiframe $(RELEASE_DIR)/bin
-	cp -f $(SKEL_ROOT)/etc/fstab_hd60 $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
+	install -m 0755 $(SKEL_ROOT)/bin/showiframe $(RELEASE_DIR)/bin
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage
