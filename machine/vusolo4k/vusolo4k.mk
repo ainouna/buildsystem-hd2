@@ -15,47 +15,47 @@ KERNEL_VER             = 3.14.28-1.8
 KERNEL_SRC_VER         = 3.14-1.8
 KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
-KERNEL_CONFIG          = vusolo4k_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNELNAME             = zImage
 CUSTOM_KERNEL_VER      = $(KERNEL_SRC_VER)
 
 KERNEL_PATCHES_ARM     = \
-		arm/vusolo4k/bcm_genet_disable_warn.patch \
-		arm/vusolo4k/linux_dvb-core.patch \
-		arm/vusolo4k/rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		arm/vusolo4k/usb_core_hub_msleep.patch \
-		arm/vusolo4k/rtl8712_fix_build_error.patch \
-		arm/vusolo4k/0001-Support-TBS-USB-drivers.patch \
-		arm/vusolo4k/0001-STV-Add-PLS-support.patch \
-		arm/vusolo4k/0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/vusolo4k/0001-stv090x-optimized-TS-sync-control.patch \
-		arm/vusolo4k/linux_dvb_adapter.patch \
-		arm/vusolo4k/kernel-gcc6.patch \
-		arm/vusolo4k/genksyms_fix_typeof_handling.patch \
-		arm/vusolo4k/0001-tuners-tda18273-silicon-tuner-driver.patch \
-		arm/vusolo4k/01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
-		arm/vusolo4k/02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
-		arm/vusolo4k/0003-cxusb-Geniatech-T230-support.patch \
-		arm/vusolo4k/CONFIG_DVB_SP2.patch \
-		arm/vusolo4k/dvbsky.patch \
-		arm/vusolo4k/rtl2832u-2.patch
+		bcm_genet_disable_warn.patch \
+		linux_dvb-core.patch \
+		rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		usb_core_hub_msleep.patch \
+		rtl8712_fix_build_error.patch \
+		0001-Support-TBS-USB-drivers.patch \
+		0001-STV-Add-PLS-support.patch \
+		0001-STV-Add-SNR-Signal-report-parameters.patch \
+		0001-stv090x-optimized-TS-sync-control.patch \
+		linux_dvb_adapter.patch \
+		kernel-gcc6.patch \
+		genksyms_fix_typeof_handling.patch \
+		0001-tuners-tda18273-silicon-tuner-driver.patch \
+		01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		0003-cxusb-Geniatech-T230-support.patch \
+		CONFIG_DVB_SP2.patch \
+		dvbsky.patch \
+		rtl2832u-2.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -159,9 +159,10 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 # release
 #
 release-vusolo4k:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vusolo4k $(RELEASE_DIR)/etc/init.d/halt
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7366c0 $(RELEASE_DIR)/boot/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage

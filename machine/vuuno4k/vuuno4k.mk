@@ -15,7 +15,7 @@ KERNEL_VER             = 3.14.28-1.12
 KERNEL_SRC_VER         = 3.14-1.12
 KERNEL_SRC             = stblinux-${KERNEL_SRC_VER}.tar.bz2
 KERNEL_URL             = http://archive.vuplus.com/download/kernel
-KERNEL_CONFIG          = $(BOXTYPE)_defconfig
+KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNELNAME             = zImage
 
@@ -24,53 +24,53 @@ CUSTOM_KERNEL_VER      = $(KERNEL_SRC_VER)
 #KERNEL_INITRD          = vmlinuz-initrd-7439b0
 
 KERNEL_PATCHES_ARM = \
-		arm/vuuno4k/3_14_bcm_genet_disable_warn.patch \
-		arm/vuuno4k/3_14_linux_dvb-core.patch \
-		arm/vuuno4k/3_14_dvbs2x.patch \
-		arm/vuuno4k/3_14_dmx_source_dvr.patch \
-		arm/vuuno4k/3_14_rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
-		arm/vuuno4k/3_14_usb_core_hub_msleep.patch \
-		arm/vuuno4k/3_14_rtl8712_fix_build_error.patch \
-		arm/vuuno4k/3_14_kernel-add-support-for-gcc6.patch \
-		arm/vuuno4k/3_14_kernel-add-support-for-gcc7.patch \
-		arm/vuuno4k/3_14_kernel-add-support-for-gcc8.patch \
-		arm/vuuno4k/3_14_kernel-add-support-for-gcc9.patch \
-		arm/vuuno4k/3_14_kernel-add-support-for-gcc10.patch \
-		arm/vuuno4k/3_14_0001-Support-TBS-USB-drivers.patch \
-		arm/vuuno4k/3_14_0001-STV-Add-PLS-support.patch \
-		arm/vuuno4k/3_14_0001-STV-Add-SNR-Signal-report-parameters.patch \
-		arm/vuuno4k/3_14_0001-stv090x-optimized-TS-sync-control.patch \
-		arm/vuuno4k/3_14_blindscan2.patch \
-		arm/vuuno4k/3_14_genksyms_fix_typeof_handling.patch \
-		arm/vuuno4k/3_14_0001-tuners-tda18273-silicon-tuner-driver.patch \
-		arm/vuuno4k/3_14_01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
-		arm/vuuno4k/3_14_02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
-		arm/vuuno4k/3_14_0003-cxusb-Geniatech-T230-support.patch \
-		arm/vuuno4k/3_14_CONFIG_DVB_SP2.patch \
-		arm/vuuno4k/3_14_dvbsky.patch \
-		arm/vuuno4k/3_14_rtl2832u-2.patch \
-		arm/vuuno4k/3_14_0004-log2-give-up-on-gcc-constant-optimizations.patch \
-		arm/vuuno4k/3_14_0005-uaccess-dont-mark-register-as-const.patch \
-		arm/vuuno4k/3_14_0006-makefile-disable-warnings.patch \
-		arm/vuuno4k/3_14_linux_dvb_adapter.patch \
-		arm/vuuno4k/bcmsysport_3.14.28-1.12.patch \
-		arm/vuuno4k/linux_prevent_usb_dma_from_bmem.patch
+		3_14_bcm_genet_disable_warn.patch \
+		3_14_linux_dvb-core.patch \
+		3_14_dvbs2x.patch \
+		3_14_dmx_source_dvr.patch \
+		3_14_rt2800usb_fix_warn_tx_status_timeout_to_dbg.patch \
+		3_14_usb_core_hub_msleep.patch \
+		3_14_rtl8712_fix_build_error.patch \
+		3_14_kernel-add-support-for-gcc6.patch \
+		3_14_kernel-add-support-for-gcc7.patch \
+		3_14_kernel-add-support-for-gcc8.patch \
+		3_14_kernel-add-support-for-gcc9.patch \
+		3_14_kernel-add-support-for-gcc10.patch \
+		3_14_0001-Support-TBS-USB-drivers.patch \
+		3_14_0001-STV-Add-PLS-support.patch \
+		3_14_0001-STV-Add-SNR-Signal-report-parameters.patch \
+		3_14_0001-stv090x-optimized-TS-sync-control.patch \
+		3_14_blindscan2.patch \
+		3_14_genksyms_fix_typeof_handling.patch \
+		3_14_0001-tuners-tda18273-silicon-tuner-driver.patch \
+		3_14_01-10-si2157-Silicon-Labs-Si2157-silicon-tuner-driver.patch \
+		3_14_02-10-si2168-Silicon-Labs-Si2168-DVB-T-T2-C-demod-driver.patch \
+		3_14_0003-cxusb-Geniatech-T230-support.patch \
+		3_14_CONFIG_DVB_SP2.patch \
+		3_14_dvbsky.patch \
+		3_14_rtl2832u-2.patch \
+		3_14_0004-log2-give-up-on-gcc-constant-optimizations.patch \
+		3_14_0005-uaccess-dont-mark-register-as-const.patch \
+		3_14_0006-makefile-disable-warnings.patch \
+		3_14_linux_dvb_adapter.patch \
+		bcmsysport_3.14.28-1.12.patch \
+		linux_prevent_usb_dma_from_bmem.patch
 
 KERNEL_PATCHES = $(KERNEL_PATCHES_ARM)
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(WGET) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
 	set -e; cd $(KERNEL_DIR); \
 		for i in $(KERNEL_PATCHES); do \
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
-			$(PATCH)/$$i; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(PATCHES)/$(BOXARCH)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -175,11 +175,12 @@ $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 # release
 #
 release-vuuno4k:
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/halt_vuuno4k $(RELEASE_DIR)/etc/init.d/halt
-	cp -f $(SKEL_ROOT)/etc/fstab_vuuno4k $(RELEASE_DIR)/etc/fstab
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*.ko $(RELEASE_DIR)/lib/modules/
 	rm -f $(RELEASE_DIR)/lib/modules/fpga_directc.ko
 	cp $(TARGET_DIR)/boot/vmlinuz-initrd-7439b0 $(RELEASE_DIR)/boot/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
 
 #
 # flashimage
