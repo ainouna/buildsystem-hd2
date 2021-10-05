@@ -1,5 +1,3 @@
-# buildsystem-nhd2
-
 git clone https://github.com/mohousch/buildsystem-hd2.git
 
 cd buildsystem-hd2
