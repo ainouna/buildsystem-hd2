@@ -15,4 +15,5 @@ make flashimage
 make help
 
 **supported boards**
+
 make print-boards
