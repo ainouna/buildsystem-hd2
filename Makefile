@@ -202,9 +202,6 @@ update:
 all:
 	@echo "'make all' is not a valid target. Please read the documentation."
 
-# target for testing only. not useful otherwise
-everything: $(shell sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' make/*.mk)
-
 # print all present targets...
 print-targets:
 	@sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' \

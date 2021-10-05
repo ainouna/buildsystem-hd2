@@ -341,6 +341,7 @@ preqs: $(PREQS)
 #
 # directories
 #
+ifneq ($(BOXTYPE),)
 $(D)/directories:
 	$(START_BUILD)
 	test -d $(ARCHIVE) || mkdir $(ARCHIVE)
@@ -366,7 +367,8 @@ $(D)/directories:
 	install -d $(TARGET_DIR)/var/{etc,lib,run}
 	install -d $(TARGET_DIR)/var/lib/{misc,nfs}
 	install -d $(TARGET_DIR)/var/bin
-	$(TOUCH)
+	$(TOUCH)	
+endif
 
 #
 # ccache
