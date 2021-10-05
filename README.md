@@ -13,3 +13,6 @@ make flashimage
 **for more details**
 
 make help
+
+**supported boards**
+make print-boards
