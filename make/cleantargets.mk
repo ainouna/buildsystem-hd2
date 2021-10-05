@@ -9,11 +9,19 @@ clean:
 	@-rm -rf $(RELEASE_DIR)
 	@-rm -rf $(TARGET_DIR)
 	@-rm -rf $(HOST_DIR)
+	@-rm -rf $(BOOT_DIR)
 	@-rm -rf $(D)/kernel
 	@-rm -rf $(D)/*.do_compile
 	@-rm -rf $(D)/*.do_prepare
 	@-rm -rf $(D)/*.config.status
 	@-rm -rf $(D)/directories
+	@-rm -rf $(D)/diverse-tools
+	@-rm -rf $(D)/system-tools
+	@-rm -rf $(D)/*
+	touch $(D)/crosstool
+ifeq ($(BOXARCH),sh4)	
+	touch $(D)/crosstool-rpminstall
+endif
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 distclean: depsclean
