@@ -1,8 +1,8 @@
 # buildsystem-nhd2
 
-git clone https://github.com/mohousch/buildsystem-nhd2.git
+git clone https://github.com/mohousch/buildsystem-hd2.git
 
-cd buildsystem-nhd2
+cd buildsystem-hd2
 
 **for first use**
 
