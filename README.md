@@ -2,7 +2,7 @@ git clone https://github.com/mohousch/buildsystem-hd2.git
 
 cd buildsystem-hd2
 
-**for first use**
+**for first use:**
 
 sudo ./prepare-for-bs.sh
 
@@ -10,10 +10,10 @@ sudo ./prepare-for-bs.sh
 
 make flashimage
 
-**for more details**
+**for more details:**
 
 make help
 
-**supported boards**
+**supported boards:**
 
 make print-boards
