@@ -72,7 +72,7 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
 			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
