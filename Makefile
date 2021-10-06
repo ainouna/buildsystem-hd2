@@ -13,6 +13,7 @@ export TOPDIR LC_ALL LANG
 
 # init
 init:
+	@clear
 	@echo ""
 	@echo "Target receivers:"
 	@echo "  Kathrein"
@@ -77,48 +78,49 @@ init:
 	@read -p "Select target (1-90)? " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
 	case "$$BOXTYPE" in \
-		1) BOXARCH="sh4";BOXTYPE="ufs910";; \
-		 2) BOXARCH="sh4";BOXTYPE="ufs912";; \
-		 3) BOXARCH="sh4";BOXTYPE="ufs913";; \
-		 4) BOXARCH="sh4";BOXTYPE="ufs922";; \
-		 6) BOXARCH="sh4";BOXTYPE="tf7700";; \
-		 7) BOXARCH="sh4";BOXTYPE="fortis_hdbox";; \
-		 8) BOXARCH="sh4";BOXTYPE="octagon1008";; \
-		 9) BOXARCH="sh4";BOXTYPE="atevio7500";; \
-		16) BOXARCH="sh4";BOXTYPE="ipbox55";; \
-		18) BOXARCH="sh4";BOXTYPE="ipbox9900";; \
-		19) BOXARCH="sh4";BOXTYPE="cuberevo";; \
-		20) BOXARCH="sh4";BOXTYPE="cuberevo_mini";; \
-		21) BOXARCH="sh4";BOXTYPE="cuberevo_mini2";; \
-		22) BOXARCH="sh4";BOXTYPE="cuberevo_250hd";; \
-		24) BOXARCH="sh4";BOXTYPE="cuberevo_2000hd";; \
-		26) BOXARCH="sh4";BOXTYPE="cuberevo_3000hd";; \
-		27) BOXARCH="sh4";BOXTYPE="spark";; \
-		28) BOXARCH="sh4";BOXTYPE="spark7162";; \
-		40) BOXARCH="arm";BOXTYPE="vusolo4k";; \
-		41) BOXARCH="mips";BOXTYPE="vuduo";; \
-		42) BOXARCH="mips";BOXTYPE="vuduo2";; \
-		43) BOXARCH="arm";BOXTYPE="vuduo4k";; \
-		44) BOXARCH="arm";BOXTYPE="vuultimo4k";; \
-		45) BOXARCH="arm";BOXTYPE="vuuno4k";; \
-		46) BOXARCH="arm";BOXTYPE="vuuno4kse";; \
-		47) BOXARCH="arm";BOXTYPE="vuzero4k";; \
-		50) BOXARCH="arm";BOXTYPE="hd51";; \
-		51) BOXARCH="arm";BOXTYPE="hd60";; \
-		52) BOXARCH="arm";BOXTYPE="hd61";; \
-		60) BOXARCH="mips";BOXTYPE="osnino";; \
-		61) BOXARCH="mips";BOXTYPE="osninoplus";; \
-		62) BOXARCH="mips";BOXTYPE="osninopro";; \
-		63) BOXARCH="arm";BOXTYPE="osmio4k";; \
-		64) BOXARCH="arm";BOXTYPE="osmio4kplus";; \
-		65) BOXARCH="arm";BOXTYPE="osmini4k";; \
-		70) BOXARCH="mips";BOXTYPE="gb800se";; \
-		80) BOXARCH="arm";BOXTYPE="bre2ze4k";; \
-		90) BOXARCH="arm";BOXTYPE="h7";; \
-		 *) BOXARCH="mips";BOXTYPE="gb800se";; \
+		1) BOXARCH="sh4"; BOXTYPE="ufs910";; \
+		2) BOXARCH="sh4"; BOXTYPE="ufs912";; \
+		3) BOXARCH="sh4"; BOXTYPE="ufs913";; \
+		4) BOXARCH="sh4"; BOXTYPE="ufs922";; \
+		6) BOXARCH="sh4"; BOXTYPE="tf7700";; \
+		7) BOXARCH="sh4"; BOXTYPE="fortis_hdbox";; \
+		8) BOXARCH="sh4"; BOXTYPE="octagon1008";; \
+		9) BOXARCH="sh4"; BOXTYPE="atevio7500";; \
+		16) BOXARCH="sh4"; BOXTYPE="ipbox55";; \
+		18) BOXARCH="sh4"; BOXTYPE="ipbox9900";; \
+		19) BOXARCH="sh4"; BOXTYPE="cuberevo";; \
+		20) BOXARCH="sh4"; BOXTYPE="cuberevo_mini";; \
+		21) BOXARCH="sh4"; BOXTYPE="cuberevo_mini2";; \
+		22) BOXARCH="sh4"; BOXTYPE="cuberevo_250hd";; \
+		24) BOXARCH="sh4"; BOXTYPE="cuberevo_2000hd";; \
+		26) BOXARCH="sh4"; BOXTYPE="cuberevo_3000hd";; \
+		27) BOXARCH="sh4"; BOXTYPE="spark";; \
+		28) BOXARCH="sh4"; BOXTYPE="spark7162";; \
+		40) BOXARCH="arm"; BOXTYPE="vusolo4k";; \
+		41) BOXARCH="mips"; BOXTYPE="vuduo";; \
+		42) BOXARCH="mips"; BOXTYPE="vuduo2";; \
+		43) BOXARCH="arm"; BOXTYPE="vuduo4k";; \
+		44) BOXARCH="arm"; BOXTYPE="vuultimo4k";; \
+		45) BOXARCH="arm"; BOXTYPE="vuuno4k";; \
+		46) BOXARCH="arm"; BOXTYPE="vuuno4kse";; \
+		47) BOXARCH="arm"; BOXTYPE="vuzero4k";; \
+		50) BOXARCH="arm"; BOXTYPE="hd51";; \
+		51) BOXARCH="arm"; BOXTYPE="hd60";; \
+		52) BOXARCH="arm"; BOXTYPE="hd61";; \
+		60) BOXARCH="mips"; BOXTYPE="osnino";; \
+		61) BOXARCH="mips"; BOXTYPE="osninoplus";; \
+		62) BOXARCH="mips"; BOXTYPE="osninopro";; \
+		63) BOXARCH="arm"; BOXTYPE="osmio4k";; \
+		64) BOXARCH="arm"; BOXTYPE="osmio4kplus";; \
+		65) BOXARCH="arm"; BOXTYPE="osmini4k";; \
+		70|*) BOXARCH="mips"; BOXTYPE="gb800se";; \
+		80) BOXARCH="arm"; BOXTYPE="bre2ze4k";; \
+		90) BOXARCH="arm"; BOXTYPE="h7";; \
 	esac; \
+	BOXTYPE=$$BOXTYPE; \
+	BOXARCH=$$BOXARCH; \
 	echo "BOXTYPE=$$BOXTYPE" > config
-	@echo ""
+	@echo ""	
 # kernel debug	
 	@echo -e "\nOptimization:"
 	@echo "   1)  optimization for size"
@@ -126,7 +128,7 @@ init:
 	@echo "   3)  Kernel debug"
 	@echo "   4)  debug (includes Kernel debug)"
 	@echo -e "   \033[01;32m5)  pre-defined\033[00m"
-	@read -p "Select optimization (1-5)? " OPTIMIZATIONS; \
+	@read -p "Select optimization (1-5)?" OPTIMIZATIONS; \
 	OPTIMIZATIONS=$${OPTIMIZATIONS}; \
 	case "$$OPTIMIZATIONS" in \
 		1) echo "OPTIMIZATIONS=size" >> config;; \
@@ -134,13 +136,13 @@ init:
 		3) echo "OPTIMIZATIONS=kerneldebug" >> config;;\
 		4) echo "OPTIMIZATIONS=debug" >> config;; \
 		5|*) ;; \
-	esac; \
-	echo ""
+	esac;
+	@echo;
 # WLAN driver
 	@echo -e "\nDo you want to build WLAN drivers and tools"
 	@echo -e "   \033[01;32m1) no\033[00m"
 	@echo "   2) yes (includes WLAN drivers and tools)"
-	@read -p "Select to build (1-2)? " WLAN; \
+	@read -p "Select to build (1-2)?" WLAN; \
 	WLAN=$${WLAN}; \
 	case "$$WLAN" in \
 		1|*) WLAN="";; \
@@ -153,7 +155,7 @@ init:
 	@echo "   1) libeplayer3"
 	@echo "   2) gstreamer (recommended for mips and arm boxes)"
 	@echo -e "   \033[01;32m3) pre-defined\033[00m"
-	@read -p "Select media framework (1-3)? " MEDIAFW; \
+	@read -p "Select media framework (1-3)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
@@ -168,7 +170,7 @@ init:
 	@echo "   3)  lua and python (experimental)"
 	@echo "   4)  none"
 	@echo -e "   \033[01;32m5) pre-defined\033[00m"
-	@read -p "Select Interface to build (1-5)? " INTERFACE; \
+	@read -p "Select Interface to build (1-5)?" INTERFACE; \
 	INTERFACE=$${INTERFACE}; \
 	case "$$INTERFACE" in \
 		1) echo "INTERFACE=lua" >> config;; \
@@ -182,7 +184,7 @@ init:
 	@echo -e "\nTesting Support?:"
 	@echo "   1)  testing"
 	@echo -e "   \033[01;32m2) none\033[00m"
-	@read -p "Select with Tesing or not (1-2)? " TESTING; \
+	@read -p "Select with Tesing or not (1-2)?" TESTING; \
 	TESTING=$${TESTING}; \
 	case "$$TESTING" in \
 		1) TESTING="testing";; \
