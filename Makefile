@@ -112,9 +112,10 @@ init:
 		63) BOXTYPE="osmio4k";; \
 		64) BOXTYPE="osmio4kplus";; \
 		65) BOXTYPE="osmini4k";; \
-		70|*) BOXTYPE="gb800se";; \
+		70) BOXTYPE="gb800se";; \
 		80) BOXTYPE="bre2ze4k";; \
 		90) BOXTYPE="h7";; \
+		*) BOXTYPE="gb800se";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
 	@echo ""		
@@ -142,8 +143,9 @@ init:
 	@read -p "Select to build (1-2)?" WLAN; \
 	WLAN=$${WLAN}; \
 	case "$$WLAN" in \
-		1|*) WLAN="";; \
+		1) WLAN="";; \
 		2) WLAN="wlandriver";; \
+		*) WLAN="";; \
 	esac; \
 	echo "WLAN=$$WLAN" >> config
 	@echo ""

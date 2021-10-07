@@ -16,7 +16,7 @@ $(ARCHIVE)/$(LUA_SOURCE):
 $(ARCHIVE)/$(LUAPOSIX_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUAPOSIX_URL) release-v$(LUAPOSIX_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/lua: $(D)/bootstrap $(D)/host_lua $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$(LUA_SOURCE)
+$(D)/lua: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$(LUA_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/lua-$(LUA_VER)
 	mkdir -p $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
@@ -162,15 +162,15 @@ HOST_LUA_PATCH += lua-$(HOST_LUA_VER)-remove-readline.patch
 #$(ARCHIVE)/$(HOST_LUA_SOURCE):
 #	$WGET) https://www.lua.org/ftp/$(HOST_LUA_SOURCE)
 
-$(D)/host_lua: $(D)/directories
-	$(START_BUILD)
-	$(REMOVE)/lua-$(HOST_LUA_VER)
-	$(UNTAR)/$(HOST_LUA_SOURCE)
-	$(CHDIR)/lua-$(HOST_LUA_VER); \
-		$(call apply_patches, $(HOST_LUA_PATCH)); \
-		$(MAKE) linux; \
-		$(MAKE) install INSTALL_TOP=$(HOST_DIR)
-	$(REMOVE)/lua-$(HOST_LUA_VER)
-	$(TOUCH)
+#$(D)/host_lua: $(D)/directories
+#	$(START_BUILD)
+#	$(REMOVE)/lua-$(HOST_LUA_VER)
+#	$(UNTAR)/$(HOST_LUA_SOURCE)
+#	$(CHDIR)/lua-$(HOST_LUA_VER); \
+#		$(call apply_patches, $(HOST_LUA_PATCH)); \
+#		$(MAKE) linux; \
+#		$(MAKE) install INSTALL_TOP=$(HOST_DIR)
+#	$(REMOVE)/lua-$(HOST_LUA_VER)
+#	$(TOUCH)
 
 
