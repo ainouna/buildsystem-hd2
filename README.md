@@ -9,9 +9,13 @@ cd buildsystem-hd2
 **for first use:**
 ```bash
 $:~ sudo ./prepare-for-bs.sh
-
-$:~ ./make.sh
-
+```
+**machine configuration:**
+```bash
+$:~ make init
+```
+**build image:**
+```bash
 $:~ make flashimage
 ```
 
