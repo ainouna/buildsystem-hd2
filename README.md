@@ -1,19 +1,26 @@
-git clone https://github.com/mohousch/buildsystem-hd2.git
+# how to build image:#
+
+```bash
+$:~ git clone https://github.com/mohousch/buildsystem-hd2.git
 
 cd buildsystem-hd2
+```
 
 **for first use:**
+```bash
+$:~ sudo ./prepare-for-bs.sh
 
-sudo ./prepare-for-bs.sh
+$:~ ./make.sh
 
-./make.sh
-
-make flashimage
+$:~ make flashimage
+```
 
 **for more details:**
-
-make help
+```bash
+$:~ make help
+```
 
 **supported boards:**
-
-make print-boards
+```bash
+$:~ make print-boards
+```
