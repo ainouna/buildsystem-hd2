@@ -1,4 +1,4 @@
-# how to build image:#
+# how to build image: #
 
 ```bash
 $:~ git clone https://github.com/mohousch/buildsystem-hd2.git

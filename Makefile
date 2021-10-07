@@ -77,8 +77,8 @@ init:
 	@read -p "Select target (1-90)? " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
 	case "$$BOXTYPE" in \
-		1) CPU="sh4"; BOXTYPE="ufs910";; \
-		2) CPU="sh4"; BOXTYPE="ufs912";; \
+		1) BOXTYPE="ufs910";; \
+		2) BOXTYPE="ufs912";; \
 		3) BOXTYPE="ufs913";; \
 		4) BOXTYPE="ufs922";; \
 		6) BOXTYPE="tf7700";; \
@@ -89,7 +89,7 @@ init:
 		18) BOXTYPE="ipbox9900";; \
 		19) BOXTYPE="cuberevo";; \
 		20) BOXTYPE="cuberevo_mini";; \
-		21) CPU="sh4"; BOXTYPE="cuberevo_mini2";; \
+		21) BOXTYPE="cuberevo_mini2";; \
 		22) BOXTYPE="cuberevo_250hd";; \
 		24) BOXTYPE="cuberevo_2000hd";; \
 		26) BOXTYPE="cuberevo_3000hd";; \
@@ -112,9 +112,9 @@ init:
 		63) BOXTYPE="osmio4k";; \
 		64) BOXTYPE="osmio4kplus";; \
 		65) BOXTYPE="osmini4k";; \
-		70|*) CPU="mips"; BOXTYPE="gb800se";; \
-		80) CPU="arm"; BOXTYPE="bre2ze4k";; \
-		90) CPU="arm"; BOXTYPE="h7";; \
+		70|*) BOXTYPE="gb800se";; \
+		80) BOXTYPE="bre2ze4k";; \
+		90) BOXTYPE="h7";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
 	@echo ""		
