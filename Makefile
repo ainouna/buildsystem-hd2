@@ -11,7 +11,7 @@ LC_ALL:=C
 LANG:=C
 export TOPDIR LC_ALL LANG
 
-# init
+# Boxtype
 init:
 	@clear
 	@echo ""
@@ -189,6 +189,16 @@ init:
 		2|*) TESTING="";; \
 	esac; \
 	echo "TESTING=$$TESTING" >> config
+	@echo ""
+	@make printenv
+	@echo "Your next step could be:"
+	@echo "  make flashimage"
+	@echo ""
+	@echo ""
+	@echo "for more details:"
+	@echo "  make help"
+	@echo "to check your build enviroment:"
+	@echo "  make printenv"
 	@echo ""
 
 include make/buildenv.mk
