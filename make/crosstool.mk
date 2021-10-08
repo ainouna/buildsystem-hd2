@@ -42,6 +42,8 @@ ifeq ($(CROSSTOOL_NG_VER), 872341e3)
 CROSSTOOL_NG_PATCH = ct-ng/crosstool-872341e3-bash.patch
 endif
 
+CROSSTOOL_NG_BACKUP = $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
+
 $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
@@ -91,7 +93,7 @@ crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_N
 #
 crosstool-backup:
 	cd $(CROSS_DIR); \
-	tar czvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz *
+	tar czvf $(CROSSTOOL_NG_BACKUP) *
 
 #
 # crosstool-restore
@@ -101,7 +103,8 @@ crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(
 	if [ ! -e $(CROSS_DIR) ]; then \
 		mkdir -p $(CROSS_DIR); \
 	fi;
-	tar xzvf $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz -C $(CROSS_DIR)
+	tar xzvf $(CROSSTOOL_NG_BACKUP) -C $(CROSS_DIR)
+	@touch $(D)/crosstool
 
 #
 # crossmenuconfig

@@ -87,28 +87,32 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 4.4.35
 DRIVER_DATE = 20200731
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/gfutures
 
 EXTRA_PLAYERLIB_DATE = 20180912
 EXTRA_PLAYERLIB_SRC = $(BOXTYPE)-libs-$(EXTRA_PLAYERLIB_DATE).zip
+EXTRA_PLAYERLIB_URL = http://source.mynonpublic.com/gfutures
 
 EXTRA_MALILIB_DATE = 20180912
 EXTRA_MALILIB_SRC = $(BOXTYPE)-mali-$(EXTRA_MALILIB_DATE).zip
+EXTRA_MALILIB_URL = http://source.mynonpublic.com/gfutures
 
 EXTRA_MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
 EXTRA_MALI_MODULE_SRC = $(EXTRA_MALI_MODULE_VER).tgz
 EXTRA_MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
+EXTRA_MALI_MODULE_URL = https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(EXTRA_PLAYERLIB_SRC)
+	$(WGET) $(EXTRA_PLAYERLIB_URL)/$(EXTRA_PLAYERLIB_SRC)
 
 $(ARCHIVE)/$(EXTRA_MALILIB_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures//$(EXTRA_MALILIB_SRC)
+	$(WGET) $(EXTRA_MALILIB_URL)/$(EXTRA_MALILIB_SRC)
 
 $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC):
-	$(WGET) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(EXTRA_MALI_MODULE_SRC);name=driver
+	$(WGET) $(EXTRA_MALI_MODULE_URL)/$(EXTRA_MALI_MODULE_SRC);name=driver
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

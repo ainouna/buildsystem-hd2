@@ -103,9 +103,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 3.9.6
 DRIVER_DATE = 20170803
 DRIVER_SRC = gigablue-drivers-$(DRIVER_VER)-BCM7325-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/gigablue/drivers
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gigablue/drivers/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

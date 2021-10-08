@@ -86,30 +86,33 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_DATE = 20200731
 DRIVER_VER = 4.4.35
 DRIVER_SRC = hd61-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/gfutures
 
 PLAYERLIB_DATE = 20200622
 PLAYERLIB_SRC = gfutures-libs-3798mv200-$(PLAYERLIB_DATE).zip
+PLAYERLIB_URL = http://source.mynonpublic.com/gfutures
 
 LIBGLES_DATE = 20181201
 LIBGLES_SRC = hd61-mali-$(LIBGLES_DATE).zip
-
 LIBGLES_HEADERS = libgles-mali-utgard-headers.zip
+LIBGLES_URL = http://downloads.mutant-digital.net
 
 MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
 MALI_MODULE_SRC = $(MALI_MODULE_VER).tgz
 MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
+MALI_MODULE_URL = https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(PLAYERLIB_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(PLAYERLIB_SRC)
+	$(WGET) $(PLAYERLIB_URL)/$(PLAYERLIB_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(LIBGLES_SRC)
+	$(WGET) $(LIBGLES_URL)/$(KERNEL_TYPE)/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(MALI_MODULE_SRC):
-	$(WGET) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
+	$(WGET) $(MALI_MODULE_URL)/$(MALI_MODULE_SRC);name=driver
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

@@ -1192,29 +1192,6 @@ $(D)/libiconv: $(D)/bootstrap $(ARCHIVE)/$(LIBICONV_SOURCE)
 #
 # expat
 #
-#EXPAT_VER = 2.2.6
-#EXPAT_SOURCE = expat-$(EXPAT_VER).tar.bz2
-
-#$(ARCHIVE)/$(EXPAT_SOURCE):
-#	$(WGET) https://sourceforge.net/projects/expat/files/expat/$(EXPAT_VER)/$(EXPAT_SOURCE)
-
-#$(D)/expat: $(D)/bootstrap $(ARCHIVE)/$(EXPAT_SOURCE)
-#	$(START_BUILD)
-#	$(REMOVE)/expat-$(EXPAT_VER)
-#	$(UNTAR)/$(EXPAT_SOURCE)
-#	$(CHDIR)/expat-$(EXPAT_VER); \
-#		$(CONFIGURE) \
-#			--prefix=/usr \
-#			--mandir=/.remove \
-#			--bindir=/.remove \
-#			--without-xmlwf \
-#		; \
-#		$(MAKE); \
-#		$(MAKE) install DESTDIR=$(TARGET_DIR)
-#	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/expat.pc
-#	$(REWRITE_LIBTOOL)/libexpat.la
-#	$(REMOVE)/expat-$(EXPAT_VER)
-#	$(TOUCH)
 EXPAT_VER = 2.4.1
 EXPAT_SOURCE = expat-$(EXPAT_VER).tar.bz2
 EXPAT_PATCH  = expat-$(EXPAT_VER)-libtool-tag.patch

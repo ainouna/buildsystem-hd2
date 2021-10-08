@@ -81,9 +81,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20180424
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/gfutures
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

@@ -150,27 +150,3 @@ $(D)/luajson: $(D)/bootstrap $(D)/lua $(ARCHIVE)/json.lua
 	cp $(ARCHIVE)/json.lua $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)/json.lua
 	$(TOUCH)
 
-#
-# host-lua
-#
-HOST_LUA_VER    = 5.2.4
-HOST_LUA_SOURCE = lua-$(HOST_LUA_VER).tar.gz
-HOST_LUA_PATCH  = lua-$(HOST_LUA_VER)-fix-lua-root.patch
-HOST_LUA_PATCH += lua-$(HOST_LUA_VER)-remove-readline.patch
-
-# see target-lua.mk
-#$(ARCHIVE)/$(HOST_LUA_SOURCE):
-#	$WGET) https://www.lua.org/ftp/$(HOST_LUA_SOURCE)
-
-#$(D)/host_lua: $(D)/directories
-#	$(START_BUILD)
-#	$(REMOVE)/lua-$(HOST_LUA_VER)
-#	$(UNTAR)/$(HOST_LUA_SOURCE)
-#	$(CHDIR)/lua-$(HOST_LUA_VER); \
-#		$(call apply_patches, $(HOST_LUA_PATCH)); \
-#		$(MAKE) linux; \
-#		$(MAKE) install INSTALL_TOP=$(HOST_DIR)
-#	$(REMOVE)/lua-$(HOST_LUA_VER)
-#	$(TOUCH)
-
-

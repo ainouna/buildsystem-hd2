@@ -13,7 +13,7 @@ FKEYS =
 #
 KERNEL_VER             = 3.9.6
 KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
-KERNEL_URL             = http://archive.vuplus.com/download/kernel
+KERNEL_URL		= http://code.vuplus.com/download/release/kernel
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
 KERNELNAME             = vmlinux
@@ -107,9 +107,12 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 3.9.6
 DRIVER_DATE = 20151124
 DRIVER_SRC = vuplus-dvb-modules-bm750-$(DRIVER_VER)-$(DRIVER_DATE).tar.gz
+DRIVER_URL = http://code.vuplus.com/download/release/vuplus-dvb-modules
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://archive.vuplus.com/download/drivers/$(DRIVER_SRC)
+#	$(WGET) http://archive.vuplus.com/download/drivers/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
+	
 
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)

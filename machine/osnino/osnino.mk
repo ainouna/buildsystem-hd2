@@ -75,9 +75,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 4.8.17
 DRIVER_DATE = 20201104
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/edision
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/edision/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

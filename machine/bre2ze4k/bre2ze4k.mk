@@ -84,20 +84,21 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20191120
 DRIVER_SRC = bre2ze4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/gfutures
 
 LIBGLES_DATE = 20191101
 LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
-
 LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
+LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_SRC)
+	$(WGET) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
+	$(WGET) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

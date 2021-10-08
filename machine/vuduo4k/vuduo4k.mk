@@ -108,9 +108,10 @@ DRIVER_DATE = 20191218
 #DRIVER_DATE = 20190212
 DRIVER_REV = r0
 DRIVER_SRC = vuplus-dvb-proxy-vuduo4k-$(DRIVER_VER)-$(DRIVER_DATE).$(DRIVER_REV).tar.gz
+DRIVER_URL = http://archive.vuplus.com/download/build_support/vuplus
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -129,9 +130,10 @@ UTIL_VER = 18.1
 UTIL_DATE = $(DRIVER_DATE)
 UTIL_REV = r0
 UTIL_SRC = platform-util-vuduo4k-$(UTIL_VER)-$(UTIL_DATE).$(UTIL_REV).tar.gz
+UTIL_URL = http://archive.vuplus.com/download/build_support/vuplus
 
 $(ARCHIVE)/$(UTIL_SRC):
-	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(UTIL_SRC)
+	$(WGET) $(UTIL_URL)/$(UTIL_SRC)
 
 $(D)/platform_util: $(D)/bootstrap $(ARCHIVE)/$(UTIL_SRC)
 	$(START_BUILD)
@@ -147,9 +149,10 @@ GLES_VER = 18.1
 GLES_DATE = $(DRIVER_DATE)
 GLES_REV = r0
 GLES_SRC = libgles-vuduo4k-$(GLES_VER)-$(GLES_DATE).$(GLES_REV).tar.gz
+GLES_URL = http://archive.vuplus.com/download/build_support/vuplus
 
 $(ARCHIVE)/$(GLES_SRC):
-	$(WGET) http://archive.vuplus.com/download/build_support/vuplus/$(GLES_SRC)
+	$(WGET) $(GLES_URL)/$(GLES_SRC)
 
 $(D)/libgles: $(D)/bootstrap $(ARCHIVE)/$(GLES_SRC)
 	$(START_BUILD)
@@ -166,9 +169,10 @@ $(D)/libgles: $(D)/bootstrap $(ARCHIVE)/$(GLES_SRC)
 #
 INITRD_DATE = 20181030
 INITRD_SRC = vmlinuz-initrd_vuduo4k_$(INITRD_DATE).tar.gz
+INITRD_URL = http://archive.vuplus.com/download/kernel
 
 $(ARCHIVE)/$(INITRD_SRC):
-	$(WGET) http://archive.vuplus.com/download/kernel/$(INITRD_SRC)
+	$(WGET) $(INITRD_URL)/$(INITRD_SRC)
 
 $(D)/vmlinuz_initrd: $(D)/bootstrap $(ARCHIVE)/$(INITRD_SRC)
 	$(START_BUILD)

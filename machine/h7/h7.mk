@@ -83,14 +83,15 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20191123
 DRIVER_SRC = h7-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/zgemma
 
 LIBGLES_DATE = 20191110
 LIBGLES_SRC = h7-v3ddriver-$(LIBGLES_DATE).zip
-
 LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
+LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/zgemma/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -106,10 +107,10 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # libgles
 #
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://source.mynonpublic.com/zgemma/$(LIBGLES_SRC)
+	$(WGET) $(DRIVER_URL)/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(WGET) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
+	$(WGET) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)

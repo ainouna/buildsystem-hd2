@@ -72,16 +72,18 @@ DRIVER_VER = 5.9.0
 DRIVER_DATE = 20201013
 DRIVER_REV =
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/edision
 
 LIBGLES_VER = 2.0
 LIBGLES_DIR = edision-libv3d-$(LIBGLES_VER)
 LIBGLES_SRC = edision-libv3d-$(LIBGLES_VER).tar.xz
+LIBGLES_URL = http://source.mynonpublic.com/edision
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(WGET) http://source.mynonpublic.com/edision/$(DRIVER_SRC)
+	$(WGET) $(DRIVER_URL)/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(WGET) http://source.mynonpublic.com/edision/$(LIBGLES_SRC)
+	$(WGET) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
