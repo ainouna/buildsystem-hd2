@@ -49,10 +49,14 @@ $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
 
 CROSSTOOL = crosstool
 crosstool:
-	make MAKEFLAGS=--no-print-directory crosstool-ng
-	if [ ! -e $(CROSSTOOL_NG_BACKUP) ]; then \
-		make crosstool-backup; \
-	fi;
+	if test -e $(CROSSTOOL_NG_BACKUP); then \
+		make crosstool-restore; \
+	else \
+		make MAKEFLAGS=--no-print-directory crosstool-ng; \
+		if [ ! -e $(CROSSTOOL_NG_BACKUP) ]; then \
+			make crosstool-backup; \
+		fi; \
+	fi
 	@touch $(D)/$(notdir $@)
 
 crosstool-ng: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
@@ -98,7 +102,7 @@ crosstool-backup:
 #
 # crosstool-restore
 #
-crosstool-restore: $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
+crosstool-restore: $(CROSSTOOL_NG_BACKUP)
 	rm -rf $(CROSS_DIR) ; \
 	if [ ! -e $(CROSS_DIR) ]; then \
 		mkdir -p $(CROSS_DIR); \
