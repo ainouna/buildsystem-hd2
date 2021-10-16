@@ -4,7 +4,7 @@ WLAN ?=
 MEDIAFW ?= gstreamer
 INTERFACE ?= lua
 CICAM = ci-cam
-SCART = scart
+SCART =
 LCD = 4-digits
 FKEYS = fkeys
 
