@@ -112,30 +112,21 @@ do
 	case "$rtv" in
 		0) echo "$rtv"
 			echo "RESTART"
-			echo "RESTART" > /dev/dbox/oled0
 			sync
 			;;
 		1) echo "$rtv"
 			echo "SHUTDOWN"
-			echo "SHUTDOWN" > /dev/dbox/oled0
 			init 0
 			;;
 		2) echo "$rtv"
 			echo "REBOOT"
-			echo "RBOOT" > /dev/dbox/oled0
 			init 6
 			;;
 		*) echo "*"
 			echo -e "\033[01;31mERROR: $rtv\033[00m"
-			echo "ERROR: $rtv" > /dev/dbox/oled0
 			init 6
 			;;
 	esac
 done
-echo "      *-*       " > /dev/dbox/oled0
 
-#never reached
-echo "REBOOT $model" > /dev/dbox/oled0
-echo "REBOOT $model"
-reboot -f
 
