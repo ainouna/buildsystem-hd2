@@ -394,7 +394,6 @@ print-targets:
 		
 # print all supported boards ...
 print-boards:
-#	@ls make/machine | sed 's/.mk//g'
 	@ls machine | sed 's/.mk//g' 
 
 # for local extensions, e.g. special plugins or similar...
