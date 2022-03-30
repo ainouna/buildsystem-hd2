@@ -42,6 +42,7 @@ init:
 	@echo "  Fulan"
 	@echo "   27)  Spark"
 	@echo "   28)  Spark7162"
+	@echo "   29)  HL101"
 	@echo ""
 	@echo "  VU Plus"
 	@echo "   40)  Vu+ Solo4K"
@@ -95,6 +96,7 @@ init:
 		26) BOXTYPE="cuberevo_3000hd";; \
 		27) BOXTYPE="spark";; \
 		28) BOXTYPE="spark7162";; \
+		29) BOXTYPE="hl101";; \
 		40) BOXTYPE="vusolo4k";; \
 		41) BOXTYPE="vuduo";; \
 		42) BOXTYPE="vuduo2";; \
@@ -394,6 +396,7 @@ print-targets:
 		
 # print all supported boards ...
 print-boards:
+#	@ls make/machine | sed 's/.mk//g'
 	@ls machine | sed 's/.mk//g' 
 
 # for local extensions, e.g. special plugins or similar...
