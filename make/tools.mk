@@ -290,7 +290,7 @@ $(D)/tools-satfind: $(D)/bootstrap
 #
 $(D)/tools-showiframe: $(D)/bootstrap
 	$(START_BUILD)
-	set -e; cd $(APPS_DIR)/tools/showiframe-$(BOXARCH); \
+	set -e; cd $(APPS_DIR)/tools/showiframe; \
 		$(CONFIGURE_TOOLS) \
 			--prefix= \
 		; \
