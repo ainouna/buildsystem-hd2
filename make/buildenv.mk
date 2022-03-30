@@ -56,7 +56,7 @@ GITHUB               ?= https://github.com
 endif
 GIT_NAME             ?= mohousch
 GIT_NAME_DRIVER      ?= Audioniek
-GIT_NAME_APPS        ?= Audioniek
+GIT_NAME_APPS        ?= soap-bubble-coin
 GIT_NAME_FLASH       ?= mohousch
 GIT_NAME_HOSTAPPS    ?= mohousch
 
