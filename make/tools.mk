@@ -79,7 +79,7 @@ endif
 #
 $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 	$(START_BUILD)
-	set -e; cd $(APPS_DIR)/tools/aio-grab-$(BOXARCH); \
+	set -e; cd $(APPS_DIR)/tools/aio-grab; \
 		$(CONFIGURE_TOOLS) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
 			--prefix= \
 		; \
