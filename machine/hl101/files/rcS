@@ -1,8 +1,12 @@
 #!/bin/sh
 
 MODDIR=/lib/modules
+
+echo "[rcS] Init e2_proc"
+insmod $MODDIR/e2_proc.ko
+
 echo "[rcS] Init frontpanel"
-insmod $MODDIR/proton.ko
+insmod $MODDIR/aotom.ko
 insmod $MODDIR/simu_button.ko
 
 if [ -e /var/etc/.firstboot ]; then
@@ -15,8 +19,6 @@ else
 fi
 
 /etc/init.d/mountvirtfs start
-
-insmod $MODDIR/e2_proc.ko
 
 # Start automounter with umount timeout of 5 seconds
 if [ -e $MODDIR/autofs4.ko ]; then
@@ -34,7 +36,7 @@ echo "[rcS] Starting telnetd"
 echo "[rcS] Init stmfb (LOAD 9)"
 echo "Load 9" > /dev/vfd
 insmod $MODDIR/stmcore-display-stx7109c3.ko
-insmod $MODDIR/stmfb.ko display0=1280x720-32@50:12m:pal:yuv:yuv
+insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;# display1=720x576-16@50:1m:pal:cvbs;
 
 echo "[rcS] Loading modules"
 
@@ -57,8 +59,8 @@ echo "Load 7" > /dev/vfd
 echo "[rcS] Init embx (LOAD 6)"
 echo "Load 6" > /dev/vfd
 insmod $MODDIR/embxshell.ko
-insmod $MODDIR/embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0;
-insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000;
+insmod $MODDIR/embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0
+insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000
 insmod $MODDIR/mme_host.ko transport0=shm
 
 echo "[rcS] Init AVS (LOAD 5)"
@@ -68,7 +70,7 @@ insmod $MODDIR/avs.ko type=stv6418
 echo "[rcS] Init player (LOAD 4)"
 echo "Load 4" > /dev/vfd
 insmod $MODDIR/mmelog.ko
-insmod $MODDIR/mpeg2hw.ko mmeName=MPEG2_TRANSFORMER0;
+insmod $MODDIR/mpeg2hw.ko mmeName=MPEG2_TRANSFORMER0
 insmod $MODDIR/ksound.ko
 insmod $MODDIR/p2div64.ko
 insmod $MODDIR/stm_v4l2.ko
@@ -78,7 +80,7 @@ insmod $MODDIR/pseudocard.ko
 
 #demodulator type: stb0899(default) stv090x
 #tuner type: stb6100(default) stv6110x, sharp7306
-insmod $MODDIR/fe-core.ko stb0899 tuner=stb6100 ;
+insmod $MODDIR/fe-core.ko demod=stb0899 tuner=stb6100
 
 insmod $MODDIR/cimax.ko
 insmod $MODDIR/smartcard.ko
@@ -96,7 +98,7 @@ insmod $MODDIR/platform.ko
 insmod $MODDIR/bpamem.ko
 
 # Module aus modules.extra laden
-[ -f /var/etc/modules.extra ] && eval `sed -e 's/#.*//' -e '/^\s*$/d' -e 's/^\(.*\)/insmod \0;/' < /var/etc/modules.extra`
+#[ -f /var/etc/modules.extra ] && eval `sed -e 's/#.*//' -e '/^\s*$/d' -e 's/^\(.*\)/insmod \0;/' < /var/etc/modules.extra`
 
 stfbcontrol a 0
 
@@ -113,8 +115,8 @@ stfbcontrol a 255
 
 echo "[rcS] Init portmap & ftp (LOAD 1)"
 echo "Load 1" >/dev/vfd
-/etc/init.d/portmap start
-/etc/init.d/vsftpd start
+var/etc/init.d/portmap start
+var/etc/init.d/vsftpd start
 /usr/sbin/inetd
 
 #timefix
