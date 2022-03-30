@@ -167,7 +167,6 @@ ifeq ($(WLAN), wlandriver)
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192du/8192du.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/wireless/rtl8192du/8192du.ko $(RELEASE_DIR)/lib/modules/ || true
 endif
 endif
-
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 #
 #
@@ -175,7 +174,6 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/usbserial.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/usbserial.ko $(RELEASE_DIR)/lib/modules/ || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/ftdi_sio.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/ftdi_sio.ko $(RELEASE_DIR)/lib/modules/ftdi_sio.ko || true
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/pl2303.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/usb/serial/pl2303.ko $(RELEASE_DIR)/lib/modules/ || true
-
 #
 # wlan
 #
@@ -195,7 +193,6 @@ ifeq ($(WLAN), wlandriver)
 	[ -e $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko ] && cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/kernel/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko $(RELEASE_DIR)/lib/modules/ || true
 endif
 endif
-
 #
 # wlan firmware
 #
@@ -205,7 +202,6 @@ ifeq ($(WLAN), wlandriver)
 	cp -aR $(SKEL_ROOT)/lib/firmware/rtlwifi $(RELEASE_DIR)/lib/firmware/
 	cp -aR $(SKEL_ROOT)/lib/firmware/*.bin $(RELEASE_DIR)/lib/firmware/
 endif
-
 #
 # modules.available
 #
@@ -216,14 +212,10 @@ endif
 	cp -R $(TARGET_DIR)/lib/* $(RELEASE_DIR)/lib/
 	rm -f $(RELEASE_DIR)/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/lib/*
-
 	cp -R $(TARGET_DIR)/usr/lib/* $(RELEASE_DIR)/usr/lib/
-
 	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,sigc++-2.0,python*,lua}
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
-
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
-
 #
 # mc
 #
@@ -231,7 +223,6 @@ endif
 		cp -aR $(TARGET_DIR)/usr/share/mc $(RELEASE_DIR)/usr/share/; \
 		cp -af $(TARGET_DIR)/usr/libexec $(RELEASE_DIR)/usr/; \
 	fi
-
 #
 # shairport
 #
@@ -244,7 +235,6 @@ endif
 		cp -f $(TARGET_DIR)/usr/lib/libhowl.so* $(RELEASE_DIR)/usr/lib; \
 		cp -f $(TARGET_DIR)/usr/lib/libmDNSResponder.so* $(RELEASE_DIR)/usr/lib; \
 	fi
-
 #
 # delete unnecessary files
 #
@@ -291,7 +281,6 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 	rm -rf $(RELEASE_DIR)/ram
 	rm -rf $(RELEASE_DIR)/root
 endif
-
 #
 # release-neutrino
 #
@@ -301,39 +290,30 @@ release-neutrino: $(D)/neutrino $(D)/neutrino-plugins
 #
 	cp -af $(TARGET_DIR)/usr/local/bin $(RELEASE_DIR)/usr/local/
 	cp -dp $(TARGET_DIR)/.version $(RELEASE_DIR)/
-
 #
 # config / plugins
 #
 	cp -aR $(TARGET_DIR)/var/tuxbox/* $(RELEASE_DIR)/var/tuxbox
-
 #
 # httpd/icons/locale/themes/fonts/iso-codes/python/lcdd
 #
 	cp -aR $(TARGET_DIR)/usr/share/tuxbox/* $(RELEASE_DIR)/usr/share/tuxbox
-
 #
 # lua
 #
 ifeq ($(INTERFACE), lua)
 	cp -R $(TARGET_DIR)/usr/lib/lua $(RELEASE_DIR)/usr/lib/
-
 	if [ -d $(TARGET_DIR)/usr/share/lua ]; then \
 		cp -aR $(TARGET_DIR)/usr/share/lua/* $(RELEASE_DIR)/usr/share/lua; \
 	fi
 endif
-
 #
 # python
 #
 ifeq ($(INTERFACE), python)
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
-
-	# 
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
-
-	# delete unneded stuff
 	cp -dp $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR)/pyconfig.h $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)/
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,distutils,lib-old,lib-tk,plat-linux3,test}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
@@ -371,26 +351,19 @@ ifeq ($(INTERFACE), python)
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/words/test
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VERSION).egg-info
 endif
-
 #
 # lua-python
 #
 ifeq ($(INTERFACE), lua-python)
 	# lua
 	cp -R $(TARGET_DIR)/usr/lib/lua $(RELEASE_DIR)/usr/lib/
-
 	if [ -d $(TARGET_DIR)/usr/share/lua ]; then \
 		cp -aR $(TARGET_DIR)/usr/share/lua/* $(RELEASE_DIR)/usr/share/lua; \
 	fi
-
 	# python
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
-
-	#
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
-
-	# delete unneeded stuff
 	cp -dp $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR)/pyconfig.h $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)/
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,distutils,lib-old,lib-tk,plat-linux3,test}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
@@ -428,12 +401,10 @@ ifeq ($(INTERFACE), lua-python)
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/words/test
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VERSION).egg-info
 endif
-
 #
 # release-base
 #
 release-base: release-common release-$(BOXTYPE)
-	
 #
 # release
 #
@@ -447,7 +418,6 @@ $(D)/release: release-base release-neutrino
 	ln -s /tmp $(RELEASE_DIR)/var/tmp
 	$(TUXBOX_CUSTOMIZE)
 	@touch $@
-
 #
 # linux-strip all
 #
@@ -465,5 +435,3 @@ endif
 release-clean:
 	rm -f $(D)/release
 	rm -rf $(RELEASE_DIR)
-
-
