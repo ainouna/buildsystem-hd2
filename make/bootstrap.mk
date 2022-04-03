@@ -311,7 +311,7 @@ $(APPS_DIR):
 	@echo '      Cloning $(GIT_NAME_APPS)-apps git repository'
 	@echo '===================================================================='
 	if [ ! -e $(APPS_DIR)/.git ]; then \
-		git clone $(GITHUB)/$(GIT_NAME_APPS)/tools.git apps/tools; \
+		git clone $(GITHUB)/$(GIT_NAME_APPS)/apps.git apps; \
 	fi
 
 $(FLASH_DIR):
