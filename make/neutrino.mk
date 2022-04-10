@@ -127,7 +127,7 @@ ifeq ($(TESTING), testing)
 NHD2_OPTS += --enable-testing
 endif
 
-NEUTRINO_HD2_PATCHES = nhd2-exp.patch
+#NEUTRINO_HD2_PATCHES = nhd2-exp.patch
 
 $(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)
 	$(START_BUILD)
@@ -158,6 +158,7 @@ $(D)/neutrinohd2.config.status:
 			--with-plugindir=/var/tuxbox/plugins \
 			--with-datadir=/usr/share/tuxbox \
 			--with-configdir=/var/tuxbox/config \
+			--with-localedir=/var/tuxbox/locale \
 			$(NHD2_OPTS) \
 			$(N_CONFIG_OPTS) \
 			PKG_CONFIG=$(PKG_CONFIG) \
