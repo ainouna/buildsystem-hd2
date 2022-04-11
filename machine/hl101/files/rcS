@@ -157,9 +157,6 @@ do
    case "$rtv" in
       0) echo "SHUTDOWN"
          echo "Shutdown" > /dev/vfd
-         if [ -e /boot/shutdown.mvi ]; then
-            showiframe -p /usr/local/share/enigma2/shutdown.mvi
-         fi
          init 0;;
       1) echo "REBOOT"
          echo "Reboot" > /dev/vfd
