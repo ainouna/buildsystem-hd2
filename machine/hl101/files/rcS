@@ -3,7 +3,7 @@
 MODDIR=/lib/modules
 
 echo "[rcS] Init proton"
-insmod $MODDIR/proton.ko
+insmod $MODDIR/proton.ko paramDebug=20
 
 echo "[rcS] Init e2_proc"
 insmod $MODDIR/e2_proc.ko
@@ -12,8 +12,8 @@ echo "[rcS] Init frontpanel"
 insmod $MODDIR/simu_button.ko
 
 if [ -e /var/etc/.firstboot ]; then
-   echo "WAIT 1 min" > /dev/vfd
-   echo "WAIT 1 min"
+   echo "WAIT 3 min" > /dev/vfd
+   echo "WAIT 3 min"
    rm /var/etc/.firstboot
    touch /dev/.devfsd
 else
@@ -21,16 +21,18 @@ else
 fi
 
 /etc/init.d/mountvirtfs start
+var/etc/init.d/portmap start
+var/etc/init.d/autofs start
+
+echo "[rcS] Starting DEBUG Interface"
+/etc/init.d/mountall start
+/etc/init.d/hostname start
 
 # Start automounter with umount timeout of 5 seconds
 if [ -e $MODDIR/autofs4.ko ]; then
    insmod $MODDIR/autofs4.ko
 fi
 /usr/sbin/automount --timeout=5 /autofs file /etc/auto.usb
-
-echo "[rcS] Starting DEBUG Interface"
-/etc/init.d/mountall start
-/etc/init.d/hostname start
 
 echo "[rcS] Starting telnetd"
 /usr/sbin/telnetd -l /bin/autologin
@@ -86,7 +88,7 @@ insmod $MODDIR/fe-core.ko demod=stb0899 tuner=stb6100
 
 insmod $MODDIR/cimax.ko
 insmod $MODDIR/smartcard.ko
-insmod $MODDIR/pti.ko
+insmod $MODDIR/pti.ko waitMS=20 videoMem=4096
 insmod $MODDIR/stm_monitor.ko
 insmod $MODDIR/stmsysfs.ko
 insmod $MODDIR/stmdvb.ko
@@ -98,23 +100,29 @@ insmod $MODDIR/sth264pp.ko
 insmod $MODDIR/stmalloc.ko
 insmod $MODDIR/platform.ko
 insmod $MODDIR/bpamem.ko
+mknod /dev/bpamem c 153 0
 
+if [ -e /boot/bootlogo.mvi ]; then
+   showiframe -p /boot/bootlogo.mvi &
+fi
 stfbcontrol a 0
 
 echo "[rcS] Init remote control (LOAD 2)"
 echo "Load 2" > /dev/vfd
 mkdir -p /var/run/lirc
 /usr/bin/lircd
+rm -rf /dev/rc
 mknod /dev/rc c 147 1 
-mknod /dev/sci0 c 169 0
-mknod /dev/sci1 c 169 1 
 /bin/evremote2 10 120 &
+
+echo "[rcS] Init smartcard cardreader"
+mknod /dev/sci0 c 169 0
+mknod /dev/sci1 c 169 1
 
 stfbcontrol a 255
 
 echo "[rcS] Init portmap & ftp (LOAD 1)"
 echo "Load 1" >/dev/vfd
-var/etc/init.d/portmap start
 var/etc/init.d/vsftpd start
 /usr/sbin/inetd
 
@@ -149,6 +157,9 @@ do
    case "$rtv" in
       0) echo "SHUTDOWN"
          echo "Shutdown" > /dev/vfd
+         if [ -e /boot/shutdown.mvi ]; then
+            showiframe -p /usr/local/share/enigma2/shutdown.mvi
+         fi
          init 0;;
       1) echo "REBOOT"
          echo "Reboot" > /dev/vfd
