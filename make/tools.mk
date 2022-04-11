@@ -79,7 +79,7 @@ endif
 #
 $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 	$(START_BUILD)
-	set -e; cd $(APPS_DIR)/tools/aio-grab; \
+	set -e; cd $(APPS_DIR)/tools/aio-grab-$(BOXARCH); \
 		$(CONFIGURE_TOOLS) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
 			--prefix= \
 		; \
@@ -290,7 +290,7 @@ $(D)/tools-satfind: $(D)/bootstrap
 #
 $(D)/tools-showiframe: $(D)/bootstrap
 	$(START_BUILD)
-	set -e; cd $(APPS_DIR)/tools/showiframe; \
+	set -e; cd $(APPS_DIR)/tools/showiframe-$(BOXARCH); \
 		$(CONFIGURE_TOOLS) \
 			--prefix= \
 		; \
