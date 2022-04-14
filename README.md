@@ -1,4 +1,4 @@
-# how to build image: #
+# how to build image for hl101: #
 
 **git clone:**
 ```bash
@@ -12,7 +12,7 @@ cd buildsystem-hd2
 ```bash
 sudo ./prepare-for-bs.sh
 ```
-**machine configuration:**
+**machine configuration - 29) HL101:**
 ```bash
 make init
 ```
