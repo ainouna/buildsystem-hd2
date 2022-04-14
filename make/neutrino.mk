@@ -10,9 +10,16 @@ $(TARGET_DIR)/.version:
 	echo "version=0200`date +%Y%m%d%H%M`" >> $@
 	echo "git=`git log | grep "^commit" | wc -l`" >> $@
 
+#
+# DEPS
+#
 NEUTRINO_DEPS  = $(D)/bootstrap
-NEUTRINO_DEPS += $(D)/ncurses $(D)/libcurl
-NEUTRINO_DEPS += $(D)/libpng $(D)/libjpeg $(D)/giflib $(D)/freetype
+NEUTRINO_DEPS += $(D)/ncurses 
+NEUTRINO_DEPS += $(D)/libcurl
+NEUTRINO_DEPS += $(D)/libpng 
+NEUTRINO_DEPS += $(D)/libjpeg 
+NEUTRINO_DEPS += $(D)/giflib 
+NEUTRINO_DEPS += $(D)/freetype
 NEUTRINO_DEPS += $(D)/ffmpeg
 NEUTRINO_DEPS += $(D)/libfribidi
 NEUTRINO_DEPS += $(D)/libid3tag
@@ -36,6 +43,9 @@ endif
 
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
 
+#
+# CFLAGS / CPPFLAGS
+#
 N_CFLAGS       = -Wall -W -Wshadow -pipe -Os
 N_CFLAGS      += -D__KERNEL_STRICT_NAMES
 N_CFLAGS      += -D__STDC_FORMAT_MACROS
@@ -80,9 +90,11 @@ INTERFACE ?= lua
 ifeq ($(INTERFACE), python)
 NHD2_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
 endif
+
 ifeq ($(INTERFACE), lua)
 NHD2_OPTS += --enable-lua
 endif
+
 ifeq ($(INTERFACE), lua-python)
 NHD2_OPTS += --enable-lua
 NHD2_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
@@ -127,27 +139,21 @@ ifeq ($(TESTING), testing)
 NHD2_OPTS += --enable-testing
 endif
 
-#NEUTRINO_HD2_PATCHES = nhd2-exp.patch
-#NEUTRINO_HD2_PATCHES = nhd2.patch
+NEUTRINO_HD2_PATCHES =
 
 $(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)
 	$(START_BUILD)
-	rm -rf $(SOURCE_DIR)/neutrinohd2
-	rm -rf $(SOURCE_DIR)/neutrinohd2.org
-	rm -rf $(SOURCE_DIR)/neutrinohd2.git
-	[ -d "$(ARCHIVE)/neutrinohd2.git" ] && \
-	(cd $(ARCHIVE)/neutrinohd2.git; git pull;); \
-	[ -d "$(ARCHIVE)/neutrinohd2.git" ] || \
-	git clone https://github.com/mohousch/neutrinohd2.git $(ARCHIVE)/neutrinohd2.git; \
-	cp -ra $(ARCHIVE)/neutrinohd2.git $(SOURCE_DIR)/neutrinohd2.git; \
-	ln -s $(SOURCE_DIR)/neutrinohd2.git/nhd2-exp $(SOURCE_DIR)/neutrinohd2;\
-	cp -ra $(SOURCE_DIR)/neutrinohd2.git/nhd2-exp $(SOURCE_DIR)/neutrinohd2.org
-	set -e; cd $(SOURCE_DIR)/neutrinohd2; \
+	[ -d "$(SOURCE_DIR)/neutrinohd2.git" ] && \
+	(cd $(SOURCE_DIR)/neutrinohd2.git; git pull;); \
+	[ -d "$(SOURCE_DIR)/neutrinohd2.git" ] || \
+	git clone https://github.com/mohousch/neutrinohd2.git $(SOURCE_DIR)/neutrinohd2.git; \
+	cp -ra $(SOURCE_DIR)/neutrinohd2.git $(SOURCE_DIR)/neutrinohd2; \
+	set -e; cd $(SOURCE_DIR)/neutrinohd2/nhd2-exp; \
 		$(call apply_patches,$(NEUTRINO_HD2_PATCHES))
 	@touch $@
 
 $(D)/neutrinohd2.config.status:
-	cd $(SOURCE_DIR)/neutrinohd2; \
+	cd $(SOURCE_DIR)/neutrinohd2/nhd2-exp; \
 		./autogen.sh; \
 		$(BUILDENV) \
 		./configure \
@@ -164,25 +170,24 @@ $(D)/neutrinohd2.config.status:
 	@touch $@
 
 $(D)/neutrinohd2.do_compile: $(D)/neutrinohd2.config.status
-	cd $(SOURCE_DIR)/neutrinohd2; \
+	cd $(SOURCE_DIR)/neutrinohd2/nhd2-exp; \
 		$(MAKE) all
 	@touch $@
 
 $(D)/neutrino: $(D)/neutrinohd2.do_prepare $(D)/neutrinohd2.do_compile
-	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 install DESTDIR=$(TARGET_DIR)
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2/nhd2-exp install DESTDIR=$(TARGET_DIR)
 	make $(TARGET_DIR)/.version
 	touch $(D)/$(notdir $@)
 	$(TUXBOX_CUSTOMIZE)
 
 neutrino-clean:
 	rm -f $(D)/neutrino
-	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 clean
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2/nhd2-exp clean
 
 neutrino-distclean:
-	-$(MAKE) -C $(SOURCE_DIR)/neutrinohd2 distclean
-	rm -f $(SOURCE_DIR)/neutrinohd2/config.status
+	$(MAKE) -C $(SOURCE_DIR)/neutrinohd2/nhd2-exp distclean
+	rm -rf $(SOURCE_DIR)/neutrinohd2/nhd2-exp/config.status
 	rm -f $(D)/neutrino*
-	rm -f $(D)/neutrino-plugins*
 
 #
 #
