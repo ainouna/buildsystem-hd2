@@ -7,7 +7,7 @@ LUA_SOURCE = lua-$(LUA_VER).tar.gz
 
 LUAPOSIX_VER = 31
 LUAPOSIX_SOURCE = luaposix-git-$(LUAPOSIX_VER).tar.bz2
-LUAPOSIX_URL = git://github.com/luaposix/luaposix.git
+LUAPOSIX_URL = http://github.com/luaposix/luaposix.git
 LUAPOSIX_PATCH = lua-$(LUA_VER)-luaposix-$(LUAPOSIX_VER).patch
 
 $(ARCHIVE)/$(LUA_SOURCE):
