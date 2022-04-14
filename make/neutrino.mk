@@ -139,7 +139,9 @@ ifeq ($(TESTING), testing)
 NHD2_OPTS += --enable-testing
 endif
 
-NEUTRINO_HD2_PATCHES =
+ifeq ($(BOXTYPE), hl101)
+NEUTRINO_HD2_PATCHES = nhd2-exp.patch
+endif
 
 $(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)
 	$(START_BUILD)
