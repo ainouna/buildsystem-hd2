@@ -1,30 +1,32 @@
 # how to build image: #
 
+**git clone:**
 ```bash
 git clone https://github.com/soap-bubble-coin/buildsystem-hd2
-
+```
+**cd:**
+```bash
 cd buildsystem-hd2
 ```
-
 **for first use:**
 ```bash
 sudo ./prepare-for-bs.sh
 ```
 **machine configuration:**
 ```bash
-$:~ make init
+make init
 ```
 **build image:**
 ```bash
-$:~ make flashimage
+make flashimage
 ```
 
 **for more details:**
 ```bash
-$:~ make help
+make help
 ```
 
 **supported boards:**
 ```bash
-$:~ make print-boards
+make print-boards
 ```
