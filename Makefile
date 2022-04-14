@@ -244,7 +244,7 @@ printenv:
 	@echo "CICAM            : $(CICAM)"
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
-	@echo "FKEYS            : $(FKEYS)"
+	@echo "F-KEYS            : $(FKEYS)"
 	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
