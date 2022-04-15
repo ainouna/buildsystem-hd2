@@ -12,7 +12,7 @@ cd buildsystem-hd2
 ```bash
 sudo ./prepare-for-bs.sh
 ```
-**machine configuration - 29) HL101:**
+**machine configuration only HL101:**
 ```bash
 make init
 ```
