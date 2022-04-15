@@ -13,129 +13,27 @@ export TOPDIR LC_ALL LANG
 
 # Boxtype
 init:
-	@echo ""
+	@echo "Welcome!"
 	@echo "Target receivers:"
-	@echo "  Kathrein"
-	@echo "    1)  UFS-910"
-	@echo "    2)  UFS-912"
-	@echo "    3)  UFS-913"
-	@echo "    4)  UFS-922"
-	@echo ""
-	@echo "  Topfield"
-	@echo "    6)  TF77X0 HDPVR"
-	@echo ""
-	@echo "  Fortis"
-	@echo "    7)  FS9000 / FS9200 (formerly Fortis HDbox)"
-	@echo "    8)  HS9510          (formerly Octagon SF1008P)"
-	@echo "    9)  HS8200          (formerly Atevio AV7500)"
-	@echo ""
-	@echo "  AB IPBox/cuberevo/Xsarius"
-	@echo "   16)  55HD"
-	@echo "   18)  9900HD"
-	@echo "   19)  cuberevo / 9000"
-	@echo "   20)  mini / 900HD"
-	@echo "   21)  mini2 / 910HD"
-	@echo "   22)  250HD / 91HD"
-	@echo "   24)  2000HD"
-	@echo "   26)  3000HD / Xsarius Alpha"
-	@echo
-	@echo "  Fulan"
-	@echo "   27)  Spark"
-	@echo "   28)  Spark7162"
-	@echo "   29)  HL101"
-	@echo ""
-	@echo "  VU Plus"
-	@echo "   40)  Vu+ Solo4K"
-	@echo "   41)  VU+ Duo"
-	@echo "   42)  VU+ Duo2"
-	@echo "   43)  VU+ Duo4k"
-	@echo "   44)  VU+ Ultimo4k"
-	@echo "   45)  VU+ Uno4k"
-	@echo "   46)  VU+ Uno4kse"
-	@echo "   47)  VU+ Zero4k"
-	@echo ""
-	@echo "  AX Mutant"
-	@echo "   50)  Mut@nt HD51"
-	@echo "   51)  Mut@nt HD60"
-	@echo "   52)  Mut@nt HD61"
-	@echo ""
-	@echo "  Edision"
-	@echo "   60)  osnino"
-	@echo "   61)  osninoplus" 
-	@echo "   62)  osninopro" 
-	@echo "   63)  osmio4k"
-	@echo "   64)  osmio4kplus"
-	@echo "   65)  osmini4k"  
-	@echo ""
-	@echo "  Giga Blue"
-	@echo -e "\033[01;32m   70)  gb800se\033[00m"
-	@echo ""
-	@echo "  WWIO"
-	@echo "   80)  WWIO BRE2ZE 4K"
-	@echo ""
-	@echo "  Air Digital"
-	@echo "   90)  Zgemma h7"
-	@read -p "Select target (1-90)? " BOXTYPE; \
+	@echo -e "   \033[01;32m1)  HL101\033[00m"
+	@read -p "Select target ? " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
 	case "$$BOXTYPE" in \
-		1) BOXTYPE="ufs910";; \
-		2) BOXTYPE="ufs912";; \
-		3) BOXTYPE="ufs913";; \
-		4) BOXTYPE="ufs922";; \
-		6) BOXTYPE="tf7700";; \
-		7) BOXTYPE="fortis_hdbox";; \
-		8) BOXTYPE="octagon1008";; \
-		9) BOXTYPE="atevio7500";; \
-		16) BOXTYPE="ipbox55";; \
-		18) BOXTYPE="ipbox9900";; \
-		19) BOXTYPE="cuberevo";; \
-		20) BOXTYPE="cuberevo_mini";; \
-		21) BOXTYPE="cuberevo_mini2";; \
-		22) BOXTYPE="cuberevo_250hd";; \
-		24) BOXTYPE="cuberevo_2000hd";; \
-		26) BOXTYPE="cuberevo_3000hd";; \
-		27) BOXTYPE="spark";; \
-		28) BOXTYPE="spark7162";; \
-		29) BOXTYPE="hl101";; \
-		40) BOXTYPE="vusolo4k";; \
-		41) BOXTYPE="vuduo";; \
-		42) BOXTYPE="vuduo2";; \
-		43) BOXTYPE="vuduo4k";; \
-		44) BOXTYPE="vuultimo4k";; \
-		45) BOXTYPE="vuuno4k";; \
-		46) BOXTYPE="vuuno4kse";; \
-		47) BOXTYPE="vuzero4k";; \
-		50) BOXTYPE="hd51";; \
-		51) BOXTYPE="hd60";; \
-		52) BOXTYPE="hd61";; \
-		60) BOXTYPE="osnino";; \
-		61) BOXTYPE="osninoplus";; \
-		62) BOXTYPE="osninopro";; \
-		63) BOXTYPE="osmio4k";; \
-		64) BOXTYPE="osmio4kplus";; \
-		65) BOXTYPE="osmini4k";; \
-		70) BOXTYPE="gb800se";; \
-		80) BOXTYPE="bre2ze4k";; \
-		90) BOXTYPE="h7";; \
-		*) BOXTYPE="gb800se";; \
+		1) BOXTYPE="hl101";; \
+		*) BOXTYPE="hl101";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
 	@echo ""		
 # kernel debug	
 	@echo -e "\nOptimization:"
-	@echo "   1)  optimization for size"
+	@echo -e "   \033[01;32m1)  optimization for size\033[00m"
 	@echo "   2)  optimization normal"
-	@echo "   3)  Kernel debug"
-	@echo "   4)  debug (includes Kernel debug)"
-	@echo -e "   \033[01;32m5)  pre-defined\033[00m"
-	@read -p "Select optimization (1-5)?" OPTIMIZATIONS; \
+	@read -p "Select optimization (1-2)?" OPTIMIZATIONS; \
 	OPTIMIZATIONS=$${OPTIMIZATIONS}; \
 	case "$$OPTIMIZATIONS" in \
 		1) echo "OPTIMIZATIONS=size" >> config;; \
 		2) echo "OPTIMIZATIONS=normal" >> config;; \
-		3) echo "OPTIMIZATIONS=kerneldebug" >> config;;\
-		4) echo "OPTIMIZATIONS=debug" >> config;; \
-		5|*) ;; \
+		*) echo "OPTIMIZATIONS=size" >> config;; \
 	esac;
 	@echo;
 # WLAN driver
@@ -153,45 +51,44 @@ init:
 	@echo ""
 # Media framework
 	@echo -e "\nMedia Framework:"
-	@echo "   1) libeplayer3"
-	@echo "   2) gstreamer (recommended for mips and arm boxes)"
-	@echo -e "   \033[01;32m3) pre-defined\033[00m"
-	@read -p "Select media framework (1-3)?" MEDIAFW; \
+	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
+#	@echo "   2) gstreamer (recommended for mips and arm boxes)"
+	@read -p "Select media framework (1)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
 		2) echo "MEDIAFW=gstreamer" >> config;; \
-		3|*) ;; \
+		*) echo "MEDIAFW=buildinplayer" >> config;; \
 	esac; \
 	echo ""
 # Plugins Interface (lua/python)
 	@echo -e "\nWhich neutrino interface do you want to build?:"
-	@echo "   1)  lua"
-	@echo "   2)  python (experimental)"
-	@echo "   3)  lua and python (experimental)"
-	@echo "   4)  none"
-	@echo -e "   \033[01;32m5) pre-defined\033[00m"
-	@read -p "Select Interface to build (1-5)?" INTERFACE; \
+	@echo -e "   \033[01;32m1) lua\033[00m"
+#	@echo "   2)  python (experimental)"
+#	@echo "   3)  lua and python (experimental)"
+#	@echo "   4)  none"
+#	@echo -e "   \033[01;32m5) pre-defined\033[00m"
+	@read -p "Select Interface to build (1)?" INTERFACE; \
 	INTERFACE=$${INTERFACE}; \
 	case "$$INTERFACE" in \
 		1) echo "INTERFACE=lua" >> config;; \
 		2) echo "INTERFACE=python" >> config;; \
 		3) echo "INTERFACE=lua-python" >> config;; \
 		4) echo "INTERFACE=" >> config;; \
-		5|*) ;; \
+		*) echo "INTERFACE=lua" >> config;; \
 	esac; \
 	echo ""
 # testing
-	@echo -e "\nTesting Support?:"
-	@echo "   1)  testing"
-	@echo -e "   \033[01;32m2) none\033[00m"
-	@read -p "Select with Tesing or not (1-2)?" TESTING; \
-	TESTING=$${TESTING}; \
-	case "$$TESTING" in \
-		1) TESTING="testing";; \
-		2|*) TESTING="";; \
-	esac; \
-	echo "TESTING=$$TESTING" >> config
+#	@echo -e "\nTesting Support?:"
+#	@echo "   1)  testing"
+#	@echo -e "   \033[01;32m2) none\033[00m"
+#	@read -p "Select with Tesing or not (1-2)?" TESTING; \
+#	TESTING=$${TESTING}; \
+#	case "$$TESTING" in \
+#		1) TESTING="testing";; \
+#		2|*) TESTING="";; \
+#	esac; \
+#	echo "TESTING=$$TESTING" >> config
 	@echo ""
 	@make printenv
 	@echo "Your next step could be:"
