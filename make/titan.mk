@@ -22,21 +22,13 @@ $(D)/titan.do_prepare: | $(TITAN_DEPS)
 	svn checkout --username public --password public http://sbnc.dyndns.tv/svn/titan $(SOURCE_DIR)/titan; \
 	COMPRESSBIN=gzip; \
 	COMPRESSEXT=gz; \
-	$(if $(UFS910), COMPRESSBIN=lzma;) \
-	$(if $(UFS910), COMPRESSEXT=lzma;) \
+	$(if $(HL101), COMPRESSBIN=lzma;) \
+	$(if $(HL101), COMPRESSEXT=lzma;) \
 	[ -d "$(BUILD_TMP)/BUILD" ] && \
 	(echo "[titan.mk] Kernel COMPRESSBIN=$$COMPRESSBIN"; echo "[titan.mk] Kernel COMPRESSEXT=$$COMPRESSEXT"; cd "$(BUILD_TMP)/BUILD"; rm -f $(BUILD_TMP)/BUILD/uimage.*; dd if=$(TARGET_DIR)/boot/uImage of=uimage.tmp.$$COMPRESSEXT bs=1 skip=64; $$COMPRESSBIN -d uimage.tmp.$$COMPRESSEXT; str="`strings $(BUILD_TMP)/BUILD/uimage.tmp | grep "Linux version 2.6" | sed 's/Linux version //' | sed 's/(.*)//' | sed 's/  / /'`"; code=`"$(SOURCE_DIR)/titan/titan/tools/gettitancode" "$$str"`; code="$$code"UL; echo "[titan.mk] $$str -> $$code"; sed s/"^#define SYSCODE .*"/"#define SYSCODE $$code"/ -i "$(SOURCE_DIR)/titan/titan/titan.c"); \
 	SVNVERSION=`svn info $(SOURCE_DIR)/titan | grep Revision | sed s/'Revision: '//g`; \
 	SVNBOX=ufs910; \
-	$(if $(UFS910), SVNBOX=ufs910;) \
-	$(if $(UFS912), SVNBOX=ufs912;) \
-	$(if $(UFS922), SVNBOX=ufs922;) \
-	$(if $(OCTAGON1008), SVNBOX=atevio700;) \
-	$(if $(FORTIS_HDBOX), SVNBOX=atevio7000;) \
-	$(if $(ATEVIO7500), SVNBOX=atevio7500;) \
-	$(if $(ATEMIO510), SVNBOX=atemio510;) \
-	$(if $(ATEMIO520), SVNBOX=atemio520;) \
-	$(if $(ATEMIO530), SVNBOX=atemio530;) \
+	$(if $(HL101), SVNBOX=hl101;) \
 	TPKDIR="/svn/tpk/"$$SVNBOX"-rev"$$SVNVERSION"-secret/sh4/titan"; \
 	(echo "[titan.mk] tpk SVNVERSION=$$SVNVERSION";echo "[titan.mk] tpk TPKDIR=$$TPKDIR"; sed s!"/svn/tpk/.*"!"$$TPKDIR\", 1, 0);"! -i "$(SOURCE_DIR)/titan/titan/extensions.h"; sed s!"svn/tpk/.*"!"$$TPKDIR\") == 0)"! -i "$(SOURCE_DIR)/titan/titan/tpk.h"; sed s/"^#define PLUGINVERSION .*"/"#define PLUGINVERSION $$SVNVERSION"/ -i "$(SOURCE_DIR)/titan/titan/struct.h"); \
 	[ -d "$(SOURCE_DIR)/titan/titan/libdreamdvd" ] || \
