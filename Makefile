@@ -318,6 +318,7 @@ include make/system-tools.mk
 include make/neutrino.mk
 include make/neutrino-plugins.mk
 include make/release-neutrino.mk
+include make/titan.mk
 
 update:
 	@if test -d $(BASE_DIR); then \
