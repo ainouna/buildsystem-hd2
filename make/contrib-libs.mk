@@ -1193,7 +1193,7 @@ $(D)/libiconv: $(D)/bootstrap $(ARCHIVE)/$(LIBICONV_SOURCE)
 # expat
 #
 EXPAT_VER = 2.4.1
-EXPAT_SOURCE = expat-$(EXPAT_VER).tar.bz2
+EXPAT_SOURCE = expat-$(EXPAT_VER).tar.xz
 EXPAT_PATCH  = expat-$(EXPAT_VER)-libtool-tag.patch
 
 $(ARCHIVE)/$(EXPAT_SOURCE):
@@ -2623,6 +2623,44 @@ $(D)/libnl: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(LIBNL_SOURCE)
 	$(REWRITE_LIBTOOL)/libnl-nf-3.la
 	$(REWRITE_LIBTOOL)/libnl-route-3.la
 	$(REMOVE)/libnl-$(LIBNL_VER)
+	$(TOUCH)
+
+#
+# mpg123
+#
+MPG123_VER = 1.28.2
+MPG123_SOURCE = mpg123-$(MPG123_VER).tar.bz2
+
+$(ARCHIVE)/$(MPG123_SOURCE):
+	$(WGET) https://sourceforge.net/projects/mpg123/files/mpg123/$(MPG123_VER)/$(MPG123_SOURCE)
+
+$(D)/mpg123: $(D)/bootstrap $(ARCHIVE)/$(MPG123_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/mpg123-$(MPG123_VER)
+	$(UNTAR)/$(MPG123_SOURCE)
+	$(CHDIR)/mpg123-$(MPG123_VER); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--target=$(TARGET) \
+			--prefix=/usr \
+			--bindir=/.remove \
+			--mandir=/.remove \
+			--docdir=/.remove \
+			--infodir=/.remove \
+			--with-audio=alsa \
+			--with-audio=oss \
+			--with-default-audio=alsa \
+			--with-default-audio=oss \
+		make $(SILENT_OPT); \
+		make install $(SILENT_OPT) DESTDIR=$(TARGET_DIR)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libmpg123.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libout123.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libsyn123.pc
+	$(REWRITE_LIBTOOL)/libmpg123.la
+	$(REWRITE_LIBTOOL)/libout123.la
+	$(REWRITE_LIBTOOL)/libsyn123.la
+	$(REMOVE)/mpg123-$(MPG123_VER)
 	$(TOUCH)
 
 #
