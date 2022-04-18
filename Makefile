@@ -23,19 +23,7 @@ init:
 		*) BOXTYPE="hl101";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
-	@echo ""
-# box	
-	@echo -e "\nBox:"
-	@echo -e "   \033[01;32m1)  Gi-s 890\033[00m"
-	@echo "   2)  opticum 9500 HD"
-	@read -p "Select optimization (1-2)?" BOX; \
-	BOX=$${BOX}; \
-	case "$$BOX" in \
-		1) echo "BOX=gi" >> config;; \
-		2) echo "BOX=ohd" >> config;; \
-		*) echo "BOX=gi" >> config;; \
-	esac;
-	@echo;
+	@echo ""		
 # kernel debug	
 	@echo -e "\nOptimization:"
 	@echo -e "   \033[01;32m1)  optimization for size\033[00m"
@@ -61,10 +49,22 @@ init:
 	esac; \
 	echo "WLAN=$$WLAN" >> config
 	@echo ""
+# Flavour
+	@echo -e "\nFlavour:"
+	@echo -e "   \033[01;32m1) neutrino\033[00m"
+	@echo "   2) none"
+	@read -p "Select Flavour (1-2)?" FLAVOUR; \
+	FLAVOUR=$${FLAVOUR}; \
+	case "$$FLAVOUR" in \
+		1) echo "FLAVOUR=neutrino" >> config;; \
+		2) echo "FLAVOUR=none" >> config;; \
+		*) echo "FLAVOUR=neutrino" >> config;; \
+	esac; \
+	echo ""
 # Media framework
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
-	@echo "   2) gstreamer 1.16.2 (not recommended for sh boxes)"
+	@echo "   2) gstreamer (not recommended for sh boxes)"
 	@read -p "Select media framework (1)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
@@ -74,7 +74,7 @@ init:
 	esac; \
 	echo ""
 # lua
-	@echo -e "\nLua support:"
+	@echo -e "\nlua support:"
 	@echo -e "   \033[01;32m1) yes\033[00m"
 	@echo "   2) no"
 	@read -p "Select lua support (1-2)?" LUA; \
@@ -86,15 +86,15 @@ init:
 	esac; \
 	echo ""
 # python
-	@echo -e "\nPython support:"
+	@echo -e "\npython support:"
 	@echo "   1) yes"
-	@echo -e "   \033[01;32m2) no\033[00m"
+	@echo -e "   \033[01;32m1) no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
 		1) echo "PYTHON=python" >> config;; \
 		2) echo "PYTHON=" >> config;; \
-		*) echo "PYTHON=" >> config;; \
+		*) echo "PYTHON=python" >> config;; \
 	esac; \
 	echo ""
 #	
@@ -142,9 +142,9 @@ printenv:
 	@echo "TARGET           : $(TARGET)"
 	@echo "GCC_VER          : $(GCC_VER)"
 	@echo "BOXTYPE          : $(BOXTYPE)"
-	@echo "BOX              : $(BOX)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
+	@echo "FLAVOUR          : $(FLAVOUR)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
 	@echo "WLAN             : $(WLAN)"
 	@echo "LUA              : $(LUA)"
@@ -153,6 +153,7 @@ printenv:
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
 	@echo "F-KEYS           : $(FKEYS)"
+	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
@@ -184,7 +185,7 @@ help:
 	@echo " make update			- update the build system, apps, driver and flash"
 	@echo ""
 	@echo "release or image:"
-	@echo " make release			- build neutrino with full release dir"
+	@echo " make release-neutrino   - build neutrino with full release dir"
 	@echo " make flashimage		- build flashimage"
 	@echo ""
 	@echo "to update neutrino"
@@ -203,7 +204,12 @@ help:
 include make/contrib-libs.mk
 include make/contrib-apps.mk
 include make/ffmpeg.mk
+ifeq ($(BOXARCH), sh4)
 include make/crosstool-sh4.mk
+endif
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+include make/crosstool.mk
+endif
 include make/linux-kernel.mk
 include make/driver.mk
 include make/gstreamer.mk
@@ -218,7 +224,6 @@ include make/patches.mk
 include make/bootstrap.mk
 include make/system-tools.mk
 include make/neutrino.mk
-include make/neutrino-plugins.mk
 include make/release-neutrino.mk
 include make/titan.mk
 
