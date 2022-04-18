@@ -49,6 +49,18 @@ init:
 	esac; \
 	echo "WLAN=$$WLAN" >> config
 	@echo ""
+# Flavour
+	@echo -e "\nFlavour:"
+	@echo -e "   \033[01;32m1) neutrino\033[00m"
+	@echo "   2) none"
+	@read -p "Select Flavour (1-2)?" FLAVOUR; \
+	FLAVOUR=$${FLAVOUR}; \
+	case "$$FLAVOUR" in \
+		1) echo "FLAVOUR=neutrino" >> config;; \
+		2) echo "FLAVOUR=none" >> config;; \
+		*) echo "FLAVOUR=neutrino" >> config;; \
+	esac; \
+	echo ""
 # Media framework
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
@@ -132,6 +144,7 @@ printenv:
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
+	@echo "FLAVOUR          : $(FLAVOUR)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
 	@echo "WLAN             : $(WLAN)"
 	@echo "LUA              : $(LUA)"
@@ -172,7 +185,7 @@ help:
 	@echo " make update			- update the build system, apps, driver and flash"
 	@echo ""
 	@echo "release or image:"
-	@echo " make release			- build neutrino with full release dir"
+	@echo " make release-neutrino   - build neutrino with full release dir"
 	@echo " make flashimage		- build flashimage"
 	@echo ""
 	@echo "to update neutrino"

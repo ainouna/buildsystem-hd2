@@ -1,7 +1,7 @@
 #
 # flashimage
 #
-flashimage: release
+flashimage: release-$(FLAVOUR)
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), fortis_hdbox octagon1008 ufs910 ufs922 ipbox55 ipbox9900 cuberevo cuberevo_mini cuberevo_mini2 cuberevo_250hd cuberevo_2000hd cuberevo_3000hd))
 	$(MAKE) flash-image-$(BOXTYPE)
 endif
