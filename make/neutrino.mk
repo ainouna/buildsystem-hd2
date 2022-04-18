@@ -28,17 +28,12 @@ NEUTRINO_DEPS += $(D)/libvorbisidec
 NEUTRINO_DEPS += $(D)/flac
 NEUTRINO_DEPS += $(D)/e2fsprogs
 
-ifeq ($(INTERFACE), python)
+ifeq ($(PYTHON), python)
 NEUTRINO_DEPS += $(D)/python
 endif
 
-ifeq ($(INTERFACE), lua)
+ifeq ($(LUA), lua)
 NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
-endif
-
-ifeq ($(INTERFACE), lua-python)
-NEUTRINO_DEPS += $(D)/lua $(D)/luaexpat $(D)/luacurl $(D)/luasocket $(D)/luafeedparser $(D)/luasoap $(D)/luajson
-NEUTRINO_DEPS += $(D)/python
 endif
 
 NEUTRINO_DEPS += $(LOCAL_NEUTRINO_DEPS)
@@ -84,20 +79,18 @@ N_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs glib-2.0)
 NHD2_OPTS += --enable-gstreamer --with-gstversion=1.0
 endif
 
-# INTERFACE
-INTERFACE ?= lua
+# python
+PYTHON ?=
 
-ifeq ($(INTERFACE), python)
+ifeq ($(PYTHON), python)
 NHD2_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
 endif
 
-ifeq ($(INTERFACE), lua)
-NHD2_OPTS += --enable-lua
-endif
+# lua
+LUA ?= lua
 
-ifeq ($(INTERFACE), lua-python)
+ifeq ($(LUA), lua)
 NHD2_OPTS += --enable-lua
-NHD2_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
 endif
 
 # CICAM
@@ -132,16 +125,7 @@ ifeq ($(FKEYS), fkeys)
 NHD2_OPTS += --enable-functionkeys
 endif
 
-# TESTING
-TESTING ?=
-
-ifeq ($(TESTING), testing)
-NHD2_OPTS += --enable-testing
-endif
-
-ifeq ($(BOXTYPE), hl101)
-NEUTRINO_HD2_PATCHES = nhd2-exp.patch
-endif
+NEUTRINO_HD2_PATCHES =
 
 $(D)/neutrinohd2.do_prepare: $(NEUTRINO_DEPS)
 	$(START_BUILD)

@@ -52,7 +52,7 @@ init:
 # Media framework
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
-#	@echo "   2) gstreamer (recommended for mips and arm boxes)"
+	@echo "   2) gstreamer (not recommended for sh boxes)"
 	@read -p "Select media framework (1)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
@@ -61,34 +61,31 @@ init:
 		*) echo "MEDIAFW=buildinplayer" >> config;; \
 	esac; \
 	echo ""
-# Plugins Interface (lua/python)
-	@echo -e "\nWhich neutrino interface do you want to build?:"
-	@echo -e "   \033[01;32m1) lua\033[00m"
-#	@echo "   2)  python (experimental)"
-#	@echo "   3)  lua and python (experimental)"
-#	@echo "   4)  none"
-#	@echo -e "   \033[01;32m5) pre-defined\033[00m"
-	@read -p "Select Interface to build (1)?" INTERFACE; \
-	INTERFACE=$${INTERFACE}; \
-	case "$$INTERFACE" in \
-		1) echo "INTERFACE=lua" >> config;; \
-		2) echo "INTERFACE=python" >> config;; \
-		3) echo "INTERFACE=lua-python" >> config;; \
-		4) echo "INTERFACE=" >> config;; \
-		*) echo "INTERFACE=lua" >> config;; \
+# lua
+	@echo -e "\nlua support:"
+	@echo "   1)  yes"
+	@echo "   2)  no"
+	@read -p "Select lua support (1-2)?" LUA; \
+	LUA=$${LUA}; \
+	case "$$LUA" in \
+		1) echo "LUA=lua" >> config;; \
+		2) echo "LUA=" >> config;; \
+		*) echo "LUA=lua" >> config;; \
 	esac; \
 	echo ""
-# testing
-#	@echo -e "\nTesting Support?:"
-#	@echo "   1)  testing"
-#	@echo -e "   \033[01;32m2) none\033[00m"
-#	@read -p "Select with Tesing or not (1-2)?" TESTING; \
-#	TESTING=$${TESTING}; \
-#	case "$$TESTING" in \
-#		1) TESTING="testing";; \
-#		2|*) TESTING="";; \
-#	esac; \
-#	echo "TESTING=$$TESTING" >> config
+# python
+	@echo -e "\npython support:"
+	@echo "   1)  yes"
+	@echo "   2)  no"
+	@read -p "Select python support (1-2)?" PYTHON; \
+	PYTHON=$${PYTHON}; \
+	case "$$PYTHON" in \
+		1) echo "PYTHON=python" >> config;; \
+		2) echo "PYTHON=" >> config;; \
+		*) echo "PYTHON=python" >> config;; \
+	esac; \
+	echo ""
+#	
 	@echo ""
 	@make printenv
 	@echo "Your next step could be:"
@@ -137,11 +134,12 @@ printenv:
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
 	@echo "WLAN             : $(WLAN)"
-	@echo "INTERFACE        : $(INTERFACE)"
+	@echo "LUA              : $(LUA)"
+	@echo "PYTHON           : $(PYTHON)"
 	@echo "CICAM            : $(CICAM)"
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
-	@echo "F-KEYS            : $(FKEYS)"
+	@echo "F-KEYS           : $(FKEYS)"
 	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
