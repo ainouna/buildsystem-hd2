@@ -22,7 +22,7 @@ ifeq ($(BOXARCH), sh4)
 			echo; \
 			echo "    Correct this and retry."; \
 			echo; \
-		fi; \
+		fi; cp -rf $(ARCHIVE)/boot  $(SKEL_ROOT); \
 	done
 endif
 	@if test "$(subst /bin/,,$(shell readlink /bin/sh))" != bash; then \
