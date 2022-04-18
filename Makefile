@@ -23,7 +23,19 @@ init:
 		*) BOXTYPE="hl101";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
-	@echo ""		
+	@echo ""
+# box	
+	@echo -e "\nBox:"
+	@echo -e "   \033[01;32m1)  Gi-s 890\033[00m"
+	@echo "   2)  opticum 9500 HD"
+	@read -p "Select optimization (1-2)?" BOX; \
+	BOX=$${BOX}; \
+	case "$$BOX" in \
+		1) echo "BOX=gi" >> config;; \
+		2) echo "BOX=ohd" >> config;; \
+		*) echo "BOX=gi" >> config;; \
+	esac;
+	@echo;
 # kernel debug	
 	@echo -e "\nOptimization:"
 	@echo -e "   \033[01;32m1)  optimization for size\033[00m"
@@ -52,7 +64,7 @@ init:
 # Media framework
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
-	@echo "   2) gstreamer (not recommended for sh boxes)"
+	@echo "   2) gstreamer 1.16.2 (not recommended for sh boxes)"
 	@read -p "Select media framework (1)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
@@ -62,9 +74,9 @@ init:
 	esac; \
 	echo ""
 # lua
-	@echo -e "\nlua support:"
-	@echo "   1)  yes"
-	@echo "   2)  no"
+	@echo -e "\nLua support:"
+	@echo -e "   \033[01;32m1) yes\033[00m"
+	@echo "   2) no"
 	@read -p "Select lua support (1-2)?" LUA; \
 	LUA=$${LUA}; \
 	case "$$LUA" in \
@@ -74,15 +86,15 @@ init:
 	esac; \
 	echo ""
 # python
-	@echo -e "\npython support:"
-	@echo "   1)  yes"
-	@echo "   2)  no"
+	@echo -e "\nPython support:"
+	@echo "   1) yes"
+	@echo -e "   \033[01;32m2) no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
 		1) echo "PYTHON=python" >> config;; \
 		2) echo "PYTHON=" >> config;; \
-		*) echo "PYTHON=python" >> config;; \
+		*) echo "PYTHON=" >> config;; \
 	esac; \
 	echo ""
 #	
@@ -130,6 +142,7 @@ printenv:
 	@echo "TARGET           : $(TARGET)"
 	@echo "GCC_VER          : $(GCC_VER)"
 	@echo "BOXTYPE          : $(BOXTYPE)"
+	@echo "BOX              : $(BOX)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
@@ -140,7 +153,6 @@ printenv:
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
 	@echo "F-KEYS           : $(FKEYS)"
-	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
@@ -191,12 +203,7 @@ help:
 include make/contrib-libs.mk
 include make/contrib-apps.mk
 include make/ffmpeg.mk
-ifeq ($(BOXARCH), sh4)
 include make/crosstool-sh4.mk
-endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-include make/crosstool.mk
-endif
 include make/linux-kernel.mk
 include make/driver.mk
 include make/gstreamer.mk
@@ -205,7 +212,6 @@ include make/python.mk
 include make/lua.mk
 include make/tools.mk
 include make/release.mk
-include make/flashimage.mk
 include make/cleantargets.mk
 include make/patches.mk
 include make/bootstrap.mk

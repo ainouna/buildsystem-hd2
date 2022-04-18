@@ -6,22 +6,9 @@ RELEASE_DEPS += $(D)/driver
 RELEASE_DEPS += $(D)/system-tools 
 RELEASE_DEPS += $(LIRC)
 
-ifeq ($(BOXARCH), arm)
-	RELEASE_DEPS += $(D)/ntfs_3g 
-	RELEASE_DEPS += $(D)/gptfdisk $(D)/mc 
-endif
-
 ifeq ($(WLAN), wlandriver)	
 	RELEASE_DEPS += $(D)/wpa_supplicant 
 	RELEASE_DEPS += $(D)/wireless_tools
-endif
-
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), atevio7500 spark spark7162 ufs912 ufs913 ufs910))
-	RELEASE_DEPS += $(D)/ntfs_3g
-ifneq ($(BOXTYPE), $(filter $(BOXTYPE), ufs910))
-	RELEASE_DEPS += $(D)/mtd_utils 
-	RELEASE_DEPS += $(D)/gptfdisk
-endif
 endif
 
 ifeq ($(PYTHON), python)
@@ -349,7 +336,7 @@ endif
 #
 # release-none
 #
-$(D)/release: release-common release-$(BOXTYPE) release-neutrino
+$(D)/release-none: release-common release-$(BOXTYPE)
 	cp -dpfr $(RELEASE_DIR)/etc $(RELEASE_DIR)/var
 	rm -fr $(RELEASE_DIR)/etc
 	ln -sf /var/etc $(RELEASE_DIR)
@@ -358,12 +345,6 @@ $(D)/release: release-common release-$(BOXTYPE) release-neutrino
 	ln -s /tmp $(RELEASE_DIR)/var/run
 	ln -s /tmp $(RELEASE_DIR)/var/tmp
 	$(TUXBOX_CUSTOMIZE)
-#
-# linux-strip all
-#
-ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
-	find $(RELEASE_DIR)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
-endif
 #
 # release-clean
 #
