@@ -198,10 +198,10 @@ release-hl101:
 	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/conf/bootlogo.mvi $(RELEASE_DIR)/boot/
 	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/conf/rc.conf $(RELEASE_DIR)/var/tuxbox/config/
 ifeq ($(BOX), Gi-s980)
-	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd-gis.conf $(RELEASE_DIR)/etc/
+	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd-gis.conf $(RELEASE_DIR)/etc/lircd.conf
 endif
 ifeq ($(BOX), Opticum-HD)
-	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd-opticum.conf $(RELEASE_DIR)/etc/
+	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd-opticum.conf $(RELEASE_DIR)/etc/lircd.conf
 endif
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
