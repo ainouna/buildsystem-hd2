@@ -36,6 +36,18 @@ init:
 		*) echo "BOX=Gi-s980" >> config;; \
 	esac;
 	@echo;
+# tuner	
+	@echo -e "\nTuner:"
+	@echo -e "   \033[01;32m1) RB\033[00m"
+	@echo "   2) ST"
+	@read -p "Select optimization (1-2)?" BOX; \
+	TUNER=$${TUNER}; \
+	case "$$TUNER" in \
+		1) echo "TUNER=RB" >> config;; \
+		2) echo "TUNER=ST" >> config;; \
+		*) echo "TUNER=RB" >> config;; \
+	esac;
+	@echo;
 # kernel debug	
 	@echo -e "\nOptimization:"
 	@echo -e "   \033[01;32m1) optimization for size\033[00m"
@@ -77,7 +89,7 @@ init:
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
 	@echo "   2) gstreamer (not recommended for sh boxes)"
-	@read -p "Select media framework (1)?" MEDIAFW; \
+	@read -p "Select media framework (1-2)?" MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
@@ -100,7 +112,7 @@ init:
 # python
 	@echo -e "\npython support:"
 	@echo "   1) yes"
-	@echo -e "   \033[01;32m1) no\033[00m"
+	@echo -e "   \033[01;32m2) no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
@@ -155,6 +167,7 @@ printenv:
 	@echo "GCC_VER          : $(GCC_VER)"
 	@echo "BOXTYPE          : $(BOXTYPE)"
 	@echo "BOX              : $(BOX)"
+	@echo "TUNER            : $(TUNER)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
 	@echo "FLAVOUR          : $(FLAVOUR)"
