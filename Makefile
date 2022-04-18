@@ -75,8 +75,8 @@ init:
 	echo ""
 # lua
 	@echo -e "\nlua support:"
-	@echo "   1)  yes"
-	@echo "   2)  no"
+	@echo -e "   \033[01;32m1) yes\033[00m"
+	@echo "   2) no"
 	@read -p "Select lua support (1-2)?" LUA; \
 	LUA=$${LUA}; \
 	case "$$LUA" in \
@@ -87,8 +87,8 @@ init:
 	echo ""
 # python
 	@echo -e "\npython support:"
-	@echo "   1)  yes"
-	@echo "   2)  no"
+	@echo "   1) yes"
+	@echo -e "   \033[01;32m1) no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
@@ -224,7 +224,6 @@ include make/patches.mk
 include make/bootstrap.mk
 include make/system-tools.mk
 include make/neutrino.mk
-include make/neutrino-plugins.mk
 include make/release-neutrino.mk
 include make/titan.mk
 
