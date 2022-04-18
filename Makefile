@@ -30,22 +30,22 @@ init:
 	@echo "   2) Opticum-HD"
 	@read -p "Select optimization (1-2)?" BOX; \
 	BOX=$${BOX}; \
-	case "$$OPTIMIZATIONS" in \
+	case "$$BOX" in \
 		1) echo "BOX=Gi-s980" >> config;; \
 		2) echo "BOX=Opticum-HD" >> config;; \
-		*) echo "BOX=Gi-s980" >> config;; \
+		3|*) ;; \
 	esac;
 	@echo;
 # tuner	
 	@echo -e "\nTuner:"
 	@echo -e "   \033[01;32m1) RB\033[00m"
 	@echo "   2) ST"
-	@read -p "Select optimization (1-2)?" BOX; \
+	@read -p "Select optimization (1-2)?" TUNER; \
 	TUNER=$${TUNER}; \
 	case "$$TUNER" in \
 		1) echo "TUNER=RB" >> config;; \
 		2) echo "TUNER=ST" >> config;; \
-		*) echo "TUNER=RB" >> config;; \
+		3|*) ;; \
 	esac;
 	@echo;
 # kernel debug	
@@ -94,7 +94,7 @@ init:
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
 		2) echo "MEDIAFW=gstreamer" >> config;; \
-		*) echo "MEDIAFW=buildinplayer" >> config;; \
+		3|*) ;; \
 	esac; \
 	echo ""
 # lua
