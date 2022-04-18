@@ -204,3 +204,7 @@ ifeq ($(BOX), ohd)
 endif
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
+#
+# flashimage
+#
+flash-image-hl101:

@@ -346,6 +346,12 @@ $(D)/release-none: release-common release-$(BOXTYPE)
 	ln -s /tmp $(RELEASE_DIR)/var/tmp
 	$(TUXBOX_CUSTOMIZE)
 #
+# linux-strip all
+#
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(RELEASE_DIR)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+#
 # release-clean
 #
 release-clean:
