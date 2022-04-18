@@ -380,10 +380,11 @@ $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
 #
 # util_linux
 #
-UTIL_LINUX_MAJOR = 2.36
-UTIL_LINUX_MINOR = .1
+UTIL_LINUX_MAJOR = 2.37
+UTIL_LINUX_MINOR = .4
 UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR)
 UTIL_LINUX_SOURCE = util-linux-$(UTIL_LINUX_VER).tar.xz
+UTIL_LINUX_PATCH = util-linux-$(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR).patch
 
 $(ARCHIVE)/$(UTIL_LINUX_SOURCE):
 	$(WGET) https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL_LINUX_MAJOR)/$(UTIL_LINUX_SOURCE)
@@ -393,6 +394,7 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
 	$(REMOVE)/util-linux-$(UTIL_LINUX_VER)
 	$(UNTAR)/$(UTIL_LINUX_SOURCE)
 	$(CHDIR)/util-linux-$(UTIL_LINUX_VER); \
+		$(call apply_patches, $(UTIL_LINUX_PATCH)); \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--mandir=/.remove \
@@ -429,7 +431,6 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
 			--disable-mesg \
 			--disable-raw \
 			--disable-rename \
-			--disable-reset \
 			--disable-vipw \
 			--disable-newgrp \
 			--disable-chfn-chsh \
@@ -456,6 +457,7 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
 			--disable-makeinstall-setuid \
 			--without-audit \
 			--without-ncurses \
+			--without-ncursesw \
 			--without-slang \
 			--without-utempter \
 			--disable-wall \

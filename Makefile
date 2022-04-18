@@ -24,10 +24,22 @@ init:
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
 	@echo ""		
+# box	
+	@echo -e "\nBox:"
+	@echo -e "   \033[01;32m1) Gi-s980\033[00m"
+	@echo "   2) Opticum-HD"
+	@read -p "Select optimization (1-2)?" BOX; \
+	BOX=$${BOX}; \
+	case "$$OPTIMIZATIONS" in \
+		1) echo "BOX=Gi-s980" >> config;; \
+		2) echo "BOX=Opticum-HD" >> config;; \
+		*) echo "BOX=Gi-s980" >> config;; \
+	esac;
+	@echo;
 # kernel debug	
 	@echo -e "\nOptimization:"
-	@echo -e "   \033[01;32m1)  optimization for size\033[00m"
-	@echo "   2)  optimization normal"
+	@echo -e "   \033[01;32m1) optimization for size\033[00m"
+	@echo "   2) optimization normal"
 	@read -p "Select optimization (1-2)?" OPTIMIZATIONS; \
 	OPTIMIZATIONS=$${OPTIMIZATIONS}; \
 	case "$$OPTIMIZATIONS" in \
@@ -142,6 +154,7 @@ printenv:
 	@echo "TARGET           : $(TARGET)"
 	@echo "GCC_VER          : $(GCC_VER)"
 	@echo "BOXTYPE          : $(BOXTYPE)"
+	@echo "BOX              : $(BOX)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
 	@echo "FLAVOUR          : $(FLAVOUR)"
@@ -153,7 +166,6 @@ printenv:
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
 	@echo "F-KEYS           : $(FKEYS)"
-	@echo "TESTING          : $(TESTING)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
