@@ -25,7 +25,7 @@ init:
 	echo "BOXTYPE=$$BOXTYPE" > config
 # box	
 	@echo -e "\nBox:"
-	@echo -e "   \033[01;32m1) Gi-s980\033[00m"
+	@echo "   1) Gi-s980"
 	@echo "   2) Opticum-HD"
 	@read -p "Select optimization (1-2)?" BOX; \
 	BOX=$${BOX}; \
@@ -36,7 +36,7 @@ init:
 	esac; \
 # tuner	
 	@echo -e "\nTuner:"
-	@echo -e "   \033[01;32m1) RB\033[00m"
+	@echo "   1) RB"
 	@echo "   2) ST"
 	@read -p "Select optimization (1-2)?" TUNER; \
 	TUNER=$${TUNER}; \
@@ -58,25 +58,25 @@ init:
 	esac; \
 # WLAN driver
 	@echo -e "\nDo you want to build WLAN drivers and tools"
-	@echo -e "   \033[01;32m1) no\033[00m"
+	@echo "   1) no"
 	@echo "   2) yes (includes WLAN drivers and tools)"
 	@read -p "Select to build (1-2)?" WLAN; \
 	WLAN=$${WLAN}; \
 	case "$$WLAN" in \
 		1) echo "WLAN=" >> config;; \
 		2) echo "WLAN=wlandriver" >> config;; \
-		*) echo "WLAN=" >> config;; \
+		3|*) ;; \
 	esac; \
 # Flavour
 	@echo -e "\nFlavour:"
-	@echo -e "   \033[01;32m1) neutrino\033[00m"
+	@echo "   1) neutrino"
 	@echo "   2) none"
 	@read -p "Select Flavour (1-2)?" FLAVOUR; \
 	FLAVOUR=$${FLAVOUR}; \
 	case "$$FLAVOUR" in \
 		1) echo "FLAVOUR=neutrino" >> config;; \
 		2) echo "FLAVOUR=none" >> config;; \
-		*) echo "FLAVOUR=neutrino" >> config;; \
+		3|*) ;; \
 	esac; \
 # Media framework
 	@echo -e "\nMedia Framework:"
@@ -111,7 +111,15 @@ init:
 		2) echo "PYTHON=" >> config;; \
 		*) echo "PYTHON=" >> config;; \
 	esac; \
-	echo ""
+# emu
+	@echo -e "\nOscam:"
+	@echo -e "   \033[01;32m1) yes\033[00m"
+	@read -p "Select python support?" EMU; \
+	EMU=$${EMU}; \
+	case "$$EMU" in \
+		1) echo "EMU=oscam" >> config;; \
+		*) echo "EMU=oscam" >> config;; \
+	esac; \
 #	
 	@echo ""
 	@make printenv
@@ -166,6 +174,7 @@ printenv:
 	@echo "WLAN             : $(WLAN)"
 	@echo "LUA              : $(LUA)"
 	@echo "PYTHON           : $(PYTHON)"
+	@echo "EMU              : $(EMU)"
 	@echo "CICAM            : $(CICAM)"
 	@echo "SCART            : $(SCART)"
 	@echo "LCD              : $(LCD)"
