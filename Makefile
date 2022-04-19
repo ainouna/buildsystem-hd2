@@ -16,7 +16,7 @@ init:
 	@echo "Welcome!"
 	@echo "Target receivers:"
 	@echo -e "   \033[01;32m1)  HL101\033[00m"
-	@read -p "Select target ? " BOXTYPE; \
+	@read -p "Press Enter " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
 	case "$$BOXTYPE" in \
 		1) BOXTYPE="hl101";; \
@@ -27,7 +27,7 @@ init:
 	@echo -e "\nBox:"
 	@echo "   1) Gi-s980"
 	@echo "   2) Opticum-HD"
-	@read -p "Select optimization (1-2)?" BOX; \
+	@read -p "Select optimization (1-2)? " BOX; \
 	BOX=$${BOX}; \
 	case "$$BOX" in \
 		1) echo "BOX=Gi-s980" >> config;; \
@@ -38,7 +38,7 @@ init:
 	@echo -e "\nTuner:"
 	@echo "   1) RB"
 	@echo "   2) ST"
-	@read -p "Select optimization (1-2)?" TUNER; \
+	@read -p "Select optimization (1-2)? " TUNER; \
 	TUNER=$${TUNER}; \
 	case "$$TUNER" in \
 		1) echo "TUNER=RB" >> config;; \
@@ -49,7 +49,7 @@ init:
 	@echo -e "\nOptimization:"
 	@echo -e "   \033[01;32m1) optimization for size\033[00m"
 	@echo "   2) optimization normal"
-	@read -p "Select optimization (1-2)?" OPTIMIZATIONS; \
+	@read -p "Select optimization (1-2)? " OPTIMIZATIONS; \
 	OPTIMIZATIONS=$${OPTIMIZATIONS}; \
 	case "$$OPTIMIZATIONS" in \
 		1) echo "OPTIMIZATIONS=size" >> config;; \
@@ -60,7 +60,7 @@ init:
 	@echo -e "\nDo you want to build WLAN drivers and tools"
 	@echo "   1) no"
 	@echo "   2) yes (includes WLAN drivers and tools)"
-	@read -p "Select to build (1-2)?" WLAN; \
+	@read -p "Select to build (1-2)? " WLAN; \
 	WLAN=$${WLAN}; \
 	case "$$WLAN" in \
 		1) echo "WLAN=" >> config;; \
@@ -71,7 +71,7 @@ init:
 	@echo -e "\nFlavour:"
 	@echo "   1) neutrino"
 	@echo "   2) none"
-	@read -p "Select Flavour (1-2)?" FLAVOUR; \
+	@read -p "Select Flavour (1-2)? " FLAVOUR; \
 	FLAVOUR=$${FLAVOUR}; \
 	case "$$FLAVOUR" in \
 		1) echo "FLAVOUR=neutrino" >> config;; \
@@ -82,7 +82,7 @@ init:
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
 	@echo "   2) gstreamer (not recommended for sh boxes)"
-	@read -p "Select media framework (1-2)?" MEDIAFW; \
+	@read -p "Select media framework (1-2)? " MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
@@ -93,7 +93,7 @@ init:
 	@echo -e "\nLua support:"
 	@echo -e "   \033[01;32m1) yes\033[00m"
 	@echo "   2) no"
-	@read -p "Select lua support (1-2)?" LUA; \
+	@read -p "Select lua support (1-2)? " LUA; \
 	LUA=$${LUA}; \
 	case "$$LUA" in \
 		1) echo "LUA=lua" >> config;; \
@@ -104,7 +104,7 @@ init:
 	@echo -e "\nPython support:"
 	@echo "   1) yes"
 	@echo -e "   \033[01;32m2) no\033[00m"
-	@read -p "Select python support (1-2)?" PYTHON; \
+	@read -p "Select python support (1-2)? " PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
 		1) echo "PYTHON=python" >> config;; \
@@ -115,7 +115,7 @@ init:
 	@echo -e "\nOscam:"
 	@echo "   1) yes"
 	@echo "   2) no"
-	@read -p "Select python support?" EMU; \
+	@read -p "Select python support? " EMU; \
 	EMU=$${EMU}; \
 	case "$$EMU" in \
 		1) echo "EMU=oscam" >> config;; \
