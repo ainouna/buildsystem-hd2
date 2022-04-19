@@ -80,7 +80,7 @@ init:
 	esac; \
 # Media framework
 	@echo -e "\nMedia Framework:"
-	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
+	@echo -e "   \033[01;32m1) libeplayer3 - recommended for sh4 boxes\033[00m"
 	@echo "   2) gstreamer (not recommended for sh boxes)"
 	@read -p "Select media framework (1-2)? " MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
