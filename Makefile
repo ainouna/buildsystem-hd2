@@ -113,12 +113,14 @@ init:
 	esac; \
 # emu
 	@echo -e "\nOscam:"
-	@echo -e "   \033[01;32m1) yes\033[00m"
+	@echo "   1) yes"
+	@echo "   2) no"
 	@read -p "Select python support?" EMU; \
 	EMU=$${EMU}; \
 	case "$$EMU" in \
 		1) echo "EMU=oscam" >> config;; \
-		*) echo "EMU=oscam" >> config;; \
+		2) echo "EMU=" >> config;; \
+		3|*) ;; \
 	esac; \
 #	
 	@echo ""

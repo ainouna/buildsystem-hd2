@@ -2,13 +2,17 @@
 # release-common
 #
 RELEASE_DEPS = $(KERNEL) 
-RELEASE_DEPS += $(D)/driver 
+RELEASE_DEPS += 
 RELEASE_DEPS += $(D)/system-tools 
 RELEASE_DEPS += $(LIRC)
 
+ifeq ($(EMU), oscam)	
+RELEASE_DEPS += $(D)/oscam 
+endif
+
 ifeq ($(WLAN), wlandriver)	
-	RELEASE_DEPS += $(D)/wpa_supplicant 
-	RELEASE_DEPS += $(D)/wireless_tools
+RELEASE_DEPS += $(D)/wpa_supplicant 
+RELEASE_DEPS += $(D)/wireless_tools
 endif
 
 ifeq ($(PYTHON), python)

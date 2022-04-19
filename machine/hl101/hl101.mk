@@ -185,7 +185,7 @@ $(D)/driver: $(DRIVER_DIR)/Makefile $(D)/bootstrap $(D)/kernel
 #
 # release
 #
-release-hl101: $(D)/oscam
+release-hl101:
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontcontroller/proton/proton.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/frontends/*.ko $(RELEASE_DIR)/lib/modules/
 	cp $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(RELEASE_DIR)/lib/modules/
@@ -210,9 +210,11 @@ endif
 ifeq ($(TUNER), ST)
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS-st $(RELEASE_DIR)/etc/init.d/rcS
 endif
+ifeq ($(EMU), oscam)
 	cp $(TARGET_DIR)/../build_oscam/oscam-* $(RELEASE_DIR)/usr/bin/emu/
 	rm -f $(RELEASE_DIR)/usr/bin/emu/oscam-*.debug
 	mv -f $(RELEASE_DIR)/usr/bin/emu/oscam-* $(RELEASE_DIR)/usr/bin/emu/oscam
+endif
 
 #
 # flashimage
