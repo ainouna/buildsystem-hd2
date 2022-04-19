@@ -211,9 +211,9 @@ ifeq ($(TUNER), ST)
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS-st $(RELEASE_DIR)/etc/init.d/rcS
 endif
 ifeq ($(EMU), oscam)
-	cp $(TARGET_DIR)/../build_oscam/oscam-* $(RELEASE_DIR)/usr/bin/emu/
-	rm -f $(RELEASE_DIR)/usr/bin/emu/oscam-*.debug
-	mv -f $(RELEASE_DIR)/usr/bin/emu/oscam-* $(RELEASE_DIR)/usr/bin/emu/oscam
+	cp $(TARGET_DIR)/../build_oscam/oscam-* $(RELEASE_DIR)/usr/bin/cam/
+	rm -f $(RELEASE_DIR)/usr/bin/cam/oscam-*.debug
+	mv -f $(RELEASE_DIR)/usr/bin/cam/oscam-* $(RELEASE_DIR)/usr/bin/cam/oscam
 	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.conf $(RELEASE_DIR)/var/keys
 	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.user $(RELEASE_DIR)/var/keys
 	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.server $(RELEASE_DIR)/var/keys
