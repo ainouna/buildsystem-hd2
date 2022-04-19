@@ -67,12 +67,11 @@ init:
 	@read -p "Select to build (1-2)?" WLAN; \
 	WLAN=$${WLAN}; \
 	case "$$WLAN" in \
-		1) WLAN="";; \
-		2) WLAN="wlandriver";; \
-		*) WLAN="";; \
+		1) echo "WLAN=" >> config;; \
+		2) echo "WLAN=wlandriver" >> config;; \
+		*) echo "WLAN=" >> config;; \
 	esac; \
-	echo "WLAN=$$WLAN" >> config
-	@echo ""
+	@echo;
 # Flavour
 	@echo -e "\nFlavour:"
 	@echo -e "   \033[01;32m1) neutrino\033[00m"
