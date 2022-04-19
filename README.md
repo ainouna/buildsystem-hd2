@@ -1,4 +1,4 @@
-<h1 align="center">How to build image Neutrino-HD2 (mohousch)</h1> for hl101: #
+<h1 align="center">How to build image Neutrino-HD2 (mohousch)</h1>
 <h1 align="center">for hl101:</h1>
 
 ![](https://github.com/mohousch/neutrinohd2/blob/master/nhd2-exp/doc/resources/mainmenu.png)
