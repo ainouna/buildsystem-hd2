@@ -1,8 +1,8 @@
-# how to build image for hl101: #
+# how to build image NeutrinoHD2 (mohousch) for hl101: #
 
 **git clone:**
 ```bash
-git clone https://github.com/soap-bubble-coin/buildsystem-hd2
+git clone https://github.com/Greder/buildsystem-hd2.git
 ```
 **cd:**
 ```bash
