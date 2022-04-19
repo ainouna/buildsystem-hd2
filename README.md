@@ -27,7 +27,7 @@ make init
 ```
 **build image:**
 ```bash
-make flashimage
+make release-neutrino
 ```
 
 **for more details:**
