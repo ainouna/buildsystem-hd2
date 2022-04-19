@@ -27,7 +27,7 @@ OSCAM_CONFIG = \
 				CARDREADER_PHOENIX \
 				CARDREADER_SC8IN1
 
-$(D)/oscam-emu.do_prepare:
+$(D)/oscam-emu.do_prepare: $(D)/openssl
 	$(START_BUILD)
 	rm -rf $(SOURCE_DIR)/oscam-svn*
 	[ -d "$(ARCHIVE)/oscam-svn" ] && \
@@ -48,7 +48,7 @@ $(D)/oscam-emu.do_prepare:
 			$(SILENT_OPT)
 	touch $@
 
-$(D)/oscam.do_prepare:
+$(D)/oscam.do_prepare: $(D)/openssl
 	$(START_BUILD)
 	rm -rf $(SOURCE_DIR)/oscam-svn*
 	[ -d "$(ARCHIVE)/oscam-svn" ] && \
