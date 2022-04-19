@@ -1,0 +1,99 @@
+#!/bin/sh
+case $1 in
+oscamstart)
+rm /var/tuxbox/config/.mgos
+rm /var/tuxbox/config/.mgcamd
+rm /var/tuxbox/config/.ncam
+rm /var/tuxbox/config/.wicardd
+touch /var/tuxbox/config/.oscam
+sleep 2
+/usr/bin/start-emu.sh restart
+	;;
+
+oscamstop)
+/usr/bin/start-emu.sh stop
+sleep 2
+rm /var/tuxbox/config/.oscam 
+	;;
+
+mgcamdstart)
+rm /var/tuxbox/config/.mgos
+rm /var/tuxbox/config/.oscam
+rm /var/tuxbox/config/.ncam
+rm /var/tuxbox/config/.wicardd
+touch /var/tuxbox/config/.mgcamd
+sleep 2
+/usr/bin/start-emu.sh restart 
+	;;
+
+mgcamdstop)
+/usr/bin/start-emu.sh stop
+sleep 2
+rm /var/tuxbox/config/.mgcamd 
+	;;
+
+ncamstart)
+rm /var/tuxbox/config/.mgos
+rm /var/tuxbox/config/.oscam
+rm /var/tuxbox/config/.mgcamd
+rm /var/tuxbox/config/.wicardd
+touch /var/tuxbox/config/.ncam
+sleep 2
+/usr/bin/start-emu.sh restart 
+	;;
+
+ncamstop)
+/usr/bin/start-emu.sh stop
+sleep 2
+rm /var/tuxbox/config/.ncam 
+	;;
+	
+mgosstart)
+rm /var/tuxbox/config/.mgcamd
+rm /var/tuxbox/config/.oscam
+rm /var/tuxbox/config/.ncam
+rm /var/tuxbox/config/.wicardd
+touch /var/tuxbox/config/.mgos
+sleep 2
+/usr/bin/start-emu.sh restart
+	;;
+
+mgosstop)
+/usr/bin/start-emu.sh stop
+sleep 2
+rm /var/tuxbox/config/.mgos
+	;;
+
+wicarddstart)
+rm /var/tuxbox/config/.mgos
+rm /var/tuxbox/config/.oscam
+rm /var/tuxbox/config/.ncam
+rm /var/tuxbox/config/.mgcamd
+touch /var/tuxbox/config/.wicardd
+sleep 2
+/usr/bin/start-emu.sh restart
+	;;
+
+wicarddstop)
+/usr/bin/start-emu.sh stop
+sleep 2
+rm /var/tuxbox/config/.wicardd
+	;;
+  
+keyupdate)
+#wget http://www.stbsw.com/sat/keys/Gbox_keys.tar.gz -O /tmp/Gbox_keys.tar.gz
+#wget http://www.stbsw.com/sat/keys/Mgamd_CCcam.tar.gz -O /tmp/Mgamd_CCcam.tar.gz
+#wget 'http://sat-forum.info/download/index.php?action=downloadfile&filename=ee.bin&directory=oscam_emu_dre2/keys/3c_centr&' -O /var/keys/ee.bin
+tar -xvf /tmp/Mgamd_CCcam.tar.gz -C /
+#tar -xvf /tmp/Gbox_keys.tar.gz -C /
+#sleep 2
+chmod 644 /var/keys/*
+#rm /Readme.txt
+rm /tmp/Mgamd_CCcam.tar.gz
+#rm /tmp/Gbox_keys.tar.gz
+/usr/bin/start-emu.sh restart 
+	;;   
+*)
+
+exit 1
+esac
