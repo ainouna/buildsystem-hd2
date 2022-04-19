@@ -214,6 +214,9 @@ ifeq ($(EMU), oscam)
 	cp $(TARGET_DIR)/../build_oscam/oscam-* $(RELEASE_DIR)/usr/bin/emu/
 	rm -f $(RELEASE_DIR)/usr/bin/emu/oscam-*.debug
 	mv -f $(RELEASE_DIR)/usr/bin/emu/oscam-* $(RELEASE_DIR)/usr/bin/emu/oscam
+	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.conf $(RELEASE_DIR)/var/keys
+	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.user $(RELEASE_DIR)/var/keys
+	cp $(TARGET_DIR)/../build_oscam/doc/example/oscam.server $(RELEASE_DIR)/var/keys
 endif
 
 #
