@@ -23,7 +23,6 @@ init:
 		*) BOXTYPE="hl101";; \
 	esac; \
 	echo "BOXTYPE=$$BOXTYPE" > config
-	@echo ""		
 # box	
 	@echo -e "\nBox:"
 	@echo -e "   \033[01;32m1) Gi-s980\033[00m"
@@ -34,8 +33,7 @@ init:
 		1) echo "BOX=Gi-s980" >> config;; \
 		2) echo "BOX=Opticum-HD" >> config;; \
 		3|*) ;; \
-	esac;
-	@echo;
+	esac; \
 # tuner	
 	@echo -e "\nTuner:"
 	@echo -e "   \033[01;32m1) RB\033[00m"
@@ -46,8 +44,7 @@ init:
 		1) echo "TUNER=RB" >> config;; \
 		2) echo "TUNER=ST" >> config;; \
 		3|*) ;; \
-	esac;
-	@echo;
+	esac; \
 # kernel debug	
 	@echo -e "\nOptimization:"
 	@echo -e "   \033[01;32m1) optimization for size\033[00m"
@@ -58,8 +55,7 @@ init:
 		1) echo "OPTIMIZATIONS=size" >> config;; \
 		2) echo "OPTIMIZATIONS=normal" >> config;; \
 		*) echo "OPTIMIZATIONS=size" >> config;; \
-	esac;
-	@echo;
+	esac; \
 # WLAN driver
 	@echo -e "\nDo you want to build WLAN drivers and tools"
 	@echo -e "   \033[01;32m1) no\033[00m"
@@ -71,7 +67,6 @@ init:
 		2) echo "WLAN=wlandriver" >> config;; \
 		*) echo "WLAN=" >> config;; \
 	esac; \
-	@echo;
 # Flavour
 	@echo -e "\nFlavour:"
 	@echo -e "   \033[01;32m1) neutrino\033[00m"
@@ -83,7 +78,6 @@ init:
 		2) echo "FLAVOUR=none" >> config;; \
 		*) echo "FLAVOUR=neutrino" >> config;; \
 	esac; \
-	echo ""
 # Media framework
 	@echo -e "\nMedia Framework:"
 	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
@@ -93,11 +87,10 @@ init:
 	case "$$MEDIAFW" in \
 		1) echo "MEDIAFW=buildinplayer" >> config;; \
 		2) echo "MEDIAFW=gstreamer" >> config;; \
-		3|*) ;; \
+		*) echo "MEDIAFW=buildinplayer" >> config;; \
 	esac; \
-	echo ""
 # lua
-	@echo -e "\nlua support:"
+	@echo -e "\nLua support:"
 	@echo -e "   \033[01;32m1) yes\033[00m"
 	@echo "   2) no"
 	@read -p "Select lua support (1-2)?" LUA; \
@@ -107,9 +100,8 @@ init:
 		2) echo "LUA=" >> config;; \
 		*) echo "LUA=lua" >> config;; \
 	esac; \
-	echo ""
 # python
-	@echo -e "\npython support:"
+	@echo -e "\nPython support:"
 	@echo "   1) yes"
 	@echo -e "   \033[01;32m2) no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
@@ -117,7 +109,7 @@ init:
 	case "$$PYTHON" in \
 		1) echo "PYTHON=python" >> config;; \
 		2) echo "PYTHON=" >> config;; \
-		*) echo "PYTHON=python" >> config;; \
+		*) echo "PYTHON=" >> config;; \
 	esac; \
 	echo ""
 #	
