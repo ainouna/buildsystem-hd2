@@ -1,6 +1,0 @@
-#!/bin/sh
-HTTP_Port="80"
-/bin/echo "oscam" > /usr/bin/cam/setemu
-/usr/bin/start-emu.sh & > /dev/null
-MSG="Oscam wurde gestartet"
-wget -q -O - http://127.0.0.1:$HTTP_Port/control/message?popup="$MSG" > /dev/null
