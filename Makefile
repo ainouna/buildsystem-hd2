@@ -67,20 +67,9 @@ init:
 		2) echo "WLAN=wlandriver" >> config;; \
 		3|*) ;; \
 	esac; \
-# Flavour
-	@echo -e "\nFlavour:"
-	@echo "   1) neutrino"
-	@echo "   2) none"
-	@read -p "Select Flavour (1-2)? " FLAVOUR; \
-	FLAVOUR=$${FLAVOUR}; \
-	case "$$FLAVOUR" in \
-		1) echo "FLAVOUR=neutrino" >> config;; \
-		2) echo "FLAVOUR=none" >> config;; \
-		3|*) ;; \
-	esac; \
 # Media framework
 	@echo -e "\nMedia Framework:"
-	@echo -e "   \033[01;32m1) libeplayer3 - recommended for sh4 boxes\033[00m"
+	@echo -e "   \033[01;32m1) libeplayer3\033[00m"
 	@echo "   2) gstreamer (not recommended for sh boxes)"
 	@read -p "Select media framework (1-2)? " MEDIAFW; \
 	MEDIAFW=$${MEDIAFW}; \
@@ -115,7 +104,7 @@ init:
 	@echo -e "\nOscam:"
 	@echo "   1) yes"
 	@echo "   2) no"
-	@read -p "Select python support? " EMU; \
+	@read -p "Select emu support? " EMU; \
 	EMU=$${EMU}; \
 	case "$$EMU" in \
 		1) echo "EMU=oscam" >> config;; \
@@ -126,7 +115,7 @@ init:
 	@echo ""
 	@make printenv
 	@echo "Your next step could be:"
-	@echo "  make flashimage"
+	@echo "  make release-neutrino"
 	@echo ""
 	@echo ""
 	@echo "for more details:"
@@ -171,7 +160,6 @@ printenv:
 	@echo "TUNER            : $(TUNER)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "OPTIMIZATIONS    : $(OPTIMIZATIONS)"
-	@echo "FLAVOUR          : $(FLAVOUR)"
 	@echo "MEDIAFW          : $(MEDIAFW)"
 	@echo "WLAN             : $(WLAN)"
 	@echo "LUA              : $(LUA)"
@@ -246,7 +234,6 @@ include make/lua.mk
 include make/tools.mk
 include make/oscam.mk
 include make/release.mk
-include make/flashimage.mk
 include make/cleantargets.mk
 include make/patches.mk
 include make/bootstrap.mk
