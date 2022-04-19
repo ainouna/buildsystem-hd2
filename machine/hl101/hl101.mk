@@ -4,10 +4,10 @@ WLAN ?=
 MEDIAFW ?= buildinplayer
 LUA ?=lua
 PYTHON ?=
-CICAM = ci-cam
-SCART = scart
-LCD = vfd
-FKEYS =
+CICAM ?= ci-cam
+SCART ?= scart
+LCD ?= vfd
+FKEYS ?=
 
 #
 # kernel
@@ -204,7 +204,12 @@ ifeq ($(BOX), Opticum-HD)
 	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd-opticum.conf $(RELEASE_DIR)/etc/lircd.conf
 endif
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
-	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/
+ifeq ($(TUNER), RB)
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS-rb $(RELEASE_DIR)/etc/init.d/rcS
+endif
+ifeq ($(TUNER), ST)
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS-st $(RELEASE_DIR)/etc/init.d/rcS
+endif
 
 #
 # flashimage
