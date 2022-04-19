@@ -2,7 +2,7 @@
 # release-common
 #
 RELEASE_DEPS = $(KERNEL) 
-RELEASE_DEPS += 
+RELEASE_DEPS += $(D)/driver
 RELEASE_DEPS += $(D)/system-tools 
 RELEASE_DEPS += $(LIRC)
 
